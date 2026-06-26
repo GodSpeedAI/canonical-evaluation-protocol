@@ -1,20 +1,30 @@
-CEP-0003 — State Model
+---
+type: CEP Specification
+id: CEP-0003
+title: State Model
+description: This document defines the CEP State Model.
+status: Draft
+version: 0.1.0
+tags:
+- cep
+timestamp: '2026-06-26T14:13:47Z'
+protocol: Canonical Evaluation Protocol
+category: Normative
+document_type: Foundational Specification
+depends_on:
+- CEP-0000
+- CEP-0001
+- CEP-0002
+supersedes: []
+superseded_by: []
+conformance_class: null
+benchmark_family: null
+schema_ref: null
+---
 
-Status: Draft
-Category: Normative
-Version: 0.1
-Protocol: Canonical Evaluation Protocol
-Depends On:
+# CEP-0003 — State Model
 
-CEP-0000 — Derivation Ladder and First Principles
-
-CEP-0001 — Ontology
-
-CEP-0002 — Representation Model
-
-Document Type: Foundational Specification
-
-Abstract
+## Abstract
 
 This document defines the CEP State Model.
 

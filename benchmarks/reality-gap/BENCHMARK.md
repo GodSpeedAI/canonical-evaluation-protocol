@@ -1,36 +1,35 @@
-RealityGapBench v0.1 — Benchmark Family Specification
+---
+type: CEP Benchmark Family
+id: RealityGapBench-v0.1
+title: RealityGapBench Specification
+description: RealityGapBench is a CEP benchmark family for evaluating whether a system
+  can detect, classify, evidence, and explain divergence between declared reality
+  and observed reality.
+status: Draft
+version: 0.1.0
+tags:
+- cep
+- benchmark
+- reality-gap
+timestamp: '2026-06-26T14:13:47Z'
+benchmark_family: RealityGapBench
+depends_on:
+- CEP-0000
+- CEP-0001
+- CEP-0002
+- CEP-0003
+- CEP-0004
+- CEP-0005
+- CEP-0006
+- CEP-0007
+- CEP-0008
+- CEP-0009
+- CEP-0010
+---
 
-Status: Draft
-Category: Normative Benchmark Family
-Version: 0.1
-Protocol: Canonical Evaluation Protocol
-Depends On:
+# RealityGapBench v0.1 — Benchmark Family Specification
 
-CEP-0000 — Derivation Ladder and First Principles
-
-CEP-0001 — Ontology
-
-CEP-0002 — Representation Model
-
-CEP-0003 — State Model
-
-CEP-0004 — Transformation Model
-
-CEP-0005 — Question Model
-
-CEP-0006 — Evidence Model
-
-CEP-0007 — Settlement Model
-
-CEP-0008 — Semantic Envelope
-
-CEP-0009 — Benchmark Model
-
-CEP-0010 — Conformance
-
-Repository Path: benchmarks/reality-gap/BENCHMARK.md
-
-Abstract
+## Abstract
 
 RealityGapBench is a CEP benchmark family for evaluating whether a system can detect, classify, evidence, and explain divergence between declared reality and observed reality.
 

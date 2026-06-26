@@ -1,13 +1,28 @@
-CEP-0001 — Ontology
+---
+type: CEP Specification
+id: CEP-0001
+title: Ontology
+description: This document defines the core ontology of the Canonical Evaluation Protocol.
+status: Draft
+version: 0.1.0
+tags:
+- cep
+timestamp: '2026-06-26T14:13:47Z'
+protocol: Canonical Evaluation Protocol
+category: Normative
+document_type: Foundational Specification
+depends_on:
+- CEP-0000
+supersedes: []
+superseded_by: []
+conformance_class: null
+benchmark_family: null
+schema_ref: null
+---
 
-Status: Draft
-Category: Normative
-Version: 0.1
-Protocol: Canonical Evaluation Protocol
-Depends On: CEP-0000 — Derivation Ladder and First Principles
-Document Type: Foundational Specification
+# CEP-0001 — Ontology
 
-Abstract
+## Abstract
 
 This document defines the core ontology of the Canonical Evaluation Protocol.
 

@@ -1,3 +1,17 @@
+---
+type: "CEP Guide"
+id: "cep-open-questions"
+title: "Open Questions"
+description: "Unresolved design decisions and open questions in the Canonical Evaluation Protocol."
+status: "Draft"
+version: "0.1.0"
+tags:
+  - cep
+  - design
+  - open-questions
+timestamp: "2026-06-26T14:13:47Z"
+---
+
 # Open Questions
 
 ## OQ-0001 — License
@@ -24,3 +38,13 @@
 - **Question**: Should generated benchmark cases require human review before acceptance?
 - **Default**: Yes.
 - **Impact**: Affects benchmark quality.
+
+## OQ-0006 — Specification Default Metadata Version
+- **Question**: Several specifications listed version `0.1`. Should this be normalized to a standard semver `0.1.0` in the OKF frontmatter?
+- **Default**: `0.1.0`
+- **Impact**: Standardizes OKF metadata schema.
+
+## OQ-0007 — Metadata Timestamps
+- **Question**: The specifications and benchmarks do not contain creation or update timestamps. What timestamp should be used?
+- **Default**: `2026-06-26T14:13:47Z` (the bootstrap timestamp of the repository).
+- **Impact**: Provides auditability for standard knowledge bundles.

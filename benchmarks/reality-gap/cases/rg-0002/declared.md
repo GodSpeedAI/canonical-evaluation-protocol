@@ -1,3 +1,19 @@
+---
+type: CEP Benchmark Case
+id: rg-0002-declared
+title: "Declared State \u2014 rg-0002"
+description: Declared state requirements for RealityGapBench case rg-0002.
+status: Draft
+version: 0.1.0
+tags:
+- cep
+- benchmark
+- reality-gap
+- benchmark-case
+timestamp: '2026-06-26T14:13:47Z'
+benchmark_family: RealityGapBench
+---
+
 # Declared State — rg-0002
 
 ## Protected Code Review Requirement

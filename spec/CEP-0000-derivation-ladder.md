@@ -1,12 +1,28 @@
-CEP-0000 - Derivation Ladder and First Principles
+---
+type: CEP Specification
+id: CEP-0000
+title: Derivation Ladder and First Principles
+description: The Canonical Evaluation Protocol exists to evaluate systems through
+  represented transformations rather than isolated outputs.
+status: Draft
+version: 0.1.0
+tags:
+- cep
+timestamp: '2026-06-26T14:13:47Z'
+protocol: Canonical Evaluation Protocol
+category: Normative
+document_type: Foundational Specification
+depends_on: []
+supersedes: []
+superseded_by: []
+conformance_class: null
+benchmark_family: null
+schema_ref: null
+---
 
-Status: Draft
-Category: Normative
-Version: 0.1
-Protocol: Canonical Evaluation Protocol
-Document Type: Foundational Specification
+# CEP-0000 — Derivation Ladder and First Principles
 
-Abstract
+## Abstract
 
 The Canonical Evaluation Protocol exists to evaluate systems through represented transformations rather than isolated outputs.
 

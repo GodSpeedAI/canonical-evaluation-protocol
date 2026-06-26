@@ -1,26 +1,31 @@
+---
+type: "CEP Guide"
+id: "cep-agent-state"
+title: "Agent State"
+description: "Agent state and completion checklist for the Canonical Evaluation Protocol."
+status: "Draft"
+version: "0.1.0"
+tags:
+  - cep
+  - agent
+  - metadata
+timestamp: "2026-06-26T14:13:47Z"
+---
+
 # Agent State
 
 ## Current Phase
-Phase 0 & 1 Completed: Repository Foundation & Specification Import.
+OKF frontmatter and knowledge-bundle formatting pass
 
-## Current Workstream
-Scaffolding and Extraction.
+## Completed
+- Added or repaired OKF frontmatter
+- Generated or updated index/log files
+- Ran OKF validation
 
-## Current Settlement Target
-Bootstrap validation.
+## Remaining
+- OQ-0006: Verification of default versioning (0.1.0)
+- OQ-0007: Verification of default metadata timestamps (2026-06-26T14:13:47Z)
+- Human review: Verification of normalized Level 1 headings in the 11 specification files
 
-## Last Completed Settlement
-Plan approval and initial extraction of specs and case packs.
-
-## Active Requirements
-All extractable files from conversation JSON saved.
-
-## Files Modified
-See EVIDENCE.md for a list of all created files.
-
-## Open Questions
-None.
-
-## Placement Decisions
-- **example_valid_answer.json** and **example_invalid_answer.json** created under each case pack directory to house the raw example answers from the conversation.
-- Boilerplate files (LICENSE, CONTRIBUTING.md, GOVERNANCE.md, ROADMAP.md) created as minimal stubs to satisfy the repository tree layout plan.
+## Next Affordable Move
+Begin formalizing the JSON/YAML schemas under a new schema directory and scaffolding the reference runner configuration, in alignment with the v0.2 roadmap.

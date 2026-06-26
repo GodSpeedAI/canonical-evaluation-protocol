@@ -1,34 +1,37 @@
-CEP-0010 — Conformance
+---
+type: CEP Specification
+id: CEP-0010
+title: Conformance
+description: This document defines CEP conformance.
+status: Draft
+version: 0.1.0
+tags:
+- cep
+timestamp: '2026-06-26T14:13:47Z'
+protocol: Canonical Evaluation Protocol
+category: Normative
+document_type: Foundational Specification
+depends_on:
+- CEP-0000
+- CEP-0001
+- CEP-0002
+- CEP-0003
+- CEP-0004
+- CEP-0005
+- CEP-0006
+- CEP-0007
+- CEP-0008
+- CEP-0009
+supersedes: []
+superseded_by: []
+conformance_class: null
+benchmark_family: null
+schema_ref: null
+---
 
-Status: Draft
-Category: Normative
-Version: 0.1
-Protocol: Canonical Evaluation Protocol
-Depends On:
+# CEP-0010 — Conformance
 
-CEP-0000 — Derivation Ladder and First Principles
-
-CEP-0001 — Ontology
-
-CEP-0002 — Representation Model
-
-CEP-0003 — State Model
-
-CEP-0004 — Transformation Model
-
-CEP-0005 — Question Model
-
-CEP-0006 — Evidence Model
-
-CEP-0007 — Settlement Model
-
-CEP-0008 — Semantic Envelope
-
-CEP-0009 — Benchmark Model
-
-Document Type: Foundational Specification
-
-Abstract
+## Abstract
 
 This document defines CEP conformance.
 

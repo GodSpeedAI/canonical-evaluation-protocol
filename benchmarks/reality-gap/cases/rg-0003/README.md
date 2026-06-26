@@ -1,3 +1,20 @@
+---
+type: CEP Benchmark Case
+id: rg-0003
+title: "rg-0003 \u2014 Launch Readiness Evidence Gap"
+description: This case evaluates whether a system can detect that a declared launch-readiness
+  claim lacks sufficient observed evidence.
+status: Draft
+version: 0.1.0
+tags:
+- cep
+- benchmark
+- reality-gap
+- benchmark-case
+timestamp: '2026-06-26T14:13:47Z'
+benchmark_family: RealityGapBench
+---
+
 # rg-0003 — Launch Readiness Evidence Gap
 
 ## Summary

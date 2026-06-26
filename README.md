@@ -1,3 +1,17 @@
+---
+type: "CEP Guide"
+id: "cep-readme"
+title: "Canonical Evaluation Protocol"
+description: "Vendor-neutral protocol for evaluating represented transformations."
+status: "Draft"
+version: "0.1.0"
+tags:
+  - cep
+  - guide
+  - readme
+timestamp: "2026-06-26T14:13:47Z"
+---
+
 # Canonical Evaluation Protocol
 
 **Canonical Evaluation Protocol (CEP)** is a vendor-neutral protocol for evaluating represented transformations: what changed, what evidence supports the change, whether the result settled, and whether repeated settled performance can support a capability claim.

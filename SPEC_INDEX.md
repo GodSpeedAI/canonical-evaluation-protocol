@@ -1,3 +1,17 @@
+---
+type: "CEP Guide"
+id: "cep-spec-index"
+title: "Canonical Specification Index"
+description: "Listing of all specifications and benchmark family definitions."
+status: "Draft"
+version: "0.1.0"
+tags:
+  - cep
+  - guide
+  - index
+timestamp: "2026-06-26T14:13:47Z"
+---
+
 # Canonical Specification Index
 
 | Specification | Title | Status |

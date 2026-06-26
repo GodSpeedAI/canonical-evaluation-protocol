@@ -1,3 +1,17 @@
+---
+type: "CEP Guide"
+id: "cep-evidence"
+title: "Evidence"
+description: "Execution evidence records for the Canonical Evaluation Protocol development."
+status: "Draft"
+version: "0.1.0"
+tags:
+  - cep
+  - evidence
+  - audit
+timestamp: "2026-06-26T14:13:47Z"
+---
+
 # Evidence
 
 ## Bootstrap Execution
@@ -94,3 +108,46 @@ None. Newer content replaced older content automatically in accordance with proc
 
 ### Unresolved Placement Questions
 None.
+
+## OKF Conversion Pass (EV-OKF)
+
+- **Date**: 2026-06-26
+- **Agent Name**: Antigravity
+- **Task Summary**: Formatted the Canonical Evaluation Protocol repository as an OKF-compatible knowledge bundle. Added/repaired YAML frontmatter on all concept documents and generated/updated log and index files.
+- **Files Inspected**:
+  - `spec/CEP-0000-derivation-ladder.md` to `spec/CEP-0010-conformance.md`
+  - `benchmarks/reality-gap/BENCHMARK.md`
+  - `benchmarks/reality-gap/cases/rg-000x/README.md` and `declared.md`
+  - `rfc/RFC-0000-template.md`, `rfc/README.md`
+  - Root documents: `README.md`, `ROADMAP.md`, `GOVERNANCE.md`, `CONTRIBUTING.md`, `SPEC_INDEX.md`, `AGENT_STATE.md`, `EVIDENCE.md`, `OPEN_QUESTIONS.md`
+- **Files Modified**:
+  - All specification files in `spec/` (11 files)
+  - `benchmarks/reality-gap/BENCHMARK.md`
+  - `benchmarks/reality-gap/cases/rg-0001/README.md` and `declared.md`
+  - `benchmarks/reality-gap/cases/rg-0002/README.md` and `declared.md`
+  - `benchmarks/reality-gap/cases/rg-0003/README.md` and `declared.md`
+  - `rfc/RFC-0000-template.md` and `rfc/README.md`
+  - `README.md`, `ROADMAP.md`, `GOVERNANCE.md`, `CONTRIBUTING.md`, `SPEC_INDEX.md`, `AGENT_STATE.md`, `EVIDENCE.md`, `OPEN_QUESTIONS.md`
+  - `spec/index.md`
+- **Files Created**:
+  - `tools/validate_okf.py`
+  - `index.md` (root)
+  - `log.md` (root)
+  - `spec/log.md`
+  - `benchmarks/index.md`
+  - `benchmarks/reality-gap/index.md`
+  - `benchmarks/reality-gap/log.md`
+  - `conformance/index.md`
+  - `conformance/log.md`
+  - `rfc/index.md`
+  - `rfc/log.md`
+- **Validation Command Run**: `wsl python3 tools/validate_okf.py`
+- **Validation Output**:
+  ```
+  Validating 39 markdown files...
+  All checks passed successfully!
+  ```
+- **Unresolved Questions**:
+  - Version and timestamp defaults for specifications (draft default `0.1.0` and bootstrap date `2026-06-26T14:13:47Z` used). Recorded in `OPEN_QUESTIONS.md` as OQ-0006 and OQ-0007.
+- **Known Limitations**:
+  - The validation script excludes hidden files/directories (starting with `.`) like `.git`, `.agents` and `.tmp` by design.
