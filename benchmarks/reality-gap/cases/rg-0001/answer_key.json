@@ -1,0 +1,98 @@
+{
+  "answer_key_id": "ak-rg-0001",
+  "case_ref": "rg-0001",
+  "question_ref": "q-rg-0001",
+  "expected_gap_status": "gap_detected",
+  "accepted_gap_statuses": [
+    "gap_detected"
+  ],
+  "expected_gap_types": [
+    "authority_drift"
+  ],
+  "accepted_gap_types": [
+    "authority_drift",
+    "role_gap",
+    "evidence_gap",
+    "affordance_gap"
+  ],
+  "expected_severity": "high",
+  "accepted_severity_range": [
+    "medium",
+    "high"
+  ],
+  "required_evidence_refs": [
+    "ev-rg-0001-001",
+    "ev-rg-0001-002"
+  ],
+  "optional_evidence_refs": [
+    "ev-rg-0001-003",
+    "ev-rg-0001-004"
+  ],
+  "required_affected_constraints": [
+    "constraint-certification-required-rg-0001"
+  ],
+  "required_affected_distinctions": [
+    "trained/certified",
+    "possible/permissible",
+    "observed_execution/authorized_execution"
+  ],
+  "accepted_affected_distinctions": [
+    "trained/certified",
+    "possible/permissible",
+    "completion/settlement",
+    "observed_execution/authorized_execution",
+    "declared/observed"
+  ],
+  "required_affected_relations": [
+    "actor_performed_activity_without_confirmed_certification"
+  ],
+  "accepted_next_actions": [
+    "escalate_authority",
+    "block_transformation",
+    "define_certification_boundary",
+    "collect_evidence",
+    "clarify_role",
+    "repair_observed_process"
+  ],
+  "partial_credit_rules": {
+    "gap_status": {
+      "gap_detected": 20,
+      "insufficient_evidence": 10,
+      "contradictory_evidence": 8,
+      "unknown": 5,
+      "no_gap_detected": 0,
+      "out_of_scope": 0
+    },
+    "gap_type": {
+      "authority_drift": 15,
+      "role_gap": 10,
+      "evidence_gap": 8,
+      "affordance_gap": 8,
+      "process_drift": 5,
+      "unknown": 0
+    },
+    "severity": {
+      "high": 10,
+      "medium": 8,
+      "critical": 5,
+      "low": 3,
+      "none": 0,
+      "unknown": 0
+    }
+  },
+  "critical_failure_conditions": [
+    "declared_observed_collapse",
+    "completion_settlement_collapse",
+    "claim_as_evidence",
+    "unknown_as_false",
+    "fabricated_evidence",
+    "opposite_answer_with_high_confidence"
+  ],
+  "confidence_expectations": {
+    "expected_confidence": "medium_to_high",
+    "reason": "Declared certification rule and observed staffing record support the authority drift claim, but limitations remain around the full certification matrix and communication record."
+  },
+  "provenance_refs": [
+    "prov-answer-key-rg-0001"
+  ]
+}

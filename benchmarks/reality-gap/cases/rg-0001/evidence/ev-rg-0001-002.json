@@ -1,0 +1,34 @@
+{
+  "evidence_id": "ev-rg-0001-002",
+  "evidence_type": "manual_inspection",
+  "question_ref": "q-rg-0001",
+  "target_claim_ref": "gap-claim-rg-0001",
+  "representation_ref": "observed.jsonl#obs-rg-0001-002",
+  "source": {
+    "source_type": "manual_observation",
+    "source_ref": "observed.jsonl",
+    "source_owner": "project_training_workstream"
+  },
+  "provenance_refs": [
+    "prov-observed-rg-0001"
+  ],
+  "relevance": {
+    "value": "strongly_relevant",
+    "basis": "The observation states that assigned additional personnel had partial training but no certification record in the observation packet."
+  },
+  "reliability": {
+    "value": "moderate",
+    "basis": "The observation is based on record review but lacks the full certification matrix."
+  },
+  "direction": "supports",
+  "confidence_impact": {
+    "impact_direction": "increase",
+    "impact_magnitude": "medium",
+    "basis": "Supports the gap while preserving limitation that full certification records were unavailable."
+  },
+  "timestamp": "2026-06-20T09:25:00-04:00",
+  "scope": "operations_controlled_activity",
+  "limitations": [
+    "Full certification matrix was not available."
+  ]
+}

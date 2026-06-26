@@ -1,0 +1,54 @@
+{
+  "fixture_id": "rg-ac-0002",
+  "fixture_type": "anti-collapse",
+  "benchmark_family": "RealityGapBench",
+  "target_case_ref": "rg-0003",
+  "description": "The answer treats the release owner's readiness claim as sufficient evidence of launch readiness.",
+  "submitted_answer": {
+    "answer_id": "ans-rg-ac-0002",
+    "case_ref": "rg-0003",
+    "gap_status": "no_gap_detected",
+    "gap_type": "unknown",
+    "severity": "none",
+    "gap_summary": "The release is ready because the release owner marked it ready.",
+    "declared_state_refs": ["state-declared-rg-0003"],
+    "observed_state_refs": ["state-observed-rg-0003"],
+    "affected_constraints": [],
+    "affected_distinctions": ["claimed_ready/evidenced_ready"],
+    "affected_relations": [],
+    "evidence_refs": ["obs-rg-0003-001"],
+    "missing_evidence": [],
+    "contradictions": [],
+    "confidence": {
+      "value": "high",
+      "basis": "The release owner marked the release ready."
+    },
+    "recommended_next_action": {
+      "type": "no_action_required",
+      "description": "No action is needed because readiness was claimed."
+    },
+    "limitations": []
+  },
+  "expected_validation": {
+    "status": "invalid",
+    "errors": [
+      "claim_as_evidence",
+      "readiness_claim_as_evidence",
+      "completion_settlement_collapse"
+    ],
+    "warnings": [
+      "invalid_evidence_reference"
+    ],
+    "critical": true
+  },
+  "protected_distinctions": [
+    "claim/evidence",
+    "claimed_ready/evidenced_ready",
+    "completion/settlement"
+  ],
+  "why_invalid": [
+    "The answer cites an observation ID instead of a valid evidence record.",
+    "The answer treats the readiness claim as evidence that readiness is settled.",
+    "The answer ignores missing readiness evidence."
+  ]
+}

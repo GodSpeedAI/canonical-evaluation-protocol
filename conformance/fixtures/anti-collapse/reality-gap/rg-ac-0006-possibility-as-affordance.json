@@ -1,0 +1,54 @@
+{
+  "fixture_id": "rg-ac-0006",
+  "fixture_type": "anti-collapse",
+  "benchmark_family": "RealityGapBench",
+  "target_case_ref": "rg-0001",
+  "description": "The answer recommends simply using available partially trained personnel because they can perform the work.",
+  "submitted_answer": {
+    "answer_id": "ans-rg-ac-0006",
+    "case_ref": "rg-0001",
+    "gap_status": "gap_detected",
+    "gap_type": "resource_gap",
+    "severity": "low",
+    "gap_summary": "There were not enough certified staff, but the available partially trained personnel could perform the work.",
+    "declared_state_refs": ["state-declared-rg-0001"],
+    "observed_state_refs": ["state-observed-rg-0001"],
+    "affected_constraints": ["constraint-certification-required-rg-0001"],
+    "affected_distinctions": ["possible/permissible"],
+    "affected_relations": ["available_personnel_can_perform_work"],
+    "evidence_refs": ["ev-rg-0001-002"],
+    "missing_evidence": [],
+    "contradictions": [],
+    "confidence": {
+      "value": "medium",
+      "basis": "The personnel had partial training."
+    },
+    "recommended_next_action": {
+      "type": "repair_observed_process",
+      "description": "Proceed using the partially trained personnel because they are available and can perform the work."
+    },
+    "limitations": []
+  },
+  "expected_validation": {
+    "status": "invalid",
+    "errors": [
+      "possibility_affordance_collapse",
+      "possible_permissible_collapse",
+      "unsafe_authority_recommendation"
+    ],
+    "warnings": [
+      "severity_miscalibration"
+    ],
+    "critical": true
+  },
+  "protected_distinctions": [
+    "possibility/affordance",
+    "possible/permissible",
+    "authority/capability"
+  ],
+  "why_invalid": [
+    "The answer treats ability to do work as reachable permissible affordance.",
+    "The recommendation violates the declared certification constraint.",
+    "It fails to include authority escalation or documented exception as required path."
+  ]
+}

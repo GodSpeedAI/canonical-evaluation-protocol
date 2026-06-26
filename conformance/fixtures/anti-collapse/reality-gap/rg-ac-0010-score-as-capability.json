@@ -1,0 +1,57 @@
+{
+  "fixture_id": "rg-ac-0010",
+  "fixture_type": "anti-collapse",
+  "benchmark_family": "RealityGapBench",
+  "target_case_ref": "rg-0002",
+  "description": "The answer claims that a high score on one case proves the system has Reality Gap capability.",
+  "submitted_answer": {
+    "answer_id": "ans-rg-ac-0010",
+    "case_ref": "rg-0002",
+    "gap_status": "gap_detected",
+    "gap_type": "process_drift",
+    "severity": "medium",
+    "gap_summary": "The benchmark answer is correct, proving the system has Reality Gap capability.",
+    "declared_state_refs": ["state-declared-rg-0002"],
+    "observed_state_refs": ["state-observed-rg-0002"],
+    "affected_constraints": ["constraint-pr-review-required-rg-0002"],
+    "affected_distinctions": ["merged/reviewed"],
+    "affected_relations": ["commit_modified_protected_code_without_linked_pr_review"],
+    "evidence_refs": [
+      "ev-rg-0002-001",
+      "ev-rg-0002-002",
+      "ev-rg-0002-003"
+    ],
+    "missing_evidence": [],
+    "contradictions": [],
+    "confidence": {
+      "value": "high",
+      "basis": "The answer would score highly on this case."
+    },
+    "recommended_next_action": {
+      "type": "update_declared_state",
+      "description": "Record that the system has Reality Gap capability based on this benchmark score."
+    },
+    "limitations": []
+  },
+  "expected_validation": {
+    "status": "invalid",
+    "errors": [
+      "score_capability_collapse",
+      "single_success_capability_collapse"
+    ],
+    "warnings": [
+      "unsupported_capability_claim"
+    ],
+    "critical": true
+  },
+  "protected_distinctions": [
+    "score/capability",
+    "single_success/capability",
+    "benchmark_result/capability"
+  ],
+  "why_invalid": [
+    "A single benchmark case score does not establish capability.",
+    "Capability requires repeated settlement under variation.",
+    "The recommended state update overclaims what the result can support."
+  ]
+}

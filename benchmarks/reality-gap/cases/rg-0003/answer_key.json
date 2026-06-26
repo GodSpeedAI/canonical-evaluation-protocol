@@ -1,0 +1,101 @@
+{
+  "answer_key_id": "ak-rg-0003",
+  "case_ref": "rg-0003",
+  "question_ref": "q-rg-0003",
+  "expected_gap_status": "gap_detected",
+  "accepted_gap_statuses": [
+    "gap_detected",
+    "insufficient_evidence"
+  ],
+  "expected_gap_types": [
+    "evidence_gap"
+  ],
+  "accepted_gap_types": [
+    "evidence_gap",
+    "settlement_gap",
+    "affordance_gap"
+  ],
+  "expected_severity": "medium",
+  "accepted_severity_range": [
+    "medium",
+    "high"
+  ],
+  "required_evidence_refs": [
+    "ev-rg-0003-001",
+    "ev-rg-0003-002",
+    "ev-rg-0003-003"
+  ],
+  "optional_evidence_refs": [
+    "ev-rg-0003-004"
+  ],
+  "required_affected_constraints": [
+    "constraint-regression-tests-required-rg-0003",
+    "constraint-technical-reviewer-approval-required-rg-0003",
+    "constraint-monitoring-confirmation-required-rg-0003"
+  ],
+  "required_affected_distinctions": [
+    "claimed_ready/evidenced_ready",
+    "missing_evidence/proof_of_failure",
+    "completion/settlement"
+  ],
+  "accepted_affected_distinctions": [
+    "claimed_ready/evidenced_ready",
+    "approval/testing",
+    "testing/monitoring",
+    "missing_evidence/proof_of_failure",
+    "completion/settlement",
+    "declared/observed"
+  ],
+  "required_affected_relations": [
+    "release_marked_ready_without_required_evidence_packet"
+  ],
+  "accepted_next_actions": [
+    "collect_evidence",
+    "create_settlement_threshold",
+    "block_transformation",
+    "continue_monitoring",
+    "escalate_authority",
+    "update_declared_state"
+  ],
+  "partial_credit_rules": {
+    "gap_status": {
+      "gap_detected": 20,
+      "insufficient_evidence": 15,
+      "contradictory_evidence": 8,
+      "unknown": 5,
+      "no_gap_detected": 0,
+      "out_of_scope": 0
+    },
+    "gap_type": {
+      "evidence_gap": 15,
+      "settlement_gap": 10,
+      "affordance_gap": 8,
+      "process_drift": 5,
+      "unknown": 0
+    },
+    "severity": {
+      "medium": 10,
+      "high": 8,
+      "low": 5,
+      "critical": 4,
+      "none": 0,
+      "unknown": 0
+    }
+  },
+  "critical_failure_conditions": [
+    "declared_observed_collapse",
+    "completion_settlement_collapse",
+    "claim_as_evidence",
+    "missing_evidence_as_failure_proof",
+    "fabricated_evidence",
+    "readiness_claim_as_evidence",
+    "opposite_answer_with_high_confidence"
+  ],
+  "confidence_expectations": {
+    "expected_confidence": "medium",
+    "reason": "The declared readiness criteria and observed missing records support an evidence gap, but the answer must preserve that missing packet records may exist elsewhere and do not prove release failure."
+  },
+  "provenance_refs": [
+    "prov-answer-key-rg-0003"
+  ]
+}

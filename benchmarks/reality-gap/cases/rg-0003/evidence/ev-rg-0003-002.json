@@ -1,0 +1,34 @@
+{
+  "evidence_id": "ev-rg-0003-002",
+  "evidence_type": "audit_record",
+  "question_ref": "q-rg-0003",
+  "target_claim_ref": "gap-claim-rg-0003",
+  "representation_ref": "observed.jsonl#obs-rg-0003-002",
+  "source": {
+    "source_type": "document_store",
+    "source_ref": "evidence_packet_index",
+    "source_owner": "release_governance"
+  },
+  "provenance_refs": [
+    "prov-observed-rg-0003"
+  ],
+  "relevance": {
+    "value": "strongly_relevant",
+    "basis": "The observed evidence packet lacked completed regression test result records required by the declared readiness criteria."
+  },
+  "reliability": {
+    "value": "moderate",
+    "basis": "The evidence packet review is relevant but cannot rule out records stored outside the packet."
+  },
+  "direction": "supports",
+  "confidence_impact": {
+    "impact_direction": "increase",
+    "impact_magnitude": "medium",
+    "basis": "Supports an evidence gap while preserving limitation that test records may exist elsewhere."
+  },
+  "timestamp": "2026-06-22T11:05:00-04:00",
+  "scope": "release_readiness",
+  "limitations": [
+    "The missing regression result may exist outside the reviewed evidence packet."
+  ]
+}

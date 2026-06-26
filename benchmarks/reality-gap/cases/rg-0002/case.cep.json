@@ -1,0 +1,179 @@
+{
+  "case_id": "rg-0002",
+  "case_version": "0.1",
+  "family_ref": "reality-gap",
+  "benchmark_ref": "RealityGapBench-v0.1",
+  "title": "Peer Review Process Drift",
+  "difficulty_level": "medium",
+  "domain": "software_agentic_workflow_governance",
+  "primary_question_ref": "q-rg-primary",
+  "case_question_ref": "q-rg-0002",
+  "case_question": {
+    "question_id": "q-rg-0002",
+    "question_form": "Where does the declared protected-branch peer review process diverge from observed repository activity?",
+    "question_type": "divergence",
+    "scope": "protected_application_code",
+    "target_states": [
+      "state-declared-rg-0002",
+      "state-observed-rg-0002"
+    ],
+    "target_transformations": [
+      "transformation-direct-merge-rg-0002"
+    ],
+    "relevance_rules": [
+      "Evidence must distinguish merged commits from reviewed commits.",
+      "Evidence must distinguish CI success from reviewer approval.",
+      "Evidence must cite declared review requirements and observed repository records."
+    ],
+    "expected_answer_shape": "shape-rg-v0.1",
+    "evaluation_context": "RealityGapBench process drift case"
+  },
+  "declared_state": {
+    "state_id": "state-declared-rg-0002",
+    "state_type": "declared",
+    "subject_ref": "protected_application_code_change_process",
+    "representation_refs": [
+      "declared.md"
+    ],
+    "scope": "protected_application_code",
+    "time_context": {
+      "valid_from": "2026-06-01",
+      "temporal_precision": "date"
+    },
+    "identity_refs": [
+      "identity-protected-branch-process-rg-0002"
+    ],
+    "relevant_constraints": [
+      "constraint-pr-review-required-rg-0002",
+      "constraint-main-branch-protected-rg-0002",
+      "constraint-emergency-exception-required-rg-0002"
+    ],
+    "relevant_distinctions": [
+      "merged/reviewed",
+      "ci_passed/peer_approved",
+      "possible/permissible",
+      "completion/settlement",
+      "declared/observed"
+    ],
+    "confidence": "high",
+    "provenance_refs": [
+      "prov-declared-rg-0002"
+    ]
+  },
+  "observed_state": {
+    "state_id": "state-observed-rg-0002",
+    "state_type": "observed",
+    "subject_ref": "protected_application_code_change_process",
+    "representation_refs": [
+      "observed.jsonl"
+    ],
+    "scope": "protected_application_code",
+    "time_context": {
+      "observed_at": "2026-06-21T14:03:00-04:00",
+      "temporal_precision": "interval"
+    },
+    "identity_refs": [
+      "identity-protected-branch-process-rg-0002"
+    ],
+    "relevant_constraints": [
+      "constraint-pr-review-required-rg-0002",
+      "constraint-emergency-exception-required-rg-0002"
+    ],
+    "relevant_distinctions": [
+      "merged/reviewed",
+      "ci_passed/peer_approved",
+      "possible/permissible",
+      "completion/settlement",
+      "declared/observed"
+    ],
+    "confidence": "medium",
+    "provenance_refs": [
+      "prov-observed-rg-0002"
+    ],
+    "limitations": [
+      "Repository metadata may be incomplete if pull requests were migrated or deleted.",
+      "Absence of emergency exception record does not prove no verbal approval occurred."
+    ]
+  },
+  "transformation_refs": [
+    {
+      "transformation_id": "transformation-direct-merge-rg-0002",
+      "transformation_type": "execution",
+      "source_state_ref": "state-declared-rg-0002",
+      "observed_target_state_ref": "state-observed-rg-0002",
+      "scope": "protected_application_code",
+      "identity_basis": "same protected branch process and same repository scope",
+      "affected_constraints": [
+        "constraint-pr-review-required-rg-0002",
+        "constraint-emergency-exception-required-rg-0002"
+      ],
+      "affected_distinctions": [
+        "merged/reviewed",
+        "ci_passed/peer_approved",
+        "possible/permissible"
+      ],
+      "status": "observed",
+      "confidence": "medium",
+      "provenance_refs": [
+        "prov-observed-rg-0002"
+      ]
+    }
+  ],
+  "expected_answer_shape_ref": "shape-rg-v0.1",
+  "evidence_requirements": {
+    "required": true,
+    "minimum_relevance": "moderately_relevant",
+    "minimum_reliability": "moderate",
+    "required_evidence_refs": [
+      "ev-rg-0002-001",
+      "ev-rg-0002-002",
+      "ev-rg-0002-003"
+    ],
+    "optional_evidence_refs": [
+      "ev-rg-0002-004"
+    ],
+    "admissible_evidence_types": [
+      "policy_reference",
+      "execution_log",
+      "artifact_diff",
+      "audit_record",
+      "configuration_snapshot"
+    ]
+  },
+  "answer_key_ref": "ak-rg-0002",
+  "metric_refs": [
+    "gap_detection_accuracy",
+    "gap_type_accuracy",
+    "severity_accuracy",
+    "evidence_precision",
+    "evidence_recall",
+    "anti_collapse_score",
+    "recommended_action_quality",
+    "confidence_calibration"
+  ],
+  "scoring_rules": {
+    "total_points": 100,
+    "allocation": {
+      "gap_status": 20,
+      "gap_type": 15,
+      "severity": 10,
+      "evidence": 20,
+      "anti_collapse": 15,
+      "recommended_next_action": 10,
+      "confidence_and_limitations": 10
+    }
+  },
+  "invalidity_conditions": [
+    "answer_shape_invalid",
+    "fabricated_evidence",
+    "declared_observed_collapse",
+    "claim_as_evidence",
+    "unknown_as_false",
+    "completion_settlement_collapse",
+    "ci_approval_collapse"
+  ],
+  "provenance_refs": [
+    "prov-rg-0002"
+  ],
+  "review_status": "accepted"
+}

@@ -1,0 +1,51 @@
+{
+  "fixture_id": "rg-ac-0004",
+  "fixture_type": "anti-collapse",
+  "benchmark_family": "RealityGapBench",
+  "target_case_ref": "rg-0001",
+  "description": "The answer says the activity is settled because it was completed.",
+  "submitted_answer": {
+    "answer_id": "ans-rg-ac-0004",
+    "case_ref": "rg-0001",
+    "gap_status": "no_gap_detected",
+    "gap_type": "unknown",
+    "severity": "none",
+    "gap_summary": "The controlled activity was completed, so the process is settled.",
+    "declared_state_refs": ["state-declared-rg-0001"],
+    "observed_state_refs": ["state-observed-rg-0001"],
+    "affected_constraints": [],
+    "affected_distinctions": ["completion/settlement"],
+    "affected_relations": [],
+    "evidence_refs": ["ev-rg-0001-003"],
+    "missing_evidence": [],
+    "contradictions": [],
+    "confidence": {
+      "value": "high",
+      "basis": "Operations proceeded and completed the work."
+    },
+    "recommended_next_action": {
+      "type": "no_action_required",
+      "description": "No action is needed because the work is complete."
+    },
+    "limitations": []
+  },
+  "expected_validation": {
+    "status": "invalid",
+    "errors": [
+      "completion_settlement_collapse",
+      "authority_drift_missed",
+      "opposite_answer_with_high_confidence"
+    ],
+    "warnings": [],
+    "critical": true
+  },
+  "protected_distinctions": [
+    "completion/settlement",
+    "observed_execution/authorized_execution"
+  ],
+  "why_invalid": [
+    "The answer treats completion as settlement.",
+    "The answer ignores unresolved certification authority.",
+    "The answer fails to preserve observed execution versus authorized execution."
+  ]
+}

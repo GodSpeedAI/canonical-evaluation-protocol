@@ -1,0 +1,32 @@
+{
+  "evidence_id": "ev-rg-0002-002",
+  "evidence_type": "execution_log",
+  "question_ref": "q-rg-0002",
+  "target_claim_ref": "gap-claim-rg-0002",
+  "representation_ref": "observed.jsonl#obs-rg-0002-001",
+  "source": {
+    "source_type": "repository",
+    "source_ref": "git_log",
+    "source_owner": "repo_system"
+  },
+  "provenance_refs": [
+    "prov-observed-rg-0002"
+  ],
+  "relevance": {
+    "value": "strongly_relevant",
+    "basis": "The commit record shows protected application code changed directly on main."
+  },
+  "reliability": {
+    "value": "strong",
+    "basis": "Repository history is a direct record of branch activity."
+  },
+  "direction": "supports",
+  "confidence_impact": {
+    "impact_direction": "increase",
+    "impact_magnitude": "high",
+    "basis": "Directly supports observed process drift from pull request review."
+  },
+  "timestamp": "2026-06-21T14:03:00-04:00",
+  "scope": "protected_application_code",
+  "limitations": []
+}

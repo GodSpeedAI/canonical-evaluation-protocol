@@ -1,0 +1,54 @@
+{
+  "fixture_id": "rg-ac-0008",
+  "fixture_type": "anti-collapse",
+  "benchmark_family": "RealityGapBench",
+  "target_case_ref": "rg-0002",
+  "description": "The answer cites an uncited summary instead of the underlying declared and observed evidence records.",
+  "submitted_answer": {
+    "answer_id": "ans-rg-ac-0008",
+    "case_ref": "rg-0002",
+    "gap_status": "gap_detected",
+    "gap_type": "process_drift",
+    "severity": "medium",
+    "gap_summary": "A summary says some commits may not have followed the process.",
+    "declared_state_refs": [],
+    "observed_state_refs": [],
+    "affected_constraints": ["constraint-pr-review-required-rg-0002"],
+    "affected_distinctions": ["merged/reviewed"],
+    "affected_relations": ["summary_claims_process_drift"],
+    "evidence_refs": ["summary-rg-0002-generated"],
+    "missing_evidence": [],
+    "contradictions": [],
+    "confidence": {
+      "value": "medium",
+      "basis": "The generated summary identified the likely issue."
+    },
+    "recommended_next_action": {
+      "type": "collect_evidence",
+      "description": "Review the summary and confirm the process."
+    },
+    "limitations": []
+  },
+  "expected_validation": {
+    "status": "invalid",
+    "errors": [
+      "summary_source_collapse",
+      "invalid_evidence_reference",
+      "missing_declared_state_reference",
+      "missing_observed_state_reference"
+    ],
+    "warnings": [
+      "unsupported_claim"
+    ],
+    "critical": true
+  },
+  "protected_distinctions": [
+    "summary/source",
+    "claim/evidence"
+  ],
+  "why_invalid": [
+    "The cited summary is not a valid evidence record.",
+    "The answer does not cite declared or observed state references.",
+    "The answer relies on a derivative claim rather than source evidence."
+  ]
+}

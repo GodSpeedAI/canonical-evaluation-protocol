@@ -1,0 +1,99 @@
+{
+  "answer_key_id": "ak-rg-0002",
+  "case_ref": "rg-0002",
+  "question_ref": "q-rg-0002",
+  "expected_gap_status": "gap_detected",
+  "accepted_gap_statuses": [
+    "gap_detected"
+  ],
+  "expected_gap_types": [
+    "process_drift"
+  ],
+  "accepted_gap_types": [
+    "process_drift",
+    "authority_drift",
+    "evidence_gap",
+    "settlement_gap"
+  ],
+  "expected_severity": "medium",
+  "accepted_severity_range": [
+    "medium",
+    "high"
+  ],
+  "required_evidence_refs": [
+    "ev-rg-0002-001",
+    "ev-rg-0002-002",
+    "ev-rg-0002-003"
+  ],
+  "optional_evidence_refs": [
+    "ev-rg-0002-004"
+  ],
+  "required_affected_constraints": [
+    "constraint-pr-review-required-rg-0002",
+    "constraint-main-branch-protected-rg-0002"
+  ],
+  "required_affected_distinctions": [
+    "merged/reviewed",
+    "possible/permissible",
+    "declared/observed"
+  ],
+  "accepted_affected_distinctions": [
+    "merged/reviewed",
+    "ci_passed/peer_approved",
+    "possible/permissible",
+    "completion/settlement",
+    "declared/observed"
+  ],
+  "required_affected_relations": [
+    "commit_modified_protected_code_without_linked_pr_review"
+  ],
+  "accepted_next_actions": [
+    "collect_evidence",
+    "repair_observed_process",
+    "escalate_authority",
+    "create_settlement_threshold",
+    "update_declared_state",
+    "continue_monitoring"
+  ],
+  "partial_credit_rules": {
+    "gap_status": {
+      "gap_detected": 20,
+      "insufficient_evidence": 10,
+      "contradictory_evidence": 8,
+      "unknown": 5,
+      "no_gap_detected": 0,
+      "out_of_scope": 0
+    },
+    "gap_type": {
+      "process_drift": 15,
+      "authority_drift": 10,
+      "evidence_gap": 8,
+      "settlement_gap": 8,
+      "unknown": 0
+    },
+    "severity": {
+      "medium": 10,
+      "high": 8,
+      "low": 5,
+      "critical": 4,
+      "none": 0,
+      "unknown": 0
+    }
+  },
+  "critical_failure_conditions": [
+    "declared_observed_collapse",
+    "completion_settlement_collapse",
+    "claim_as_evidence",
+    "unknown_as_false",
+    "fabricated_evidence",
+    "ci_approval_collapse",
+    "opposite_answer_with_high_confidence"
+  ],
+  "confidence_expectations": {
+    "expected_confidence": "medium_to_high",
+    "reason": "Declared review rules and observed repository records support process drift, but repository metadata limitations prevent absolute confidence about deleted or migrated PR records."
+  },
+  "provenance_refs": [
+    "prov-answer-key-rg-0002"
+  ]
+}

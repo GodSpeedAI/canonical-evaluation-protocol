@@ -1,0 +1,34 @@
+{
+  "evidence_id": "ev-rg-0001-004",
+  "evidence_type": "audit_record",
+  "question_ref": "q-rg-0001",
+  "target_claim_ref": "gap-claim-rg-0001",
+  "representation_ref": "observed.jsonl#obs-rg-0001-004",
+  "source": {
+    "source_type": "document_store",
+    "source_ref": "project_team_review_record_absence",
+    "source_owner": "project_training_workstream"
+  },
+  "provenance_refs": [
+    "prov-observed-rg-0001"
+  ],
+  "relevance": {
+    "value": "moderately_relevant",
+    "basis": "No record was found showing that the Operations project representative communicated the certification resource gap before work proceeded."
+  },
+  "reliability": {
+    "value": "moderate",
+    "basis": "Record absence review is relevant but cannot rule out undocumented verbal communication."
+  },
+  "direction": "qualifies",
+  "confidence_impact": {
+    "impact_direction": "qualify",
+    "impact_magnitude": "medium",
+    "basis": "Supports a communication gap but requires caution because absence of record is not proof of no communication."
+  },
+  "timestamp": "2026-06-20T10:05:00-04:00",
+  "scope": "operations_controlled_activity",
+  "limitations": [
+    "Absence of written record does not prove no verbal communication occurred."
+  ]
+}

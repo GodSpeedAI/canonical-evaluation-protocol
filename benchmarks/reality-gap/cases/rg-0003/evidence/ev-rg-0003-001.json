@@ -1,0 +1,34 @@
+{
+  "evidence_id": "ev-rg-0003-001",
+  "evidence_type": "policy_reference",
+  "question_ref": "q-rg-0003",
+  "target_claim_ref": "gap-claim-rg-0003",
+  "representation_ref": "declared.md",
+  "source": {
+    "source_type": "document",
+    "source_ref": "declared.md",
+    "source_owner": "release_governance"
+  },
+  "provenance_refs": [
+    "prov-declared-rg-0003"
+  ],
+  "relevance": {
+    "value": "strongly_relevant",
+    "basis": "The declared state defines the evidence required before launch readiness may be treated as settled."
+  },
+  "reliability": {
+    "value": "moderate",
+    "basis": "The document is treated as the benchmark's declared source of truth for the case."
+  },
+  "direction": "supports",
+  "confidence_impact": {
+    "impact_direction": "increase",
+    "impact_magnitude": "high",
+    "basis": "Directly establishes the readiness evidence requirements."
+  },
+  "timestamp": "2026-06-22T10:50:00-04:00",
+  "scope": "release_readiness",
+  "limitations": [
+    "Benchmark case source, not an external audited policy."
+  ]
+}

@@ -1,0 +1,189 @@
+{
+  "case_id": "rg-0003",
+  "case_version": "0.1",
+  "family_ref": "reality-gap",
+  "benchmark_ref": "RealityGapBench-v0.1",
+  "title": "Launch Readiness Evidence Gap",
+  "difficulty_level": "medium",
+  "domain": "product_release_governance",
+  "primary_question_ref": "q-rg-primary",
+  "case_question_ref": "q-rg-0003",
+  "case_question": {
+    "question_id": "q-rg-0003",
+    "question_form": "Where does the declared launch-readiness requirement diverge from the observed launch-ready status and available evidence packet?",
+    "question_type": "divergence",
+    "scope": "release_readiness",
+    "target_states": [
+      "state-declared-rg-0003",
+      "state-observed-rg-0003"
+    ],
+    "target_transformations": [
+      "transformation-readiness-claim-rg-0003"
+    ],
+    "relevance_rules": [
+      "Evidence must distinguish readiness claim from readiness evidence.",
+      "Evidence must identify which declared readiness criteria are present, missing, or unknown.",
+      "Evidence must not treat missing evidence as proof that the release failed.",
+      "Evidence must cite the declared readiness requirement and observed evidence packet records."
+    ],
+    "expected_answer_shape": "shape-rg-v0.1",
+    "evaluation_context": "RealityGapBench evidence gap case"
+  },
+  "declared_state": {
+    "state_id": "state-declared-rg-0003",
+    "state_type": "declared",
+    "subject_ref": "release-candidate-2026.06.22",
+    "representation_refs": [
+      "declared.md"
+    ],
+    "scope": "release_readiness",
+    "time_context": {
+      "valid_from": "2026-06-01",
+      "temporal_precision": "date"
+    },
+    "identity_refs": [
+      "identity-release-candidate-rg-0003"
+    ],
+    "relevant_constraints": [
+      "constraint-regression-tests-required-rg-0003",
+      "constraint-release-owner-approval-required-rg-0003",
+      "constraint-technical-reviewer-approval-required-rg-0003",
+      "constraint-rollback-plan-required-rg-0003",
+      "constraint-monitoring-confirmation-required-rg-0003",
+      "constraint-risk-review-required-rg-0003"
+    ],
+    "relevant_distinctions": [
+      "claimed_ready/evidenced_ready",
+      "approval/testing",
+      "testing/monitoring",
+      "missing_evidence/proof_of_failure",
+      "completion/settlement",
+      "declared/observed"
+    ],
+    "confidence": "high",
+    "provenance_refs": [
+      "prov-declared-rg-0003"
+    ]
+  },
+  "observed_state": {
+    "state_id": "state-observed-rg-0003",
+    "state_type": "observed",
+    "subject_ref": "release-candidate-2026.06.22",
+    "representation_refs": [
+      "observed.jsonl"
+    ],
+    "scope": "release_readiness",
+    "time_context": {
+      "observed_at": "2026-06-22T11:00:00-04:00",
+      "temporal_precision": "interval"
+    },
+    "identity_refs": [
+      "identity-release-candidate-rg-0003"
+    ],
+    "relevant_constraints": [
+      "constraint-regression-tests-required-rg-0003",
+      "constraint-technical-reviewer-approval-required-rg-0003",
+      "constraint-monitoring-confirmation-required-rg-0003",
+      "constraint-rollback-plan-required-rg-0003"
+    ],
+    "relevant_distinctions": [
+      "claimed_ready/evidenced_ready",
+      "approval/testing",
+      "testing/monitoring",
+      "missing_evidence/proof_of_failure",
+      "completion/settlement",
+      "declared/observed"
+    ],
+    "confidence": "medium",
+    "provenance_refs": [
+      "prov-observed-rg-0003"
+    ],
+    "limitations": [
+      "Missing records may exist outside the reviewed evidence packet.",
+      "Monitoring dashboard review may not include all monitoring systems.",
+      "Technical reviewer approval may have occurred in an unlinked system or conversation."
+    ]
+  },
+  "transformation_refs": [
+    {
+      "transformation_id": "transformation-readiness-claim-rg-0003",
+      "transformation_type": "decision",
+      "source_state_ref": "state-declared-rg-0003",
+      "claimed_target_state_ref": "state-observed-rg-0003",
+      "scope": "release_readiness",
+      "identity_basis": "same release candidate and same release-readiness scope",
+      "affected_constraints": [
+        "constraint-regression-tests-required-rg-0003",
+        "constraint-technical-reviewer-approval-required-rg-0003",
+        "constraint-monitoring-confirmation-required-rg-0003"
+      ],
+      "affected_distinctions": [
+        "claimed_ready/evidenced_ready",
+        "missing_evidence/proof_of_failure",
+        "completion/settlement"
+      ],
+      "status": "claimed_complete",
+      "confidence": "medium",
+      "provenance_refs": [
+        "prov-observed-rg-0003"
+      ]
+    }
+  ],
+  "expected_answer_shape_ref": "shape-rg-v0.1",
+  "evidence_requirements": {
+    "required": true,
+    "minimum_relevance": "moderately_relevant",
+    "minimum_reliability": "moderate",
+    "required_evidence_refs": [
+      "ev-rg-0003-001",
+      "ev-rg-0003-002",
+      "ev-rg-0003-003"
+    ],
+    "optional_evidence_refs": [
+      "ev-rg-0003-004"
+    ],
+    "admissible_evidence_types": [
+      "policy_reference",
+      "audit_record",
+      "document",
+      "configuration_snapshot",
+      "monitoring_signal"
+    ]
+  },
+  "answer_key_ref": "ak-rg-0003",
+  "metric_refs": [
+    "gap_detection_accuracy",
+    "gap_type_accuracy",
+    "severity_accuracy",
+    "evidence_precision",
+    "evidence_recall",
+    "anti_collapse_score",
+    "recommended_action_quality",
+    "confidence_calibration"
+  ],
+  "scoring_rules": {
+    "total_points": 100,
+    "allocation": {
+      "gap_status": 20,
+      "gap_type": 15,
+      "severity": 10,
+      "evidence": 20,
+      "anti_collapse": 15,
+      "recommended_next_action": 10,
+      "confidence_and_limitations": 10
+    }
+  },
+  "invalidity_conditions": [
+    "answer_shape_invalid",
+    "fabricated_evidence",
+    "declared_observed_collapse",
+    "claim_as_evidence",
+    "missing_evidence_as_failure_proof",
+    "completion_settlement_collapse",
+    "readiness_claim_as_evidence"
+  ],
+  "provenance_refs": [
+    "prov-rg-0003"
+  ],
+  "review_status": "accepted"
+}

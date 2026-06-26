@@ -1,0 +1,34 @@
+{
+  "evidence_id": "ev-rg-0002-004",
+  "evidence_type": "test_result",
+  "question_ref": "q-rg-0002",
+  "target_claim_ref": "gap-claim-rg-0002",
+  "representation_ref": "observed.jsonl#obs-rg-0002-004",
+  "source": {
+    "source_type": "test_runner",
+    "source_ref": "ci_system",
+    "source_owner": "repo_system"
+  },
+  "provenance_refs": [
+    "prov-observed-rg-0002"
+  ],
+  "relevance": {
+    "value": "weakly_relevant",
+    "basis": "CI pass shows tests passed after the commits, but does not establish peer review or authorization."
+  },
+  "reliability": {
+    "value": "strong",
+    "basis": "CI result is a direct system-generated record."
+  },
+  "direction": "qualifies",
+  "confidence_impact": {
+    "impact_direction": "qualify",
+    "impact_magnitude": "low",
+    "basis": "Clarifies that technical tests passed while governance review remained unevidenced."
+  },
+  "timestamp": "2026-06-21T14:12:00-04:00",
+  "scope": "protected_application_code",
+  "limitations": [
+    "CI success is not evidence of peer approval."
+  ]
+}

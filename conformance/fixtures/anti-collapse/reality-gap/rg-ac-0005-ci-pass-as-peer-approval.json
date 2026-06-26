@@ -1,0 +1,54 @@
+{
+  "fixture_id": "rg-ac-0005",
+  "fixture_type": "anti-collapse",
+  "benchmark_family": "RealityGapBench",
+  "target_case_ref": "rg-0002",
+  "description": "The answer says there is no process drift because CI passed.",
+  "submitted_answer": {
+    "answer_id": "ans-rg-ac-0005",
+    "case_ref": "rg-0002",
+    "gap_status": "no_gap_detected",
+    "gap_type": "unknown",
+    "severity": "none",
+    "gap_summary": "There is no process gap because the commits passed CI.",
+    "declared_state_refs": ["state-declared-rg-0002"],
+    "observed_state_refs": ["state-observed-rg-0002"],
+    "affected_constraints": [],
+    "affected_distinctions": ["ci_passed/peer_approved"],
+    "affected_relations": [],
+    "evidence_refs": ["ev-rg-0002-004"],
+    "missing_evidence": [],
+    "contradictions": [],
+    "confidence": {
+      "value": "high",
+      "basis": "The CI system passed after the commits."
+    },
+    "recommended_next_action": {
+      "type": "no_action_required",
+      "description": "No action is needed because tests passed."
+    },
+    "limitations": []
+  },
+  "expected_validation": {
+    "status": "invalid",
+    "errors": [
+      "ci_approval_collapse",
+      "process_drift_missed",
+      "opposite_answer_with_high_confidence"
+    ],
+    "warnings": [
+      "qualifying_evidence_treated_as_decisive"
+    ],
+    "critical": true
+  },
+  "protected_distinctions": [
+    "ci_passed/peer_approved",
+    "merged/reviewed",
+    "completion/settlement"
+  ],
+  "why_invalid": [
+    "CI pass is not evidence of peer approval.",
+    "The answer ignores direct commit and missing PR evidence.",
+    "The answer treats technical success as governance settlement."
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "answer_id": "ans-rg-0002-invalid-example",
+  "case_ref": "rg-0002",
+  "gap_status": "no_gap_detected",
+  "gap_type": "unknown",
+  "severity": "none",
+  "gap_summary": "The commits were merged and CI passed, so the workflow appears acceptable.",
+  "declared_state_refs": [],
+  "observed_state_refs": [
+    "state-observed-rg-0002"
+  ],
+  "affected_constraints": [],
+  "affected_distinctions": [
+    "ci_passed/peer_approved"
+  ],
+  "affected_relations": [],
+  "evidence_refs": [
+    "ev-rg-0002-004"
+  ],
+  "missing_evidence": [],
+  "contradictions": [],
+  "confidence": {
+    "value": "high",
+    "basis": "The CI system passed."
+  },
+  "recommended_next_action": {
+    "type": "no_action_required",
+    "description": "No action is needed because CI passed."
+  },
+  "limitations": []
+}

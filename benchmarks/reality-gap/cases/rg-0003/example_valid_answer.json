@@ -1,0 +1,53 @@
+{
+  "answer_id": "ans-rg-0003-valid-example",
+  "case_ref": "rg-0003",
+  "gap_status": "gap_detected",
+  "gap_type": "evidence_gap",
+  "severity": "medium",
+  "gap_summary": "The declared state requires a complete readiness evidence packet before the release is treated as launch-ready, but the observed state shows the release was marked ready while regression test results, technical reviewer approval, and monitoring confirmation were missing from the reviewed packet.",
+  "declared_state_refs": [
+    "state-declared-rg-0003"
+  ],
+  "observed_state_refs": [
+    "state-observed-rg-0003"
+  ],
+  "affected_constraints": [
+    "constraint-regression-tests-required-rg-0003",
+    "constraint-technical-reviewer-approval-required-rg-0003",
+    "constraint-monitoring-confirmation-required-rg-0003"
+  ],
+  "affected_distinctions": [
+    "claimed_ready/evidenced_ready",
+    "missing_evidence/proof_of_failure",
+    "completion/settlement",
+    "declared/observed"
+  ],
+  "affected_relations": [
+    "release_marked_ready_without_required_evidence_packet"
+  ],
+  "evidence_refs": [
+    "ev-rg-0003-001",
+    "ev-rg-0003-002",
+    "ev-rg-0003-003",
+    "ev-rg-0003-004"
+  ],
+  "missing_evidence": [
+    "Completed regression test result record linked to release candidate 2026.06.22.",
+    "Designated technical reviewer approval record.",
+    "Monitoring coverage confirmation for the new release endpoint.",
+    "Known-risk review record."
+  ],
+  "contradictions": [],
+  "confidence": {
+    "value": "medium",
+    "basis": "The readiness requirement and reviewed evidence packet support an evidence gap, but missing records may exist outside the reviewed packet."
+  },
+  "recommended_next_action": {
+    "type": "collect_evidence",
+    "description": "Do not treat launch readiness as settled until the missing regression, technical approval, monitoring, and risk-review records are collected or an approved exception is documented."
+  },
+  "limitations": [
+    "The missing evidence may exist in systems outside the reviewed evidence packet.",
+    "The evidence gap does not prove that the release itself failed."
+  ]
+}

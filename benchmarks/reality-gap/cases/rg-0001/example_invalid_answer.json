@@ -1,0 +1,25 @@
+{
+  "answer_id": "ans-rg-0001-invalid-example",
+  "case_ref": "rg-0001",
+  "gap_status": "no_gap_detected",
+  "gap_type": "unknown",
+  "severity": "none",
+  "gap_summary": "The work was completed, so the process appears to have worked.",
+  "declared_state_refs": [],
+  "observed_state_refs": [],
+  "affected_constraints": [],
+  "affected_distinctions": [],
+  "affected_relations": [],
+  "evidence_refs": [],
+  "missing_evidence": [],
+  "contradictions": [],
+  "confidence": {
+    "value": "high",
+    "basis": "The activity was completed."
+  },
+  "recommended_next_action": {
+    "type": "no_action_required",
+    "description": "No action is needed because the activity was completed."
+  },
+  "limitations": []
+}

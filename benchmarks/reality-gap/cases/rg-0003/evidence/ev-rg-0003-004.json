@@ -1,0 +1,34 @@
+{
+  "evidence_id": "ev-rg-0003-004",
+  "evidence_type": "monitoring_signal",
+  "question_ref": "q-rg-0003",
+  "target_claim_ref": "gap-claim-rg-0003",
+  "representation_ref": "observed.jsonl#obs-rg-0003-004",
+  "source": {
+    "source_type": "monitoring_system",
+    "source_ref": "monitoring_dashboard",
+    "source_owner": "release_governance"
+  },
+  "provenance_refs": [
+    "prov-observed-rg-0003"
+  ],
+  "relevance": {
+    "value": "moderately_relevant",
+    "basis": "The monitoring dashboard did not show coverage for the new release endpoint, which is required for readiness settlement."
+  },
+  "reliability": {
+    "value": "moderate",
+    "basis": "Dashboard review is relevant but may not include all monitoring systems."
+  },
+  "direction": "supports",
+  "confidence_impact": {
+    "impact_direction": "increase",
+    "impact_magnitude": "medium",
+    "basis": "Supports evidence gap for monitoring confirmation, with scope limitation."
+  },
+  "timestamp": "2026-06-22T11:12:00-04:00",
+  "scope": "release_readiness",
+  "limitations": [
+    "Dashboard coverage review may not include all monitoring systems."
+  ]
+}

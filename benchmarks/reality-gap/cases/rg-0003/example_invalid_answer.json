@@ -1,0 +1,29 @@
+{
+  "answer_id": "ans-rg-0003-invalid-example",
+  "case_ref": "rg-0003",
+  "gap_status": "no_gap_detected",
+  "gap_type": "unknown",
+  "severity": "none",
+  "gap_summary": "The release owner marked the release as launch-ready, so readiness is confirmed.",
+  "declared_state_refs": [],
+  "observed_state_refs": [
+    "state-observed-rg-0003"
+  ],
+  "affected_constraints": [],
+  "affected_distinctions": [],
+  "affected_relations": [],
+  "evidence_refs": [
+    "obs-rg-0003-001"
+  ],
+  "missing_evidence": [],
+  "contradictions": [],
+  "confidence": {
+    "value": "high",
+    "basis": "The release owner said it is ready."
+  },
+  "recommended_next_action": {
+    "type": "no_action_required",
+    "description": "No action is needed because the release was marked ready."
+  },
+  "limitations": []
+}

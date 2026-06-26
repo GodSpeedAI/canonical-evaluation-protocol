@@ -1,0 +1,78 @@
+{
+  "fixture_pack_id": "reality-gap-anti-collapse-v0.1",
+  "benchmark_family": "RealityGapBench",
+  "cep_version": "0.1",
+  "fixture_type": "anti-collapse",
+  "fixtures": [
+    {
+      "fixture_id": "rg-ac-0001",
+      "title": "Declared Observed Collapse",
+      "file": "rg-ac-0001-declared-observed-collapse.json",
+      "expected_status": "invalid",
+      "expected_errors": ["declared_observed_collapse"]
+    },
+    {
+      "fixture_id": "rg-ac-0002",
+      "title": "Claim As Evidence",
+      "file": "rg-ac-0002-claim-as-evidence.json",
+      "expected_status": "invalid",
+      "expected_errors": ["claim_as_evidence"]
+    },
+    {
+      "fixture_id": "rg-ac-0003",
+      "title": "Unknown As False",
+      "file": "rg-ac-0003-unknown-as-false.json",
+      "expected_status": "invalid",
+      "expected_errors": ["unknown_as_false"]
+    },
+    {
+      "fixture_id": "rg-ac-0004",
+      "title": "Completion As Settlement",
+      "file": "rg-ac-0004-completion-as-settlement.json",
+      "expected_status": "invalid",
+      "expected_errors": ["completion_settlement_collapse"]
+    },
+    {
+      "fixture_id": "rg-ac-0005",
+      "title": "CI Pass As Peer Approval",
+      "file": "rg-ac-0005-ci-pass-as-peer-approval.json",
+      "expected_status": "invalid",
+      "expected_errors": ["ci_approval_collapse"]
+    },
+    {
+      "fixture_id": "rg-ac-0006",
+      "title": "Possibility As Affordance",
+      "file": "rg-ac-0006-possibility-as-affordance.json",
+      "expected_status": "invalid",
+      "expected_errors": ["possibility_affordance_collapse"]
+    },
+    {
+      "fixture_id": "rg-ac-0007",
+      "title": "Authority As Capability",
+      "file": "rg-ac-0007-authority-as-capability.json",
+      "expected_status": "invalid",
+      "expected_errors": ["authority_capability_collapse"]
+    },
+    {
+      "fixture_id": "rg-ac-0008",
+      "title": "Summary As Source",
+      "file": "rg-ac-0008-summary-as-source.json",
+      "expected_status": "invalid",
+      "expected_errors": ["summary_source_collapse"]
+    },
+    {
+      "fixture_id": "rg-ac-0009",
+      "title": "Missing Evidence As No Gap",
+      "file": "rg-ac-0009-missing-evidence-as-no-gap.json",
+      "expected_status": "invalid",
+      "expected_errors": ["missing_evidence_as_no_gap"]
+    },
+    {
+      "fixture_id": "rg-ac-0010",
+      "title": "Score As Capability",
+      "file": "rg-ac-0010-score-as-capability.json",
+      "expected_status": "invalid",
+      "expected_errors": ["score_capability_collapse"]
+    }
+  ]
+}

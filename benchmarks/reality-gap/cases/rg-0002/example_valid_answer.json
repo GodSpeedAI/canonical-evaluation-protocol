@@ -1,0 +1,50 @@
+{
+  "answer_id": "ans-rg-0002-valid-example",
+  "case_ref": "rg-0002",
+  "gap_status": "gap_detected",
+  "gap_type": "process_drift",
+  "severity": "medium",
+  "gap_summary": "The declared process requires protected application code changes on main to go through pull request review, but observed repository records show commits modifying protected code directly on main without linked pull request records.",
+  "declared_state_refs": [
+    "state-declared-rg-0002"
+  ],
+  "observed_state_refs": [
+    "state-observed-rg-0002"
+  ],
+  "affected_constraints": [
+    "constraint-pr-review-required-rg-0002",
+    "constraint-main-branch-protected-rg-0002"
+  ],
+  "affected_distinctions": [
+    "merged/reviewed",
+    "ci_passed/peer_approved",
+    "possible/permissible",
+    "declared/observed"
+  ],
+  "affected_relations": [
+    "commit_modified_protected_code_without_linked_pr_review"
+  ],
+  "evidence_refs": [
+    "ev-rg-0002-001",
+    "ev-rg-0002-002",
+    "ev-rg-0002-003",
+    "ev-rg-0002-004"
+  ],
+  "missing_evidence": [
+    "Emergency exception approval records for commits 8f31a2 and 91bd73, if any exist.",
+    "Confirmation that pull request metadata was not migrated or deleted."
+  ],
+  "contradictions": [],
+  "confidence": {
+    "value": "medium_high",
+    "basis": "The declared review rule and git history directly support process drift. Confidence is limited by possible missing pull request metadata or undocumented emergency exception approval."
+  },
+  "recommended_next_action": {
+    "type": "collect_evidence",
+    "description": "Collect emergency exception records and repository metadata history for the affected commits; if no exception or PR review exists, repair the process by restoring branch protection and requiring post-change review."
+  },
+  "limitations": [
+    "Repository metadata may be incomplete.",
+    "CI passing does not establish review or authorization."
+  ]
+}

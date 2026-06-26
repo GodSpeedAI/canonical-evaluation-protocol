@@ -1,0 +1,51 @@
+{
+  "fixture_id": "rg-ac-0001",
+  "fixture_type": "anti-collapse",
+  "benchmark_family": "RealityGapBench",
+  "target_case_ref": "rg-0001",
+  "description": "The answer states that because the activity happened, the declared process must have allowed it.",
+  "submitted_answer": {
+    "answer_id": "ans-rg-ac-0001",
+    "case_ref": "rg-0001",
+    "gap_status": "no_gap_detected",
+    "gap_type": "unknown",
+    "severity": "none",
+    "gap_summary": "There is no gap because the activity was performed, so the declared process and observed process are aligned.",
+    "declared_state_refs": ["state-observed-rg-0001"],
+    "observed_state_refs": ["state-observed-rg-0001"],
+    "affected_constraints": [],
+    "affected_distinctions": [],
+    "affected_relations": [],
+    "evidence_refs": ["ev-rg-0001-003"],
+    "missing_evidence": [],
+    "contradictions": [],
+    "confidence": {
+      "value": "high",
+      "basis": "The activity occurred."
+    },
+    "recommended_next_action": {
+      "type": "no_action_required",
+      "description": "No action is needed because the observed work confirms the declared process."
+    },
+    "limitations": []
+  },
+  "expected_validation": {
+    "status": "invalid",
+    "errors": [
+      "declared_observed_collapse",
+      "completion_settlement_collapse",
+      "opposite_answer_with_high_confidence"
+    ],
+    "warnings": [],
+    "critical": true
+  },
+  "protected_distinctions": [
+    "declared/observed",
+    "completion/settlement"
+  ],
+  "why_invalid": [
+    "The answer uses observed state as declared state.",
+    "The answer treats occurrence as proof of declared permission.",
+    "The answer gives high confidence for the opposite of the expected answer."
+  ]
+}

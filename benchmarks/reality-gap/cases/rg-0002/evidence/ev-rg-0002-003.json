@@ -1,0 +1,34 @@
+{
+  "evidence_id": "ev-rg-0002-003",
+  "evidence_type": "audit_record",
+  "question_ref": "q-rg-0002",
+  "target_claim_ref": "gap-claim-rg-0002",
+  "representation_ref": "observed.jsonl#obs-rg-0002-003",
+  "source": {
+    "source_type": "repository",
+    "source_ref": "pull_request_index",
+    "source_owner": "repo_system"
+  },
+  "provenance_refs": [
+    "prov-observed-rg-0002"
+  ],
+  "relevance": {
+    "value": "strongly_relevant",
+    "basis": "No pull request records were linked to the direct commits that modified protected code."
+  },
+  "reliability": {
+    "value": "moderate",
+    "basis": "Repository metadata review is relevant but may be incomplete if records were migrated or deleted."
+  },
+  "direction": "supports",
+  "confidence_impact": {
+    "impact_direction": "increase",
+    "impact_magnitude": "medium",
+    "basis": "Supports process drift while preserving metadata limitation."
+  },
+  "timestamp": "2026-06-21T14:08:00-04:00",
+  "scope": "protected_application_code",
+  "limitations": [
+    "Pull request metadata may be incomplete if records were migrated or deleted."
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "answer_id": "ans-rg-0001-valid-example",
+  "case_ref": "rg-0001",
+  "gap_status": "gap_detected",
+  "gap_type": "authority_drift",
+  "severity": "high",
+  "gap_summary": "The declared state requires certified personnel for the controlled activity, but the observed state shows Operations proceeded with additional personnel whose records showed partial training but no confirmed certification in the observation packet.",
+  "declared_state_refs": [
+    "state-declared-rg-0001"
+  ],
+  "observed_state_refs": [
+    "state-observed-rg-0001"
+  ],
+  "affected_constraints": [
+    "constraint-certification-required-rg-0001"
+  ],
+  "affected_distinctions": [
+    "trained/certified",
+    "possible/permissible",
+    "observed_execution/authorized_execution"
+  ],
+  "affected_relations": [
+    "actor_performed_activity_without_confirmed_certification"
+  ],
+  "evidence_refs": [
+    "ev-rg-0001-001",
+    "ev-rg-0001-002",
+    "ev-rg-0001-004"
+  ],
+  "missing_evidence": [
+    "Full certification matrix for all personnel assigned during the execution window.",
+    "Documented exception approval or escalation record, if one exists."
+  ],
+  "contradictions": [],
+  "confidence": {
+    "value": "high",
+    "basis": "The declared certification rule and observed staffing qualification record directly support the authority drift claim. Confidence is not absolute because the full certification matrix was unavailable."
+  },
+  "recommended_next_action": {
+    "type": "escalate_authority",
+    "description": "Pause or escalate the controlled activity until the designated authority confirms whether partially trained personnel may perform the work, records any exception decision, and updates the staffing readiness state."
+  },
+  "limitations": [
+    "The full certification matrix was not available.",
+    "The absence of a communication record does not prove that no verbal communication occurred."
+  ]
+}

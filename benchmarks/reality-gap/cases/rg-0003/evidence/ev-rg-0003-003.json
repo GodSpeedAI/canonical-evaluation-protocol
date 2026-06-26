@@ -1,0 +1,34 @@
+{
+  "evidence_id": "ev-rg-0003-003",
+  "evidence_type": "audit_record",
+  "question_ref": "q-rg-0003",
+  "target_claim_ref": "gap-claim-rg-0003",
+  "representation_ref": "observed.jsonl#obs-rg-0003-003",
+  "source": {
+    "source_type": "document_store",
+    "source_ref": "evidence_packet_index",
+    "source_owner": "release_governance"
+  },
+  "provenance_refs": [
+    "prov-observed-rg-0003"
+  ],
+  "relevance": {
+    "value": "strongly_relevant",
+    "basis": "The observed evidence packet lacked the designated technical reviewer approval required by declared readiness criteria."
+  },
+  "reliability": {
+    "value": "moderate",
+    "basis": "The evidence packet review is relevant but cannot rule out approval in an unlinked system or conversation."
+  },
+  "direction": "supports",
+  "confidence_impact": {
+    "impact_direction": "increase",
+    "impact_magnitude": "medium",
+    "basis": "Supports an evidence gap while preserving limitation that approval may exist outside the packet."
+  },
+  "timestamp": "2026-06-22T11:08:00-04:00",
+  "scope": "release_readiness",
+  "limitations": [
+    "The technical reviewer approval may exist outside the linked evidence packet."
+  ]
+}

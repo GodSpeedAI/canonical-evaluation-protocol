@@ -1,0 +1,52 @@
+{
+  "fixture_id": "rg-ac-0007",
+  "fixture_type": "anti-collapse",
+  "benchmark_family": "RealityGapBench",
+  "target_case_ref": "rg-0001",
+  "description": "The answer says the team was capable because Operations authorized the activity by proceeding.",
+  "submitted_answer": {
+    "answer_id": "ans-rg-ac-0007",
+    "case_ref": "rg-0001",
+    "gap_status": "no_gap_detected",
+    "gap_type": "unknown",
+    "severity": "none",
+    "gap_summary": "Operations proceeded with the activity, which shows the team had both authority and capability.",
+    "declared_state_refs": ["state-declared-rg-0001"],
+    "observed_state_refs": ["state-observed-rg-0001"],
+    "affected_constraints": [],
+    "affected_distinctions": ["authority/capability"],
+    "affected_relations": ["operations_proceeded_therefore_authorized_and_capable"],
+    "evidence_refs": ["ev-rg-0001-003"],
+    "missing_evidence": [],
+    "contradictions": [],
+    "confidence": {
+      "value": "high",
+      "basis": "Operations made the decision to proceed."
+    },
+    "recommended_next_action": {
+      "type": "no_action_required",
+      "description": "No action is needed because Operations demonstrated authority and capability by executing."
+    },
+    "limitations": []
+  },
+  "expected_validation": {
+    "status": "invalid",
+    "errors": [
+      "authority_capability_collapse",
+      "observed_execution_authorized_execution_collapse",
+      "opposite_answer_with_high_confidence"
+    ],
+    "warnings": [],
+    "critical": true
+  },
+  "protected_distinctions": [
+    "authority/capability",
+    "observed_execution/authorized_execution",
+    "possible/permissible"
+  ],
+  "why_invalid": [
+    "Observed execution does not prove authorization.",
+    "A decision to proceed does not prove durable capability.",
+    "The answer misses the certification authority drift."
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "evidence_id": "ev-rg-0001-003",
+  "evidence_type": "human_attestation",
+  "question_ref": "q-rg-0001",
+  "target_claim_ref": "gap-claim-rg-0001",
+  "representation_ref": "observed.jsonl#obs-rg-0001-003",
+  "source": {
+    "source_type": "human",
+    "source_ref": "operations_discussion_summary",
+    "source_owner": "project_training_workstream"
+  },
+  "provenance_refs": [
+    "prov-observed-rg-0001"
+  ],
+  "relevance": {
+    "value": "moderately_relevant",
+    "basis": "The observation indicates operations proceeded despite unresolved certification status."
+  },
+  "reliability": {
+    "value": "weak",
+    "basis": "The evidence is based on discussion notes, not a signed operations statement."
+  },
+  "direction": "supports",
+  "confidence_impact": {
+    "impact_direction": "increase",
+    "impact_magnitude": "low",
+    "basis": "Supports execution context but should not independently settle the gap claim."
+  },
+  "timestamp": "2026-06-20T09:40:00-04:00",
+  "scope": "operations_controlled_activity",
+  "limitations": [
+    "Discussion notes are not independently verified."
+  ]
+}

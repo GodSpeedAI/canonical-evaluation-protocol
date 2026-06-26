@@ -1,0 +1,34 @@
+{
+  "evidence_id": "ev-rg-0001-001",
+  "evidence_type": "policy_reference",
+  "question_ref": "q-rg-0001",
+  "target_claim_ref": "gap-claim-rg-0001",
+  "representation_ref": "declared.md",
+  "source": {
+    "source_type": "document",
+    "source_ref": "declared.md",
+    "source_owner": "operations_governance"
+  },
+  "provenance_refs": [
+    "prov-declared-rg-0001"
+  ],
+  "relevance": {
+    "value": "strongly_relevant",
+    "basis": "The declared state explicitly requires certification for the controlled activity."
+  },
+  "reliability": {
+    "value": "moderate",
+    "basis": "The document is treated as the benchmark's declared source of truth for the case."
+  },
+  "direction": "supports",
+  "confidence_impact": {
+    "impact_direction": "increase",
+    "impact_magnitude": "high",
+    "basis": "Directly establishes the declared certification constraint."
+  },
+  "timestamp": "2026-06-20T09:00:00-04:00",
+  "scope": "operations_controlled_activity",
+  "limitations": [
+    "Benchmark case source, not an external audited policy."
+  ]
+}

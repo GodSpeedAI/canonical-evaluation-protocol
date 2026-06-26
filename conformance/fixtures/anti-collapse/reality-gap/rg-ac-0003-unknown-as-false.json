@@ -1,0 +1,52 @@
+{
+  "fixture_id": "rg-ac-0003",
+  "fixture_type": "anti-collapse",
+  "benchmark_family": "RealityGapBench",
+  "target_case_ref": "rg-0003",
+  "description": "The answer treats missing test records as proof that testing failed.",
+  "submitted_answer": {
+    "answer_id": "ans-rg-ac-0003",
+    "case_ref": "rg-0003",
+    "gap_status": "gap_detected",
+    "gap_type": "evidence_gap",
+    "severity": "critical",
+    "gap_summary": "The release failed because no regression test result was found.",
+    "declared_state_refs": ["state-declared-rg-0003"],
+    "observed_state_refs": ["state-observed-rg-0003"],
+    "affected_constraints": ["constraint-regression-tests-required-rg-0003"],
+    "affected_distinctions": ["missing_evidence/proof_of_failure"],
+    "affected_relations": ["release_failed_due_to_missing_test_record"],
+    "evidence_refs": ["ev-rg-0003-002"],
+    "missing_evidence": [],
+    "contradictions": [],
+    "confidence": {
+      "value": "high",
+      "basis": "No test record was present, so the tests failed."
+    },
+    "recommended_next_action": {
+      "type": "block_transformation",
+      "description": "Block release because testing failed."
+    },
+    "limitations": []
+  },
+  "expected_validation": {
+    "status": "invalid",
+    "errors": [
+      "unknown_as_false",
+      "missing_evidence_as_failure_proof"
+    ],
+    "warnings": [
+      "severity_miscalibration"
+    ],
+    "critical": true
+  },
+  "protected_distinctions": [
+    "unknown/false",
+    "missing_evidence/proof_of_failure"
+  ],
+  "why_invalid": [
+    "The evidence supports that the test record is missing from the packet, not that tests failed.",
+    "The answer removes the limitation that the record may exist elsewhere.",
+    "The answer assigns critical severity without sufficient basis."
+  ]
+}

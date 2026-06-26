@@ -1,0 +1,54 @@
+{
+  "fixture_id": "rg-ac-0009",
+  "fixture_type": "anti-collapse",
+  "benchmark_family": "RealityGapBench",
+  "target_case_ref": "rg-0003",
+  "description": "The answer says no gap exists because the benchmark did not provide full evidence.",
+  "submitted_answer": {
+    "answer_id": "ans-rg-ac-0009",
+    "case_ref": "rg-0003",
+    "gap_status": "no_gap_detected",
+    "gap_type": "unknown",
+    "severity": "none",
+    "gap_summary": "There is no gap because the missing evidence was not provided, so there is nothing to evaluate.",
+    "declared_state_refs": ["state-declared-rg-0003"],
+    "observed_state_refs": ["state-observed-rg-0003"],
+    "affected_constraints": [],
+    "affected_distinctions": ["missing_evidence/proof_of_failure"],
+    "affected_relations": [],
+    "evidence_refs": [],
+    "missing_evidence": [],
+    "contradictions": [],
+    "confidence": {
+      "value": "high",
+      "basis": "No evidence was provided showing that the release was not ready."
+    },
+    "recommended_next_action": {
+      "type": "no_action_required",
+      "description": "No action is required because there is no evidence of a problem."
+    },
+    "limitations": []
+  },
+  "expected_validation": {
+    "status": "invalid",
+    "errors": [
+      "missing_evidence_as_no_gap",
+      "unknown_as_false",
+      "opposite_answer_with_high_confidence"
+    ],
+    "warnings": [
+      "missing_evidence_not_reported"
+    ],
+    "critical": true
+  },
+  "protected_distinctions": [
+    "missing_evidence/no_gap",
+    "unknown/false",
+    "claimed_ready/evidenced_ready"
+  ],
+  "why_invalid": [
+    "The declared state requires evidence; missing required evidence is itself the relevant gap.",
+    "The answer treats absence of failure evidence as evidence of readiness.",
+    "The answer fails to report missing evidence."
+  ]
+}
