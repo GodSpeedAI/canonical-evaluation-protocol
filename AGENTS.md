@@ -1,3 +1,18 @@
+---
+type: "CEP Guide"
+id: "cep-agent-operating-guide"
+title: "Agent Operating Guide"
+description: "Repository-level instructions for agents working on the Canonical Evaluation Protocol project."
+status: "Active"
+version: "0.1.0"
+tags:
+  - cep
+  - agents
+  - guide
+  - project-memory
+timestamp: "2026-06-27T00:00:00Z"
+---
+
 # AGENTS.md
 
 Goal:

@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cep.dev/schemas/anti-collapse-fixture.schema.json",
+  "title": "CEP Anti-Collapse Fixture",
+  "type": "object",
+  "required": [
+    "benchmark_family",
+    "description",
+    "expected_validation",
+    "fixture_id",
+    "fixture_type",
+    "protected_distinctions",
+    "submitted_answer",
+    "target_case_ref",
+    "why_invalid"
+  ],
+  "properties": {
+    "fixture_id": {
+      "pattern": "^rg-ac-[0-9]{4}$",
+      "type": "string"
+    },
+    "fixture_type": {
+      "const": "anti-collapse"
+    },
+    "benchmark_family": {
+      "const": "RealityGapBench"
+    },
+    "target_case_ref": {
+      "pattern": "^rg-[0-9]{4}$",
+      "type": "string"
+    },
+    "submitted_answer": {
+      "$ref": "./reality-gap-answer.schema.json"
+    },
+    "expected_validation": {
+      "required": [
+        "critical",
+        "errors",
+        "status"
+      ],
+      "type": "object",
+      "properties": {
+        "status": {
+          "const": "invalid"
+        },
+        "errors": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "warnings": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "critical": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "protected_distinctions": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "description": {
+      "type": "string"
+    },
+    "why_invalid": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    }
+  },
+  "additionalProperties": false
+}

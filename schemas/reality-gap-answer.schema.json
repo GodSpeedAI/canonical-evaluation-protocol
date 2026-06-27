@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cep.dev/schemas/reality-gap-answer.schema.json",
+  "title": "RealityGapBench Answer",
+  "type": "object",
+  "required": [
+    "affected_constraints",
+    "affected_distinctions",
+    "affected_relations",
+    "answer_id",
+    "case_ref",
+    "confidence",
+    "declared_state_refs",
+    "evidence_refs",
+    "gap_status",
+    "gap_summary",
+    "gap_type",
+    "limitations",
+    "missing_evidence",
+    "observed_state_refs",
+    "recommended_next_action",
+    "severity"
+  ],
+  "properties": {
+    "answer_id": {
+      "type": "string"
+    },
+    "case_ref": {
+      "pattern": "^rg-[0-9]{4}$",
+      "type": "string"
+    },
+    "gap_status": {
+      "type": "string"
+    },
+    "gap_type": {
+      "type": "string"
+    },
+    "severity": {
+      "type": "string"
+    },
+    "evidence_refs": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "gap_summary": {
+      "type": "string"
+    },
+    "declared_state_refs": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "observed_state_refs": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "affected_constraints": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "affected_distinctions": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "affected_relations": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "missing_evidence": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "contradictions": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "confidence": {
+      "type": "object",
+      "required": [
+        "basis",
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "type": "string"
+        },
+        "basis": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "recommended_next_action": {
+      "type": "object",
+      "required": [
+        "description",
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    }
+  },
+  "additionalProperties": false
+}

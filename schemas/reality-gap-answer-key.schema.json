@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cep.dev/schemas/reality-gap-answer-key.schema.json",
+  "title": "RealityGapBench Answer Key",
+  "type": "object",
+  "required": [
+    "accepted_gap_statuses",
+    "accepted_gap_types",
+    "answer_key_id",
+    "case_ref",
+    "critical_failure_conditions",
+    "expected_gap_status",
+    "expected_gap_types",
+    "expected_severity",
+    "partial_credit_rules",
+    "question_ref",
+    "required_evidence_refs"
+  ],
+  "properties": {
+    "answer_key_id": {
+      "pattern": "^ak-rg-[0-9]{4}$",
+      "type": "string"
+    },
+    "case_ref": {
+      "pattern": "^rg-[0-9]{4}$",
+      "type": "string"
+    },
+    "expected_gap_status": {
+      "type": "string"
+    },
+    "accepted_gap_statuses": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "expected_gap_types": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "accepted_gap_types": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "expected_severity": {
+      "type": "string"
+    },
+    "accepted_severity_range": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "required_evidence_refs": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "optional_evidence_refs": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "required_affected_constraints": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "required_affected_distinctions": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "accepted_affected_distinctions": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "required_affected_relations": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "accepted_next_actions": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "critical_failure_conditions": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "partial_credit_rules": {
+      "type": "object",
+      "required": [
+        "gap_status",
+        "gap_type",
+        "severity"
+      ],
+      "properties": {
+        "gap_status": {
+          "type": "object"
+        },
+        "gap_type": {
+          "type": "object"
+        },
+        "severity": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": false
+    },
+    "confidence_expectations": {
+      "type": "object",
+      "required": [
+        "expected_confidence",
+        "reason"
+      ],
+      "properties": {
+        "expected_confidence": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "provenance_refs": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "question_ref": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

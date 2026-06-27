@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cep.dev/schemas/conformance-report.schema.json",
+  "title": "CEP Conformance Report",
+  "type": "object",
+  "required": [
+    "results",
+    "report_id",
+    "status"
+  ],
+  "properties": {
+    "report_id": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "results": {
+      "items": {
+        "$ref": "./benchmark-result.schema.json"
+      },
+      "type": "array"
+    }
+  },
+  "additionalProperties": false
+}

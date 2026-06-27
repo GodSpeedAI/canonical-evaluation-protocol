@@ -28,77 +28,16 @@ timestamp: "2026-06-26T14:13:47Z"
 - Conformance Fixtures (manifest.json and 10 JSON files)
 
 ### Files Created
-- [AGENT_STATE.md](file:///home/sprime01/projects/cep/.agents/AGENT_STATE.md)
-- [DECISIONS.md](file:///home/sprime01/projects/cep/.agents/DECISIONS.md)
-- [OPEN_QUESTIONS.md](file:///home/sprime01/projects/cep/.agents/OPEN_QUESTIONS.md)
-- [PLAN.md](file:///home/sprime01/projects/cep/.agents/PLAN.md)
-- [AGENT_STATE.md](file:///home/sprime01/projects/cep/AGENT_STATE.md)
-- [CONTRIBUTING.md](file:///home/sprime01/projects/cep/CONTRIBUTING.md)
-- [GOVERNANCE.md](file:///home/sprime01/projects/cep/GOVERNANCE.md)
-- [LICENSE](file:///home/sprime01/projects/cep/LICENSE)
-- [OPEN_QUESTIONS.md](file:///home/sprime01/projects/cep/OPEN_QUESTIONS.md)
-- [README.md](file:///home/sprime01/projects/cep/README.md)
-- [ROADMAP.md](file:///home/sprime01/projects/cep/ROADMAP.md)
-- [SPEC_INDEX.md](file:///home/sprime01/projects/cep/SPEC_INDEX.md)
-- [BENCHMARK.md](file:///home/sprime01/projects/cep/benchmarks/reality-gap/BENCHMARK.md)
-- [README.md](file:///home/sprime01/projects/cep/benchmarks/reality-gap/cases/rg-0001/README.md)
-- [answer_key.json](file:///home/sprime01/projects/cep/benchmarks/reality-gap/cases/rg-0001/answer_key.json)
-- [case.cep.json](file:///home/sprime01/projects/cep/benchmarks/reality-gap/cases/rg-0001/case.cep.json)
-- [declared.md](file:///home/sprime01/projects/cep/benchmarks/reality-gap/cases/rg-0001/declared.md)
-- [ev-rg-0001-001.json](file:///home/sprime01/projects/cep/benchmarks/reality-gap/cases/rg-0001/evidence/ev-rg-0001-001.json)
-- [ev-rg-0001-002.json](file:///home/sprime01/projects/cep/benchmarks/reality-gap/cases/rg-0001/evidence/ev-rg-0001-002.json)
-- [ev-rg-0001-003.json](file:///home/sprime01/projects/cep/benchmarks/reality-gap/cases/rg-0001/evidence/ev-rg-0001-003.json)
-- [ev-rg-0001-004.json](file:///home/sprime01/projects/cep/benchmarks/reality-gap/cases/rg-0001/evidence/ev-rg-0001-004.json)
-- [example_invalid_answer.json](file:///home/sprime01/projects/cep/benchmarks/reality-gap/cases/rg-0001/example_invalid_answer.json)
-- [example_valid_answer.json](file:///home/sprime01/projects/cep/benchmarks/reality-gap/cases/rg-0001/example_valid_answer.json)
-- [observed.jsonl](file:///home/sprime01/projects/cep/benchmarks/reality-gap/cases/rg-0001/observed.jsonl)
-- [README.md](file:///home/sprime01/projects/cep/benchmarks/reality-gap/cases/rg-0002/README.md)
-- [answer_key.json](file:///home/sprime01/projects/cep/benchmarks/reality-gap/cases/rg-0002/answer_key.json)
-- [case.cep.json](file:///home/sprime01/projects/cep/benchmarks/reality-gap/cases/rg-0002/case.cep.json)
-- [declared.md](file:///home/sprime01/projects/cep/benchmarks/reality-gap/cases/rg-0002/declared.md)
-- [ev-rg-0002-001.json](file:///home/sprime01/projects/cep/benchmarks/reality-gap/cases/rg-0002/evidence/ev-rg-0002-001.json)
-- [ev-rg-0002-002.json](file:///home/sprime01/projects/cep/benchmarks/reality-gap/cases/rg-0002/evidence/ev-rg-0002-002.json)
-- [ev-rg-0002-003.json](file:///home/sprime01/projects/cep/benchmarks/reality-gap/cases/rg-0002/evidence/ev-rg-0002-003.json)
-- [ev-rg-0002-004.json](file:///home/sprime01/projects/cep/benchmarks/reality-gap/cases/rg-0002/evidence/ev-rg-0002-004.json)
-- [example_invalid_answer.json](file:///home/sprime01/projects/cep/benchmarks/reality-gap/cases/rg-0002/example_invalid_answer.json)
-- [example_valid_answer.json](file:///home/sprime01/projects/cep/benchmarks/reality-gap/cases/rg-0002/example_valid_answer.json)
-- [observed.jsonl](file:///home/sprime01/projects/cep/benchmarks/reality-gap/cases/rg-0002/observed.jsonl)
-- [README.md](file:///home/sprime01/projects/cep/benchmarks/reality-gap/cases/rg-0003/README.md)
-- [answer_key.json](file:///home/sprime01/projects/cep/benchmarks/reality-gap/cases/rg-0003/answer_key.json)
-- [case.cep.json](file:///home/sprime01/projects/cep/benchmarks/reality-gap/cases/rg-0003/case.cep.json)
-- [declared.md](file:///home/sprime01/projects/cep/benchmarks/reality-gap/cases/rg-0003/declared.md)
-- [ev-rg-0003-001.json](file:///home/sprime01/projects/cep/benchmarks/reality-gap/cases/rg-0003/evidence/ev-rg-0003-001.json)
-- [ev-rg-0003-002.json](file:///home/sprime01/projects/cep/benchmarks/reality-gap/cases/rg-0003/evidence/ev-rg-0003-002.json)
-- [ev-rg-0003-003.json](file:///home/sprime01/projects/cep/benchmarks/reality-gap/cases/rg-0003/evidence/ev-rg-0003-003.json)
-- [ev-rg-0003-004.json](file:///home/sprime01/projects/cep/benchmarks/reality-gap/cases/rg-0003/evidence/ev-rg-0003-004.json)
-- [example_invalid_answer.json](file:///home/sprime01/projects/cep/benchmarks/reality-gap/cases/rg-0003/example_invalid_answer.json)
-- [example_valid_answer.json](file:///home/sprime01/projects/cep/benchmarks/reality-gap/cases/rg-0003/example_valid_answer.json)
-- [observed.jsonl](file:///home/sprime01/projects/cep/benchmarks/reality-gap/cases/rg-0003/observed.jsonl)
-- [manifest.json](file:///home/sprime01/projects/cep/conformance/fixtures/anti-collapse/reality-gap/manifest.json)
-- [rg-ac-0001-declared-observed-collapse.json](file:///home/sprime01/projects/cep/conformance/fixtures/anti-collapse/reality-gap/rg-ac-0001-declared-observed-collapse.json)
-- [rg-ac-0002-claim-as-evidence.json](file:///home/sprime01/projects/cep/conformance/fixtures/anti-collapse/reality-gap/rg-ac-0002-claim-as-evidence.json)
-- [rg-ac-0003-unknown-as-false.json](file:///home/sprime01/projects/cep/conformance/fixtures/anti-collapse/reality-gap/rg-ac-0003-unknown-as-false.json)
-- [rg-ac-0004-completion-as-settlement.json](file:///home/sprime01/projects/cep/conformance/fixtures/anti-collapse/reality-gap/rg-ac-0004-completion-as-settlement.json)
-- [rg-ac-0005-ci-pass-as-peer-approval.json](file:///home/sprime01/projects/cep/conformance/fixtures/anti-collapse/reality-gap/rg-ac-0005-ci-pass-as-peer-approval.json)
-- [rg-ac-0006-possibility-as-affordance.json](file:///home/sprime01/projects/cep/conformance/fixtures/anti-collapse/reality-gap/rg-ac-0006-possibility-as-affordance.json)
-- [rg-ac-0007-authority-as-capability.json](file:///home/sprime01/projects/cep/conformance/fixtures/anti-collapse/reality-gap/rg-ac-0007-authority-as-capability.json)
-- [rg-ac-0008-summary-as-source.json](file:///home/sprime01/projects/cep/conformance/fixtures/anti-collapse/reality-gap/rg-ac-0008-summary-as-source.json)
-- [rg-ac-0009-missing-evidence-as-no-gap.json](file:///home/sprime01/projects/cep/conformance/fixtures/anti-collapse/reality-gap/rg-ac-0009-missing-evidence-as-no-gap.json)
-- [rg-ac-0010-score-as-capability.json](file:///home/sprime01/projects/cep/conformance/fixtures/anti-collapse/reality-gap/rg-ac-0010-score-as-capability.json)
-- [README.md](file:///home/sprime01/projects/cep/rfc/README.md)
-- [RFC-0000-template.md](file:///home/sprime01/projects/cep/rfc/RFC-0000-template.md)
-- [CEP-0000-derivation-ladder.md](file:///home/sprime01/projects/cep/spec/CEP-0000-derivation-ladder.md)
-- [CEP-0001-ontology.md](file:///home/sprime01/projects/cep/spec/CEP-0001-ontology.md)
-- [CEP-0002-representation-model.md](file:///home/sprime01/projects/cep/spec/CEP-0002-representation-model.md)
-- [CEP-0003-state-model.md](file:///home/sprime01/projects/cep/spec/CEP-0003-state-model.md)
-- [CEP-0004-transformation-model.md](file:///home/sprime01/projects/cep/spec/CEP-0004-transformation-model.md)
-- [CEP-0005-question-model.md](file:///home/sprime01/projects/cep/spec/CEP-0005-question-model.md)
-- [CEP-0006-evidence-model.md](file:///home/sprime01/projects/cep/spec/CEP-0006-evidence-model.md)
-- [CEP-0007-settlement-model.md](file:///home/sprime01/projects/cep/spec/CEP-0007-settlement-model.md)
-- [CEP-0008-semantic-envelope.md](file:///home/sprime01/projects/cep/spec/CEP-0008-semantic-envelope.md)
-- [CEP-0009-benchmark-model.md](file:///home/sprime01/projects/cep/spec/CEP-0009-benchmark-model.md)
-- [CEP-0010-conformance.md](file:///home/sprime01/projects/cep/spec/CEP-0010-conformance.md)
-- [index.md](file:///home/sprime01/projects/cep/spec/index.md)
+- `.agents/CURRENT_STATUS.md`
+- `.agents/DECISIONS.md`
+- `.agents/OPEN_QUESTIONS.md`
+- `.agents/PLAN.md`
+- Root project documents: `CONTRIBUTING.md`, `GOVERNANCE.md`, `LICENSE`, `OPEN_QUESTIONS.md`, `README.md`, `ROADMAP.md`, `SPEC_INDEX.md`
+- RealityGapBench documents and case artifacts under `benchmarks/reality-gap/`
+- Anti-collapse fixture artifacts under `conformance/fixtures/anti-collapse/reality-gap/`
+- RFC documents under `rfc/`
+- CEP specification files under `spec/`
+- `spec/index.md`
 
 ### Files Skipped
 Strategic briefs/operating briefs from older messages (Msg 45, 47, 49) were skipped as they do not constitute normative or informative protocol specification files.
@@ -119,7 +58,7 @@ None.
   - `benchmarks/reality-gap/BENCHMARK.md`
   - `benchmarks/reality-gap/cases/rg-000x/README.md` and `declared.md`
   - `rfc/RFC-0000-template.md`, `rfc/README.md`
-  - Root documents: `README.md`, `ROADMAP.md`, `GOVERNANCE.md`, `CONTRIBUTING.md`, `SPEC_INDEX.md`, `AGENT_STATE.md`, `EVIDENCE.md`, `OPEN_QUESTIONS.md`
+  - Root documents: `README.md`, `ROADMAP.md`, `GOVERNANCE.md`, `CONTRIBUTING.md`, `SPEC_INDEX.md`, `.agents/CURRENT_STATUS.md`, `.agents/EVIDENCE.md`, `.agents/OPEN_QUESTIONS.md`
 - **Files Modified**:
   - All specification files in `spec/` (11 files)
   - `benchmarks/reality-gap/BENCHMARK.md`
@@ -127,7 +66,7 @@ None.
   - `benchmarks/reality-gap/cases/rg-0002/README.md` and `declared.md`
   - `benchmarks/reality-gap/cases/rg-0003/README.md` and `declared.md`
   - `rfc/RFC-0000-template.md` and `rfc/README.md`
-  - `README.md`, `ROADMAP.md`, `GOVERNANCE.md`, `CONTRIBUTING.md`, `SPEC_INDEX.md`, `AGENT_STATE.md`, `EVIDENCE.md`, `OPEN_QUESTIONS.md`
+  - `README.md`, `ROADMAP.md`, `GOVERNANCE.md`, `CONTRIBUTING.md`, `SPEC_INDEX.md`, `.agents/CURRENT_STATUS.md`, `.agents/EVIDENCE.md`, `.agents/OPEN_QUESTIONS.md`
   - `spec/index.md`
 - **Files Created**:
   - `tools/validate_okf.py`
@@ -151,3 +90,95 @@ None.
   - Version and timestamp defaults for specifications (draft default `0.1.0` and bootstrap date `2026-06-26T14:13:47Z` used). Recorded in `OPEN_QUESTIONS.md` as OQ-0006 and OQ-0007.
 - **Known Limitations**:
   - The validation script excludes hidden files/directories (starting with `.`) like `.git`, `.agents` and `.tmp` by design.
+
+## EV-OKF-REPAIR — Phases 0-3 Executable Validation Slice
+
+- **ID**: EV-OKF-REPAIR
+- **Date**: 2026-06-27
+- **Agent**: Codex
+- **Task**: Implement phases 0 through 3 of `.agents/plans/full-cep.md`.
+- **Outcome**: Completed OKF repair, `uv`-portable Python package/CLI scaffolding, corpus-derived schema registry, RealityGapBench inventory helpers, and CLI validators for schemas plus the current RealityGapBench corpus.
+- **Files Changed**:
+  - `AGENTS.md`
+  - `CLAUDE.md`
+  - `index.md`
+  - `tools/validate_okf.py`
+  - `pyproject.toml`
+  - `uv.lock`
+  - `justfile`
+  - `src/cep/`
+  - `schemas/`
+  - `tests/`
+  - `.agents/plans/full-cep.md`
+  - `.agents/CURRENT_STATUS.md`
+  - `.agents/EVIDENCE.md`
+  - `.agents/DEBT.md`
+- **Validation Commands**:
+  - `uv run ruff format --check src tests`
+  - `uv run ruff check src tests`
+  - `uv run basedpyright`
+  - `uv run pytest`
+  - `uv run cep --help`
+  - `uv run cep doctor`
+  - `uv run cep validate all`
+  - `uv run python tools/validate_okf.py`
+  - Hidden-file ripgrep search for the obsolete handoff filename.
+- **Validation Result**:
+  - Ruff format: passed.
+  - Ruff lint: passed.
+  - Basedpyright: `0 errors, 0 warnings, 0 notes`.
+  - Pytest: 10 passed.
+  - CLI help: passed.
+  - CLI doctor: printed `CEP runtime OK`.
+  - CLI validation: all schemas, RealityGapBench cases, answer keys, example answers, evidence files, anti-collapse manifest, and anti-collapse fixtures passed.
+  - OKF validation: passed.
+  - Obsolete handoff reference search: no matches.
+- **Fidelity Notes**:
+  - Existing RealityGapBench cases, answer keys, examples, evidence files, and anti-collapse fixtures were not rewritten.
+  - Schemas follow the current corpus field names such as `case_ref`, `evidence_id`, `family_ref`, and `benchmark_ref` rather than forcing simplified plan examples.
+  - The validation surface uses `uv` commands for portability.
+- **Remaining Gaps**:
+  - Phase 4 scorer is not implemented.
+- **Status**: Complete.
+
+## EV-CR-REVIEW-FIXES — `.tmp/cr.md` Review Follow-Up
+
+- **ID**: EV-CR-REVIEW-FIXES
+- **Date**: 2026-06-27
+- **Agent**: Codex
+- **Task**: Verify and address the 18 review prompts in `.tmp/cr.md`, strike completed items, then commit and push.
+- **Outcome**: Implemented all still-valid review fixes with stricter JSON schema contracts, stricter registry/profile validation, portable repo-root discovery through `CEP_REPO_ROOT`/working-tree discovery, a real `cep doctor` schema probe, failing OKF link checks for concept documents, and corrected plan snippets.
+- **Files Changed**:
+  - `.tmp/cr.md`
+  - `.agents/CURRENT_STATUS.md`
+  - `.agents/EVIDENCE.md`
+  - `.agents/plans/full-cep.md`
+  - `schemas/`
+  - `src/cep/`
+  - `tests/`
+  - `tools/validate_okf.py`
+- **Validation Commands**:
+  - `uv run ruff format --check src tests`
+  - `uv run ruff check src tests`
+  - `uv run basedpyright`
+  - `uv run pytest`
+  - `uv run cep doctor`
+  - `uv run cep validate all`
+  - `uv run python tools/validate_okf.py`
+  - `rg --hidden --glob '!.git/**' -n "AGENT_STATE\\.md" .`
+- **Validation Result**:
+  - Ruff format: passed.
+  - Ruff lint: passed.
+  - Basedpyright: `0 errors, 0 warnings, 0 notes`.
+  - Pytest: 10 passed.
+  - CLI doctor: printed `CEP runtime OK`.
+  - CLI validation: all schemas and current corpus artifacts passed.
+  - OKF validation: passed.
+  - Obsolete handoff reference search: no matches.
+- **Fidelity Notes**:
+  - Review prompts were verified against current files before changes.
+  - The validator rejects unsupported schema keywords rather than silently under-validating.
+  - Strict schemas preserve existing corpus fields and CEP protected distinctions.
+- **Remaining Gaps**:
+  - Phase 4 scorer remains the next executable proof.
+- **Status**: Complete.

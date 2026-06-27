@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cep.dev/schemas/anti-collapse-manifest.schema.json",
+  "title": "CEP Anti-Collapse Manifest",
+  "type": "object",
+  "required": [
+    "benchmark_family",
+    "cep_version",
+    "fixture_pack_id",
+    "fixture_type",
+    "fixtures"
+  ],
+  "properties": {
+    "fixture_pack_id": {
+      "type": "string"
+    },
+    "benchmark_family": {
+      "const": "RealityGapBench"
+    },
+    "fixture_type": {
+      "const": "anti-collapse"
+    },
+    "fixtures": {
+      "items": {
+        "required": [
+          "expected_errors",
+          "expected_status",
+          "file",
+          "fixture_id",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "fixture_id": {
+            "pattern": "^rg-ac-[0-9]{4}$",
+            "type": "string"
+          },
+          "file": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "expected_status": {
+            "const": "invalid"
+          },
+          "expected_errors": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "additionalProperties": false
+      },
+      "type": "array"
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,146 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cep.dev/schemas/reality-gap-case.schema.json",
+  "title": "RealityGapBench Case",
+  "type": "object",
+  "required": [
+    "answer_key_ref",
+    "benchmark_ref",
+    "case_id",
+    "case_question",
+    "case_question_ref",
+    "case_version",
+    "declared_state",
+    "difficulty_level",
+    "domain",
+    "evidence_requirements",
+    "expected_answer_shape_ref",
+    "family_ref",
+    "invalidity_conditions",
+    "metric_refs",
+    "observed_state",
+    "primary_question_ref",
+    "provenance_refs",
+    "review_status",
+    "scoring_rules",
+    "title",
+    "transformation_refs"
+  ],
+  "properties": {
+    "case_id": {
+      "pattern": "^rg-[0-9]{4}$",
+      "type": "string"
+    },
+    "case_version": {
+      "type": "string"
+    },
+    "family_ref": {
+      "const": "reality-gap"
+    },
+    "benchmark_ref": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "difficulty_level": {
+      "type": "string"
+    },
+    "domain": {
+      "type": "string"
+    },
+    "primary_question_ref": {
+      "type": "string"
+    },
+    "case_question_ref": {
+      "type": "string"
+    },
+    "case_question": {
+      "type": "object"
+    },
+    "declared_state": {
+      "type": "object"
+    },
+    "observed_state": {
+      "type": "object"
+    },
+    "transformation_refs": {
+      "items": {
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "evidence_requirements": {
+      "required": [
+        "required",
+        "required_evidence_refs"
+      ],
+      "type": "object",
+      "properties": {
+        "required": {
+          "type": "boolean"
+        },
+        "minimum_relevance": {
+          "type": "string"
+        },
+        "minimum_reliability": {
+          "type": "string"
+        },
+        "required_evidence_refs": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "optional_evidence_refs": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "admissible_evidence_types": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "additionalProperties": false
+    },
+    "expected_answer_shape_ref": {
+      "type": "string"
+    },
+    "expected_answer_shape": {
+      "type": "object"
+    },
+    "answer_key_ref": {
+      "pattern": "^ak-rg-[0-9]{4}$",
+      "type": "string"
+    },
+    "metric_refs": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "scoring_rules": {
+      "type": "object"
+    },
+    "invalidity_conditions": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "provenance_refs": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "review_status": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CEP Schema Registry",
+  "version": "0.1.0",
+  "schemas": [
+    "reality-gap-case.schema.json",
+    "reality-gap-answer-key.schema.json",
+    "reality-gap-answer.schema.json",
+    "reality-gap-evidence.schema.json",
+    "anti-collapse-manifest.schema.json",
+    "anti-collapse-fixture.schema.json",
+    "benchmark-result.schema.json",
+    "conformance-report.schema.json"
+  ]
+}

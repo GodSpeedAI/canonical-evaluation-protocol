@@ -23,6 +23,6 @@ This directory is the root of the Canonical Evaluation Protocol (CEP) knowledge 
 * [Governance](GOVERNANCE.md) - Standards governance guidelines.
 * [Contributing](CONTRIBUTING.md) - Contribution process and standards conformance.
 * [Specification Index](SPEC_INDEX.md) - High-level overview of specifications.
-* [Agent State](AGENT_STATE.md) - Workspace automation phase tracking.
-* [Evidence](EVIDENCE.md) - Verification and task completion evidence records.
-* [Open Questions](OPEN_QUESTIONS.md) - Design decisions and unresolved points.
+* [Current Status](.agents/CURRENT_STATUS.md) - Workspace automation phase tracking.
+* [Evidence](.agents/EVIDENCE.md) - Verification and task completion evidence records.
+* [Open Questions](.agents/OPEN_QUESTIONS.md) - Design decisions and unresolved points.

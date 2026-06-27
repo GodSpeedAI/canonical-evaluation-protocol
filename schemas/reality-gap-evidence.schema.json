@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cep.dev/schemas/reality-gap-evidence.schema.json",
+  "title": "RealityGapBench Evidence",
+  "type": "object",
+  "required": [
+    "confidence_impact",
+    "direction",
+    "evidence_id",
+    "evidence_type",
+    "limitations",
+    "provenance_refs",
+    "question_ref",
+    "relevance",
+    "reliability",
+    "representation_ref",
+    "scope",
+    "source",
+    "target_claim_ref",
+    "timestamp"
+  ],
+  "properties": {
+    "evidence_id": {
+      "pattern": "^ev-rg-[0-9]{4}-[0-9]{3}$",
+      "type": "string"
+    },
+    "evidence_type": {
+      "type": "string"
+    },
+    "question_ref": {
+      "type": "string"
+    },
+    "target_claim_ref": {
+      "type": "string"
+    },
+    "representation_ref": {
+      "type": "string"
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "source_ref",
+        "source_type"
+      ],
+      "properties": {
+        "source_type": {
+          "type": "string"
+        },
+        "source_ref": {
+          "type": "string"
+        },
+        "source_owner": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "provenance_refs": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "relevance": {
+      "type": "object",
+      "required": [
+        "basis",
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "type": "string"
+        },
+        "basis": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "reliability": {
+      "type": "object",
+      "required": [
+        "basis",
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "type": "string"
+        },
+        "basis": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "direction": {
+      "type": "string"
+    },
+    "confidence_impact": {
+      "type": "object",
+      "required": [
+        "basis",
+        "impact_direction",
+        "impact_magnitude"
+      ],
+      "properties": {
+        "impact_direction": {
+          "type": "string"
+        },
+        "impact_magnitude": {
+          "type": "string"
+        },
+        "basis": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "timestamp": {
+      "type": "string"
+    },
+    "scope": {
+      "type": "string"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    }
+  },
+  "additionalProperties": false
+}

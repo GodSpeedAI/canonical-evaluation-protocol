@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cep.dev/schemas/benchmark-result.schema.json",
+  "title": "CEP Benchmark Result",
+  "type": "object",
+  "required": [
+    "benchmark_family",
+    "case_id",
+    "result_id",
+    "status"
+  ],
+  "properties": {
+    "result_id": {
+      "type": "string"
+    },
+    "benchmark_family": {
+      "type": "string"
+    },
+    "case_id": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "score": {
+      "maximum": 100,
+      "minimum": 0,
+      "type": "number"
+    }
+  },
+  "additionalProperties": false
+}
