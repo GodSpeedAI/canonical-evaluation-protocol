@@ -325,3 +325,48 @@ None.
   - Phase 11 end-to-end verification remains next.
   - `uv run ruff check .` still reports pre-existing lint debt in `tools/validate_okf.py`; touched code passes `uv run ruff check src tests`.
 - **Status**: Complete.
+
+## EV-END-TO-END-PHASE11 — End-to-End Executable Local Proof
+
+- **ID**: EV-END-TO-END-PHASE11
+- **Date**: 2026-06-27
+- **Agent**: Codex
+- **Task**: Complete Phase 11 of `.agents/plans/full-cep.md` by verifying CEP end to end across docs, schemas, corpus artifacts, tests, anti-collapse conformance, benchmark smoke reports, and the aggregate local proof command.
+- **Outcome**: Confirmed the explicit Phase 11 command sequence passes, fixed the package metadata so `python -m pip install -e ".[dev]"` installs a real `dev` extra, confirmed `just all` passes as the one-command local proof, and inspected generated JSON reports for all executable benchmark families.
+- **Files Changed**:
+  - `.agents/CURRENT_STATUS.md`
+  - `.agents/EVIDENCE.md`
+  - `.agents/plans/full-cep.md`
+  - `pyproject.toml`
+  - `uv.lock`
+- **Validation Commands**:
+  - `python -m pip install -e ".[dev]"`
+  - `python tools/validate_okf.py`
+  - `cep validate all`
+  - `pytest`
+  - `cep conformance anti-collapse`
+  - `cep run reality-gap-corpus`
+  - `cep run authority-corpus`
+  - `cep run settlement-corpus`
+  - `cep run capability-corpus`
+  - `find reports -type f -name "*.json" | sort`
+  - `just all`
+- **Validation Result**:
+  - Editable install with `.[dev]`: passed after adding the standard `dev` optional extra.
+  - OKF validation: 41 markdown files checked; all checks passed.
+  - Schema and corpus validation: all registered schemas, RealityGapBench cases, answer keys, example answers, evidence files, and anti-collapse fixtures passed.
+  - Pytest: 29 passed.
+  - Anti-collapse conformance: 10 RealityGapBench anti-collapse fixtures passed with expected failures observed.
+  - RealityGapBench corpus run: 3 valid answers passed and 3 invalid answers scored invalid.
+  - AuthorityBench corpus run: valid answer passed and invalid answer scored invalid.
+  - SettlementBench corpus run: valid answer passed and invalid answer scored invalid.
+  - CapabilityBench corpus run: valid answer passed and invalid answer scored invalid.
+  - Report inspection: JSON reports existed for RealityGapBench, AuthorityBench, SettlementBench, and CapabilityBench generated results.
+  - `just all`: passed after running OKF validation, schema/corpus validation, tests, anti-collapse conformance, and all four benchmark smoke suites.
+- **Fidelity Notes**:
+  - The verification preserved existing benchmark corpus artifacts and did not rewrite normative CEP specs.
+  - The packaging fix aligns the documented Phase 11 install command with the project metadata without changing benchmark semantics.
+  - Generated reports remain ignored proof artifacts under `reports/`.
+- **Remaining Gaps**:
+  - Full benchmark breadth, formal conformance classes, Semantic Envelope execution, external model evaluation, docs site, release process, and production-readiness claims remain outside this completed local-proof phase as listed in `.agents/plans/full-cep.md`.
+- **Status**: Complete.
