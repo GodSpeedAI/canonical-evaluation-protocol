@@ -50,6 +50,10 @@ def validate_instance(path: Path, schema_path: Path) -> ValidationResult:
     except (OSError, json.JSONDecodeError, JsonDocumentError) as exc:
         return _document_error(path, exc)
 
+    schema_errors = schema_profile_errors(schema)
+    if schema_errors:
+        return ValidationResult(ok=False, target=str(path), errors=schema_errors)
+
     errors = validate_object(instance, SchemaProfile(schema=schema, root=schema_path.parent))
     return ValidationResult(ok=not errors, target=str(path), errors=errors)
 

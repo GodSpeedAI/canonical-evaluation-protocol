@@ -96,6 +96,51 @@ def test_validate_schema_file_rejects_malformed_required(tmp_path: Path) -> None
     assert any("required" in error for error in result.errors)
 
 
+def test_validate_instance_rejects_malformed_schema_required(tmp_path: Path) -> None:
+    schema = tmp_path / "schema.json"
+    payload = tmp_path / "payload.json"
+    _ = schema.write_text(
+        json.dumps(
+            {
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "title": "Malformed Required",
+                "type": "object",
+                "required": [123],
+                "properties": {},
+            },
+        ),
+        encoding="utf-8",
+    )
+    _ = payload.write_text("{}\n", encoding="utf-8")
+
+    result = validate_instance(payload, schema)
+
+    assert not result.ok
+    assert any("required" in error for error in result.errors)
+
+
+def test_validate_instance_rejects_unsupported_schema_keyword(tmp_path: Path) -> None:
+    schema = tmp_path / "schema.json"
+    payload = tmp_path / "payload.json"
+    _ = schema.write_text(
+        json.dumps(
+            {
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "title": "Unsupported Keyword",
+                "type": "object",
+                "oneOf": [],
+            },
+        ),
+        encoding="utf-8",
+    )
+    _ = payload.write_text("{}\n", encoding="utf-8")
+
+    result = validate_instance(payload, schema)
+
+    assert not result.ok
+    assert any("unsupported schema keyword oneOf" in error for error in result.errors)
+
+
 def test_validate_all_schemas_rejects_malformed_registry(tmp_path: Path) -> None:
     registry = tmp_path / "index.json"
     _ = registry.write_text(

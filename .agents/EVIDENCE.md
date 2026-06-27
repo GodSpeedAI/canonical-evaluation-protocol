@@ -182,3 +182,92 @@ None.
 - **Remaining Gaps**:
   - Phase 4 scorer remains the next executable proof.
 - **Status**: Complete.
+
+## EV-REALITY-GAP-PROOF — Phases 4-7 RealityGapBench Executable Proof
+
+- **ID**: EV-REALITY-GAP-PROOF
+- **Date**: 2026-06-27
+- **Agent**: Codex
+- **Task**: Complete phases 4 through 7 of `.agents/plans/full-cep.md`.
+- **Outcome**: Added RealityGapBench scoring against existing answer keys, anti-collapse conformance checks, JSON report generation, CLI run commands, repeatable `just all` proof command, and CI workflow.
+- **Files Changed**:
+  - `.github/workflows/ci.yml`
+  - `.gitignore`
+  - `.agents/CURRENT_STATUS.md`
+  - `.agents/EVIDENCE.md`
+  - `.agents/plans/full-cep.md`
+  - `README.md`
+  - `justfile`
+  - `schemas/benchmark-result.schema.json`
+  - `src/cep/benchmarks/`
+  - `src/cep/conformance/`
+  - `src/cep/reports.py`
+  - `src/cep/scoring/`
+  - `src/cep/cli.py`
+  - `tests/test_anti_collapse_conformance.py`
+  - `tests/test_reality_gap_reports.py`
+  - `tests/test_reality_gap_scoring.py`
+- **Validation Commands**:
+  - `uv run ruff format --check src tests`
+  - `uv run ruff check src tests`
+  - `uv run basedpyright`
+  - `uv run pytest`
+  - `uv run python tools/validate_okf.py`
+  - `uv run pytest tests/test_reality_gap_scoring.py tests/test_anti_collapse_conformance.py tests/test_reality_gap_reports.py`
+  - `uv run cep run reality-gap --case-dir benchmarks/reality-gap/cases/rg-0001 --answer benchmarks/reality-gap/cases/rg-0001/example_valid_answer.json`
+  - `just all`
+- **Validation Result**:
+  - Ruff format: passed.
+  - Ruff lint: passed.
+  - Basedpyright: `0 errors, 0 warnings, 0 notes`.
+  - Pytest: 18 passed.
+  - OKF validation: passed.
+  - Phase-specific tests: 8 passed.
+  - Single-case CLI run generated a RealityGapBench result report.
+  - `just all` passed after validating OKF docs, schema/corpus artifacts, tests, anti-collapse conformance, and RealityGapBench smoke reports.
+- **Fidelity Notes**:
+  - Existing RealityGapBench case, answer-key, example-answer, evidence, and anti-collapse fixture content was not replaced.
+  - Scoring uses existing fields such as `accepted_gap_statuses`, `accepted_gap_types`, `accepted_severity_range`, `required_evidence_refs`, affected constraints, distinctions, relations, and `accepted_next_actions`.
+  - Anti-collapse conformance checks fixture `expected_validation.errors` against manifest `expected_errors`; a silent pass fails conformance.
+  - Reports are generated under `reports/reality-gap/` and ignored as regenerated proof artifacts.
+- **Remaining Gaps**:
+  - AuthorityBench, SettlementBench, and CapabilityBench executable slices remain unimplemented.
+- **Status**: Complete.
+
+## EV-CR-PHASE4-7-REVIEW — `.tmp/cr.md` Review Completion
+
+- **ID**: EV-CR-PHASE4-7-REVIEW
+- **Date**: 2026-06-27
+- **Agent**: Codex
+- **Task**: Follow `.tmp/cr.md`, strike completed review items, commit, and push.
+- **Outcome**: Verified all 18 review prompts against current code. Most prompts were already satisfied by the existing schema, validation, path, CLI, conformance, and handoff changes. Fixed the remaining still-valid gaps by tightening `partial_credit_rules` numeric rule maps and making `validate_instance()` reject malformed or unsupported schemas before validating payloads. Struck the completed review text in `.tmp/cr.md`.
+- **Files Changed**:
+  - `.agents/CURRENT_STATUS.md`
+  - `.agents/EVIDENCE.md`
+  - `.tmp/cr.md`
+  - `schemas/reality-gap-answer-key.schema.json`
+  - `src/cep/validation.py`
+  - `tests/test_validation.py`
+- **Validation Commands**:
+  - `uv run pytest tests/test_validation.py`
+  - `uv run ruff format --check src tests`
+  - `uv run ruff check src tests`
+  - `uv run basedpyright`
+  - `uv run pytest`
+  - `uv run python tools/validate_okf.py`
+  - `just all`
+- **Validation Result**:
+  - Focused validation tests: 9 passed.
+  - Ruff format: passed.
+  - Ruff lint: passed.
+  - Basedpyright: `0 errors, 0 warnings, 0 notes`.
+  - Pytest: 20 passed.
+  - OKF validation: passed.
+  - `just all` passed after validating OKF docs, schema/corpus artifacts, tests, anti-collapse conformance, and RealityGapBench smoke reports.
+- **Fidelity Notes**:
+  - The review fixes preserve the existing RealityGapBench corpus shape.
+  - Unsupported schema features now fail fast during instance validation instead of being silently ignored.
+  - `partial_credit_rules` now preserves scoring meaning by requiring numeric values for known rule keys.
+- **Remaining Gaps**:
+  - AuthorityBench, SettlementBench, and CapabilityBench executable slices remain unimplemented.
+- **Status**: Complete.

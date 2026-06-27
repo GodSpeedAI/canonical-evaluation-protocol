@@ -4,10 +4,16 @@
   "title": "CEP Benchmark Result",
   "type": "object",
   "required": [
-    "benchmark_family",
+    "answer_id",
     "case_id",
+    "benchmark_family",
+    "critical_failures",
+    "generated_at",
+    "metrics",
     "result_id",
-    "status"
+    "score",
+    "status",
+    "warnings"
   ],
   "properties": {
     "result_id": {
@@ -19,13 +25,76 @@
     "case_id": {
       "type": "string"
     },
+    "answer_id": {
+      "type": "string"
+    },
     "status": {
+      "enum": [
+        "pass",
+        "partial",
+        "fail",
+        "invalid",
+        "blocked"
+      ],
       "type": "string"
     },
     "score": {
       "maximum": 100,
       "minimum": 0,
       "type": "number"
+    },
+    "metrics": {
+      "additionalProperties": false,
+      "properties": {
+        "constraint_recall": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        "distinction_recall": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        "evidence_recall": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        "raw_score": {
+          "maximum": 100,
+          "minimum": 0,
+          "type": "number"
+        },
+        "relation_recall": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": [
+        "constraint_recall",
+        "distinction_recall",
+        "evidence_recall",
+        "raw_score",
+        "relation_recall"
+      ],
+      "type": "object"
+    },
+    "critical_failures": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "warnings": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "generated_at": {
+      "type": "string"
     }
   },
   "additionalProperties": false

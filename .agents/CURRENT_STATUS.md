@@ -20,7 +20,7 @@ timestamp: "2026-06-27T00:00:00Z"
 
 ## Current Outcome Being Pursued
 
-Keep the Phase 0-3 executable validation slice complete while applying the `.tmp/cr.md` review fixes.
+Complete the `.tmp/cr.md` review pass for the RealityGapBench executable proof and preserve a pushed handoff.
 
 ## Last Completed Work
 
@@ -30,22 +30,25 @@ Keep the Phase 0-3 executable validation slice complete while applying the `.tmp
 - Added `uv`-portable Python package metadata, CLI, inventory helpers, schema-profile validation, schemas, tests, `justfile`, and `uv.lock`.
 - Tightened schema contracts, registry validation, OKF link handling, portable root discovery, and the `doctor` runtime probe per `.tmp/cr.md`.
 - Validated the current RealityGapBench corpus and review fixes without rewriting existing corpus artifacts.
+- Added RealityGapBench scoring, anti-collapse conformance, JSON report generation, CLI run commands, `just all`, and CI.
+- Ran phase-specific tests and the full local proof command.
+- Verified all 18 `.tmp/cr.md` review prompts against current code, fixed the remaining schema-validation gaps, and struck completed review text.
 
 ## Current Repo State
 
-Phases 0 through 3 of `.agents/plans/full-cep.md` are complete. The `cep` CLI supports `doctor` and `validate` commands. `cep doctor` now runs a schema registry probe. `cep validate all` validates registered schemas, RealityGapBench case artifacts, answer keys, examples, evidence files, anti-collapse manifest, and anti-collapse fixtures.
+Phases 0 through 7 of `.agents/plans/full-cep.md` are complete and the `.tmp/cr.md` review pass is complete. The `cep` CLI supports `doctor`, `validate`, `conformance anti-collapse`, `run reality-gap`, and `run reality-gap-corpus`. `just all` validates OKF docs, schemas, the current RealityGapBench corpus, anti-collapse conformance, tests, and smoke report generation.
 
 ## Next Affordable Move
 
-Implement Phase 4: RealityGapBench scoring against existing `answer_key.json` files and example answers.
+Implement Phase 8: AuthorityBench bootstrap and executable false-allow slice.
 
 ## Why This Next Move Matters
 
-The corpus now validates structurally. Scoring is the next executable proof that CEP can distinguish correct answers, partial answers, invalid answers, and anti-collapse failures without changing the benchmark corpus.
+RealityGapBench now has local executable proof. AuthorityBench is the next benchmark family in the plan and extends CEP proof from reality gaps into pre-action authority preservation.
 
 ## Validation / Evidence
 
-See `.agents/EVIDENCE.md` entries `EV-OKF-REPAIR` and `EV-CR-REVIEW-FIXES`.
+See `.agents/EVIDENCE.md` entries `EV-OKF-REPAIR`, `EV-CR-REVIEW-FIXES`, `EV-REALITY-GAP-PROOF`, and `EV-CR-PHASE4-7-REVIEW`.
 
 ## Files Recently Modified
 
@@ -60,6 +63,8 @@ See `.agents/EVIDENCE.md` entries `EV-OKF-REPAIR` and `EV-CR-REVIEW-FIXES`.
 - `src/cep/`
 - `schemas/`
 - `tests/`
+- `.github/workflows/ci.yml`
+- `README.md`
 - `.agents/plans/full-cep.md`
 - `.agents/EVIDENCE.md`
 - `.agents/DEBT.md`
@@ -69,3 +74,4 @@ See `.agents/EVIDENCE.md` entries `EV-OKF-REPAIR` and `EV-CR-REVIEW-FIXES`.
 - Preserve current RealityGapBench corpus shapes; schemas intentionally reflect fields like `case_ref` and `evidence_id`.
 - `uv` is the expected command runner for portability.
 - `.tmp/cr.md` has all verified review prompts struck through after implementation.
+- Generated reports are ignored via `reports/`; rerun `uv run cep run reality-gap-corpus` or `just all` to regenerate them.

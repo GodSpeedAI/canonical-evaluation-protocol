@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  validate-test-smoke:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate, test, conformance, smoke
+        run: |
+          if command -v just >/dev/null 2>&1; then
+            just all
+          else
+            uv run python tools/validate_okf.py
+            uv run cep validate all
+            uv run pytest
+            uv run cep conformance anti-collapse
+            uv run cep run reality-gap-corpus
+          fi

@@ -2,11 +2,15 @@ set shell := ["bash", "-eu", "-o", "pipefail", "-c"]
 
 validate:
     uv run python tools/validate_okf.py
+    uv run cep validate all
 
 test:
     uv run pytest
 
-smoke:
-    uv run cep doctor
+conformance:
+    uv run cep conformance anti-collapse
 
-all: validate test smoke
+smoke:
+    uv run cep run reality-gap-corpus
+
+all: validate test conformance smoke

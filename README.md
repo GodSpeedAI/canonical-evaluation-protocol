@@ -314,6 +314,29 @@ produce a benchmark result envelope,
 and validate that result against CEP conformance checks.
 ```
 
+## Minimal Executable Proof
+
+Run the full local proof:
+
+```bash
+just all
+```
+
+This command validates:
+
+* OKF Markdown structure
+* schema registry
+* RealityGapBench corpus
+* valid and invalid example answers
+* anti-collapse conformance fixtures
+* benchmark report generation
+
+RealityGapBench reports are generated under:
+
+```text
+reports/reality-gap/
+```
+
 ---
 
 ## Design Principles

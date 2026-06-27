@@ -1152,13 +1152,13 @@ pytest tests/test_reality_gap_scoring.py
 
 ### Done Conditions — Phase 4
 
-* [ ] RealityGapBench scorer loads existing case directories.
-* [ ] Scorer uses existing `answer_key.json`.
-* [ ] Existing valid answers pass or partial-pass.
-* [ ] Existing invalid answers fail or are invalid.
-* [ ] No existing case content was replaced.
-* [ ] `.agents/EVIDENCE.md` updated.
-* [ ] `.agents/CURRENT_STATUS.md` updated.
+* [x] RealityGapBench scorer loads existing case directories.
+* [x] Scorer uses existing `answer_key.json`.
+* [x] Existing valid answers pass or partial-pass.
+* [x] Existing invalid answers fail or are invalid.
+* [x] No existing case content was replaced.
+* [x] `.agents/EVIDENCE.md` updated.
+* [x] `.agents/CURRENT_STATUS.md` updated.
 
 ---
 
@@ -1328,14 +1328,14 @@ pytest tests/test_anti_collapse_conformance.py
 
 ### Done Conditions — Phase 5
 
-* [ ] Manifest loads.
-* [ ] All anti-collapse fixtures are discovered.
-* [ ] Expected failure labels are checked.
-* [ ] Silent pass fails conformance.
-* [ ] CLI command works.
-* [ ] Tests pass.
-* [ ] `.agents/EVIDENCE.md` updated.
-* [ ] `.agents/CURRENT_STATUS.md` updated.
+* [x] Manifest loads.
+* [x] All anti-collapse fixtures are discovered.
+* [x] Expected failure labels are checked.
+* [x] Silent pass fails conformance.
+* [x] CLI command works.
+* [x] Tests pass.
+* [x] `.agents/EVIDENCE.md` updated.
+* [x] `.agents/CURRENT_STATUS.md` updated.
 
 ---
 
@@ -1535,13 +1535,13 @@ pytest tests/test_reality_gap_reports.py
 
 ### Done Conditions — Phase 6
 
-* [ ] Single case run command works.
-* [ ] Full RealityGapBench corpus run command works.
-* [ ] Reports are generated.
-* [ ] Report schema exists.
-* [ ] Report tests pass.
-* [ ] `.agents/EVIDENCE.md` updated.
-* [ ] `.agents/CURRENT_STATUS.md` updated.
+* [x] Single case run command works.
+* [x] Full RealityGapBench corpus run command works.
+* [x] Reports are generated.
+* [x] Report schema exists.
+* [x] Report tests pass.
+* [x] `.agents/EVIDENCE.md` updated.
+* [x] `.agents/CURRENT_STATUS.md` updated.
 
 ---
 
@@ -1674,12 +1674,12 @@ just all
 
 ### Done Conditions — Phase 7
 
-* [ ] `just all` passes.
-* [ ] CI exists.
-* [ ] README documents executable proof.
-* [ ] Reports are generated.
-* [ ] `.agents/EVIDENCE.md` contains final RealityGapBench proof.
-* [ ] `.agents/CURRENT_STATUS.md` updated.
+* [x] `just all` passes.
+* [x] CI exists.
+* [x] README documents executable proof.
+* [x] Reports are generated.
+* [x] `.agents/EVIDENCE.md` contains final RealityGapBench proof.
+* [x] `.agents/CURRENT_STATUS.md` updated.
 
 ---
 
