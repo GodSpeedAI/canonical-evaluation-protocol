@@ -175,25 +175,28 @@ CEP gives systems a way to prove what happened.
 │   └── Normative CEP specifications
 │
 ├── schemas/
-│   └── JSON schemas for envelopes, cases, evidence, settlements, results, and reports
+│   └── JSON schemas for cases, evidence, answers, results, and reports
 │
 ├── benchmarks/
 │   └── Benchmark family definitions and benchmark cases
 │
 ├── conformance/
-│   └── Fixtures and validation requirements for CEP conformance
+│   └── Anti-collapse fixtures and conformance requirements
 │
-├── examples/
-│   └── Example Semantic Envelopes, benchmark cases, and result records
+├── src/cep/
+│   └── Reference implementation: CLI, validators, scorers, detector
 │
-├── reference/
-│   └── Reference validator, runner, scoring, and adapter implementations
+├── tests/
+│   └── Unit, CLI, and scoring-behaviour tests
+│
+├── reports/
+│   └── Generated benchmark result records (git-ignored)
 │
 ├── rfc/
 │   └── Proposed and accepted protocol changes
 │
 └── docs/
-    └── Guides, glossary, architecture notes, and implementation help
+    └── Usage guides and reference material
 ```
 
 ---
@@ -223,28 +226,20 @@ Start here:
 ## Benchmark Families
 
 CEP benchmark families evaluate different kinds of represented transformations.
+Four families are executable today, each with a scorer, example answers, and
+anti-collapse protection:
 
-The first benchmark family is:
+* [`RealityGapBench`](benchmarks/reality-gap/BENCHMARK.md) — does declared reality diverge from observed reality? (detect, classify, evidence, explain)
+* [`AuthorityBench`](benchmarks/authority/BENCHMARK.md) — given actor, operation, resource, context, and policy, is the decision `allow` / `deny` / `escalate`? (no capability standing in for authority)
+* [`SettlementBench`](benchmarks/settlement/BENCHMARK.md) — did a completion claim actually settle as a reliable consequence? (no premature completion)
+* [`CapabilityBench`](benchmarks/capability/BENCHMARK.md) — does repeated settlement under variation support a capability claim? (no score or one-time success standing in for capability)
 
-* [`RealityGapBench`](benchmarks/reality-gap/BENCHMARK.md)
+Initial RealityGapBench case types include authority drift, process drift,
+evidence gap, settlement gap, semantic drift, affordance gap, and capability gap.
 
-RealityGapBench evaluates whether a system can detect, classify, evidence, and explain divergence between declared state and observed state.
-
-Example question:
-
-```text
-Where does declared reality diverge from observed reality?
-```
-
-Initial RealityGapBench case types include:
-
-* authority drift
-* process drift
-* evidence gap
-* settlement gap
-* semantic drift
-* affordance gap
-* capability gap
+The current corpus is a **smoke corpus** (one to three reviewed cases per
+family) — enough to prove the engine end to end. Growing it is the main roadmap
+item; see [Authoring Benchmark Cases](docs/authoring-cases.md).
 
 ---
 
@@ -256,9 +251,12 @@ A CEP-compatible system must not merely parse CEP-shaped files. It must preserve
 
 Conformance fixtures live in:
 
-* [`conformance/`](conformance/)
+* [`conformance/`](conformance/index.md)
 
-Initial anti-collapse fixtures test failures such as:
+`cep conformance anti-collapse` runs a real content-based detector against every
+fixture's submitted answer **and** every family's example answers — it never
+trusts a fixture's self-declared verdict. Initial anti-collapse fixtures test
+failures such as:
 
 * declared state collapsed into observed state
 * claim treated as evidence
@@ -268,6 +266,9 @@ Initial anti-collapse fixtures test failures such as:
 * possibility treated as affordance
 * authority treated as capability
 * score treated as capability
+
+See the [Anti-Collapse Reference](docs/anti-collapse.md) for the full list of
+detector codes and how detection works.
 
 ---
 
@@ -303,39 +304,45 @@ It is the portable structure that lets a system inspect what was claimed, what w
 
 ## Current Status
 
-CEP is in early specification and reference implementation development.
+CEP is at an early but **executable** stage. The specification set, JSON
+schemas, four benchmark families, scorers, an engine-backed anti-collapse
+detector, and a CLI all run locally and are verified by `just all`. The corpus
+is a smoke corpus (one to three reviewed cases per family); broader corpus
+breadth is the main roadmap item.
 
-The current settlement target is:
+The settlement target met for this stage:
 
 ```text
-Validate a Semantic Envelope,
-run a minimal RealityGapBench case,
-produce a benchmark result envelope,
-and validate that result against CEP conformance checks.
+Validate the corpus artifacts,
+score a RealityGapBench case,
+produce a benchmark result record,
+and confirm anti-collapse conformance across all four families.
 ```
 
 ## Minimal Executable Proof
 
-Run the full local proof:
+Install dependencies, then run the full local proof:
 
 ```bash
+uv sync
 just all
 ```
 
-This command validates:
+`just all` validates OKF Markdown structure, the schema registry, and the
+RealityGapBench corpus; runs the test suite; runs four-family anti-collapse
+conformance; and scores every family's example answers, writing reports under
+`reports/<family>/`.
 
-* OKF Markdown structure
-* schema registry
-* RealityGapBench corpus
-* valid and invalid example answers
-* anti-collapse conformance fixtures
-* benchmark report generation
+To run a single family or score one answer, see
+[Running the Benchmarks](docs/running-benchmarks.md).
 
-RealityGapBench reports are generated under:
+---
 
-```text
-reports/reality-gap/
-```
+## Documentation
+
+* [Running the Benchmarks](docs/running-benchmarks.md) — install, run, and interpret results.
+* [Authoring Benchmark Cases](docs/authoring-cases.md) — add human-reviewed cases to grow the corpus.
+* [Anti-Collapse Reference](docs/anti-collapse.md) — the collapses CEP detects and how.
 
 ---
 

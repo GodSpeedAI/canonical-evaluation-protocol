@@ -13,6 +13,7 @@ from cep.benchmarks.capability import score_capability
 from cep.benchmarks.reality_gap import score_reality_gap
 from cep.benchmarks.settlement import score_settlement
 from cep.conformance.anti_collapse import run_reality_gap_anti_collapse
+from cep.conformance.benchmark_invariants import run_benchmark_anti_collapse
 from cep.inventory import (
     iter_authority_case_dirs,
     iter_capability_case_dirs,
@@ -101,15 +102,17 @@ def validate_all_command() -> None:
 app.add_typer(validate_app, name="validate")
 
 
-@conformance_app.command("anti-collapse", help="Run RealityGapBench anti-collapse fixtures.")
+@conformance_app.command("anti-collapse", help="Run anti-collapse conformance for all families.")
 def conformance_anti_collapse_command() -> None:
-    results = run_reality_gap_anti_collapse()
     ok = True
-    for result in results:
+    for result in run_reality_gap_anti_collapse():
         marker = "PASS" if result.ok else "FAIL"
         console.print(f"{marker} {result.fixture_id}: {result.message}")
-        if not result.ok:
-            ok = False
+        ok = ok and result.ok
+    for invariant in run_benchmark_anti_collapse():
+        marker = "PASS" if invariant.ok else "FAIL"
+        console.print(f"{marker} {invariant.family} {invariant.case_id}: {invariant.message}")
+        ok = ok and invariant.ok
     raise typer.Exit(0 if ok else 1)
 
 

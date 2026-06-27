@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import cast
 
 from cep.conformance.anti_collapse import check_fixture, run_reality_gap_anti_collapse
 from cep.io import load_json, write_json
@@ -14,19 +15,30 @@ def test_anti_collapse_fixtures_trigger_expected_failures() -> None:
     assert all(result.ok for result in results), [result for result in results if not result.ok]
 
 
-def test_silent_pass_fails_conformance(tmp_path: Path) -> None:
+def test_conformance_runs_detector_not_self_declaration(tmp_path: Path) -> None:
+    # A fixture whose submitted_answer does NOT actually collapse must fail
+    # conformance, even if its expected_validation still claims it is invalid.
+    # This proves the harness scores the answer instead of trusting the fixture.
     fixture_path = FIXTURES / "rg-ac-0002-claim-as-evidence.json"
     payload = load_json(fixture_path)
-    payload["expected_validation"] = {
-        "status": "valid",
-        "errors": [],
-        "warnings": [],
-        "critical": False,
-    }
-    silent_fixture = tmp_path / fixture_path.name
-    write_json(silent_fixture, payload)
+    # Repair the answer so it cites a real evidence record (no longer a collapse).
+    answer = cast("dict[str, object]", payload["submitted_answer"])
+    answer["evidence_refs"] = ["ev-rg-0003-001"]
+    repaired_fixture = tmp_path / fixture_path.name
+    write_json(repaired_fixture, payload)
 
-    result = check_fixture(silent_fixture, expected_errors=["claim_as_evidence"])
+    result = check_fixture(repaired_fixture, expected_errors=["claim_as_evidence"])
 
     assert not result.ok
     assert "claim_as_evidence" in result.missing_errors
+    assert "claim_as_evidence" not in result.observed_errors
+
+
+def test_detector_observes_real_collapse() -> None:
+    # The unmodified fixture really does collapse, detected from content.
+    result = check_fixture(
+        FIXTURES / "rg-ac-0002-claim-as-evidence.json",
+        expected_errors=["claim_as_evidence"],
+    )
+    assert result.ok
+    assert "claim_as_evidence" in result.observed_errors

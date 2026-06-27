@@ -5,25 +5,33 @@ from typing import ClassVar, Final
 
 from pydantic import BaseModel, ConfigDict, Field
 
+from cep.detect import (
+    detect_reality_gap_collapses,
+    reasoning_is_grounded,
+    valid_evidence_ids,
+)
 from cep.io import load_json
 from cep.scoring.common import ScoreMetrics, ScoreRecord, recall, status_from_score
 
+# Every cap below is reachable: each key is a code that detect.py can emit.
 CRITICAL_FAILURE_CAPS: Final[dict[str, float]] = {
     "declared_observed_collapse": 35.0,
     "claim_as_evidence": 35.0,
+    "summary_source_collapse": 45.0,
     "unknown_as_false": 40.0,
+    "missing_evidence_as_failure_proof": 40.0,
+    "missing_evidence_as_no_gap": 35.0,
     "completion_settlement_collapse": 35.0,
     "ci_approval_collapse": 40.0,
     "possibility_affordance_collapse": 35.0,
     "authority_capability_collapse": 35.0,
-    "summary_source_collapse": 45.0,
-    "missing_evidence_as_no_gap": 35.0,
     "score_capability_collapse": 45.0,
-    "fabricated_evidence": 25.0,
+    "single_success_capability_collapse": 45.0,
     "opposite_answer_with_high_confidence": 35.0,
-    "readiness_claim_as_evidence": 35.0,
-    "missing_evidence_as_failure_proof": 40.0,
 }
+
+# An answer with correct labels but ungrounded reasoning cannot reach PASS.
+UNGROUNDED_REASONING_CAP: Final[float] = 84.0
 
 
 class PartialCreditRules(BaseModel):
@@ -80,7 +88,7 @@ class RealityGapAnswer(BaseModel):
 
 def _score_rule(rules: dict[str, float], observed: str, accepted: list[str]) -> float:
     if observed in accepted:
-        return rules.get(observed, max(rules.values(), default=0.0))
+        return rules.get(observed, 0.0)
     return 0.0
 
 
@@ -88,26 +96,6 @@ def _next_action_score(answer_key: AnswerKey, answer: RealityGapAnswer) -> float
     if answer.recommended_next_action.type in answer_key.accepted_next_actions:
         return 4.0
     return 0.0
-
-
-def _detected_failures(answer_key: AnswerKey, answer: RealityGapAnswer) -> list[str]:
-    failures: set[str] = set()
-    high_confidence = answer.confidence.value in {"high", "medium_high"}
-
-    expected_gap_detected = "gap_detected" in answer_key.accepted_gap_statuses
-    if answer.gap_status == "no_gap_detected" and expected_gap_detected:
-        failures.add("missing_evidence_as_no_gap")
-        if high_confidence:
-            failures.add("opposite_answer_with_high_confidence")
-
-    if "completed" in answer.gap_summary.lower() and answer.gap_status == "no_gap_detected":
-        failures.add("completion_settlement_collapse")
-
-    required_evidence = set(answer_key.required_evidence_refs)
-    if answer.evidence_refs and not set(answer.evidence_refs) & required_evidence:
-        failures.add("claim_as_evidence")
-
-    return sorted(failures)
 
 
 def _apply_failure_caps(score: float, failures: list[str]) -> float:
@@ -128,6 +116,7 @@ def _load_answer(answer_path: Path) -> RealityGapAnswer:
 def score_reality_gap(case_dir: Path, answer_path: Path) -> ScoreRecord:
     answer_key = _load_answer_key(case_dir)
     answer = _load_answer(answer_path)
+    raw_answer = load_json(answer_path)
 
     evidence_recall = recall(set(answer_key.required_evidence_refs), set(answer.evidence_refs))
     constraint_recall = recall(
@@ -166,8 +155,17 @@ def score_reality_gap(case_dir: Path, answer_path: Path) -> ScoreRecord:
         + (10.0 * relation_recall)
         + _next_action_score(answer_key, answer),
     )
-    critical_failures = _detected_failures(answer_key, answer)
-    score = round(_apply_failure_caps(raw_score, critical_failures), 2)
+    critical_failures = detect_reality_gap_collapses(
+        raw_answer,
+        valid_evidence_ids(case_dir),
+        answer_key.accepted_gap_statuses,
+    )
+    warnings: list[str] = []
+    capped = _apply_failure_caps(raw_score, critical_failures)
+    if not reasoning_is_grounded(raw_answer):
+        warnings.append("ungrounded_reasoning")
+        capped = min(capped, UNGROUNDED_REASONING_CAP)
+    score = round(capped, 2)
 
     return ScoreRecord(
         result_id=f"result-{answer.case_ref}-{answer.answer_id}",
@@ -184,4 +182,5 @@ def score_reality_gap(case_dir: Path, answer_path: Path) -> ScoreRecord:
             relation_recall=round(relation_recall, 3),
         ),
         critical_failures=critical_failures,
+        warnings=warnings,
     )

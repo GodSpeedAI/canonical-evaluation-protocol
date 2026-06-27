@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 from typer.testing import CliRunner
@@ -33,6 +34,36 @@ def test_settlement_premature_completion_fails() -> None:
     assert result.status in {"fail", "invalid"}, result.to_json()
     assert result.score < 85, result.to_json()
     assert "completion_settlement_collapse" in result.critical_failures
+
+
+def test_settlement_genuinely_settled_case_is_scoreable(tmp_path: Path) -> None:
+    # Given: a case whose expected outcome IS settled, and an answer that agrees.
+    case_dir = tmp_path / "set-9999"
+    case_dir.mkdir()
+    answer_key: dict[str, object] = {
+        "case_ref": "set-9999",
+        "expected_settlement_status": "settled",
+        "required_evidence_refs": [],
+        "required_distinctions": [],
+    }
+    answer: dict[str, object] = {
+        "answer_id": "a1",
+        "case_ref": "set-9999",
+        "settlement_status": "settled",
+        "completion_claim_accepted": True,
+        "evidence_refs": [],
+        "preserved_distinctions": [],
+    }
+    _ = (case_dir / "answer_key.json").write_text(json.dumps(answer_key), encoding="utf-8")
+    answer_path = case_dir / "answer.json"
+    _ = answer_path.write_text(json.dumps(answer), encoding="utf-8")
+
+    # When: scored.
+    result = score_settlement(case_dir, answer_path)
+
+    # Then: calling it settled is correct here, not a collapse.
+    assert not result.critical_failures, result.to_json()
+    assert result.status == "pass", result.to_json()
 
 
 def test_run_settlement_corpus_generates_report() -> None:

@@ -77,9 +77,11 @@ def score_capability(case_dir: Path, answer_path: Path) -> ScoreRecord:
         metrics=ScoreMetrics(
             raw_score=round(raw_score, 2),
             evidence_recall=round(evidence_recall, 3),
-            constraint_recall=1.0,
+            # CapabilityBench does not define constraint/relation recall; recall
+            # over an empty required set is vacuously complete (see recall()).
+            constraint_recall=recall(set(), set()),
             distinction_recall=round(distinction_recall, 3),
-            relation_recall=1.0,
+            relation_recall=recall(set(), set()),
         ),
         critical_failures=critical_failures,
     )

@@ -15,6 +15,7 @@ This directory is the root of the Canonical Evaluation Protocol (CEP) knowledge 
 * [Benchmarks](benchmarks/index.md) - Benchmark families and cases.
 * [Conformance Fixtures](conformance/index.md) - Conformance manifest and testing fixtures.
 * [RFCs](rfc/index.md) - Proposed and accepted enhancements to the protocol.
+* [Documentation](docs/index.md) - Usage guides and reference material.
 
 ## Reference Material
 

@@ -370,3 +370,52 @@ None.
 - **Remaining Gaps**:
   - Full benchmark breadth, formal conformance classes, Semantic Envelope execution, external model evaluation, docs site, release process, and production-readiness claims remain outside this completed local-proof phase as listed in `.agents/plans/full-cep.md`.
 - **Status**: Complete.
+
+## EV-FINAL-AUDIT — Final Protocol Audit
+
+- **ID**: EV-FINAL-AUDIT
+- **Date**: 2026-06-27
+- **Agent**: Claude (Final Protocol Verification)
+- **Commit**: `d142dc4`
+- **Task**: Execute `.agents/prompt/final_protocol-audit-prompt.md` — final assurance audit.
+- **Commands Run (all exit 0)**:
+  - `uv run python tools/validate_okf.py` → 41 files, all checks passed
+  - `uv run cep validate all` → schemas + RealityGap corpus + anti-collapse fixtures PASS
+  - `uv run pytest -q` → 29 passed in 0.38s
+  - `uv run cep conformance anti-collapse` → 10/10 PASS (but see F-01)
+  - `uv run cep run reality-gap-corpus` → valid 99.0 PASS / invalid 0.0 INVALID
+  - `uv run cep run authority-corpus` → valid 100.0 / invalid 0.0
+  - `uv run cep run settlement-corpus` → valid 100.0 / invalid 15.0
+  - `uv run cep run capability-corpus` → valid 100.0 / invalid 15.0
+- **Adversarial tests run** (via `uv run python` against scorers):
+  - RealityGap correct-labels + garbage `gap_summary` → 99.0 PASS (reasoning-blind, F-03)
+  - rg-ac-0001 `submitted_answer` scored by real scorer → emits `claim_as_evidence, missing_evidence_as_no_gap, opposite_answer_with_high_confidence`; cannot emit manifest's `declared_observed_collapse` (proves F-01)
+  - Settlement `settlement_status=settled`, claim not accepted → 30.0 + `completion_settlement_collapse` regardless of expected status (F-04)
+  - Fabricated-only evidence refs → 35.0 INVALID `claim_as_evidence` (caught); empty refs → 79.0 partial (not critical)
+- **Outcome**: Verdict **PASS WITH CONDITIONS**. CEP is executable; benchmarks partially deliver intended outcomes. Critical: anti-collapse conformance does not exercise the engine (DEBT-0002). Report: `.agents/reports/final_protocol_audit.md`.
+- **New DEBT**: DEBT-0002…0008. New open question: OQ-0008.
+- **Status**: Complete.
+
+## EV-AUDIT-REMEDIATION — Findings fixed to v0.1.0 readiness
+
+- **ID**: EV-AUDIT-REMEDIATION
+- **Date**: 2026-06-27
+- **Agent**: Claude
+- **Task**: Fix all Final Protocol Audit findings; iterate to `v0.1.0` readiness.
+- **Changes**:
+  - New `src/cep/detect.py` — content-based anti-collapse detector (single source of truth).
+  - `src/cep/conformance/anti_collapse.py` — runs the detector on each fixture's `submitted_answer` (F-01).
+  - New `src/cep/conformance/benchmark_invariants.py` + CLI wiring — anti-collapse conformance for Authority/Settlement/Capability (F-07).
+  - `src/cep/benchmarks/reality_gap.py` — detector-backed caps (F-02), ungrounded-reasoning cap (F-03), `_score_rule` default 0.0 (F-08), evidence-set check (F-05).
+  - `src/cep/benchmarks/settlement.py` — collapse detection consults `expected_settlement_status` (F-04).
+  - authority/settlement/capability — vacuous-recall metrics instead of hardcoded 1.0 (F-06).
+  - Deleted stray `reports/test-rg-0001-valid.result.json` (F-10).
+  - New tests: `test_benchmark_invariants.py`; updated `test_anti_collapse_conformance.py` and `test_settlement_bench.py`.
+- **Verification (all exit 0)**:
+  - `just all` → OKF validate, 33 pytest passed, 4-family anti-collapse conformance, 4 corpora.
+  - `uv run ruff check src tests` → All checks passed.
+  - `uv run basedpyright src tests` → 0 errors, 0 warnings.
+  - Absolute-path scan of `src`/`tests` → none (portable via `REPO_ROOT`).
+- **Adversarial re-test**: garbage-summary 99→84/partial; mixed fabricated evidence →35/invalid; rg-ac-0001 detector emits `declared_observed_collapse`; settled-positive case now scoreable; non-collapsing fixture now fails conformance.
+- **Outcome**: Post-fix verdict PASS for `v0.1.0` initial-benchmark release. DEBT-0002…0008 resolved; OQ-0008 resolved.
+- **Status**: Complete.

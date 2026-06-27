@@ -5,11 +5,17 @@ from typing import ClassVar
 
 from pydantic import BaseModel, ConfigDict, Field
 
+from cep.detect import (
+    accepted_gap_statuses_for_case,
+    detect_reality_gap_collapses,
+    valid_evidence_ids,
+)
 from cep.inventory import (
     iter_reality_gap_anti_collapse_fixtures,
     reality_gap_anti_collapse_manifest,
 )
 from cep.io import load_json
+from cep.paths import REALITY_GAP_CASES_DIR
 
 
 class ManifestFixture(BaseModel):
@@ -37,6 +43,8 @@ class AntiCollapseFixture(BaseModel):
     model_config: ClassVar[ConfigDict] = ConfigDict(frozen=True, extra="ignore")
 
     fixture_id: str
+    target_case_ref: str
+    submitted_answer: dict[str, object]
     expected_validation: ExpectedValidation
 
 
@@ -60,14 +68,26 @@ def expected_fixture_errors() -> dict[str, list[str]]:
     return {fixture.file: fixture.expected_errors for fixture in _manifest().fixtures}
 
 
+def _observed_collapses(fixture: AntiCollapseFixture) -> list[str]:
+    case_dir = REALITY_GAP_CASES_DIR / fixture.target_case_ref
+    return detect_reality_gap_collapses(
+        fixture.submitted_answer,
+        valid_evidence_ids(case_dir),
+        accepted_gap_statuses_for_case(case_dir),
+    )
+
+
 def check_fixture(path: Path, expected_errors: list[str] | None = None) -> AntiCollapseResult:
     fixture = AntiCollapseFixture.model_validate(load_json(path))
     expected = (
         expected_errors if expected_errors is not None else fixture.expected_validation.errors
     )
-    observed = fixture.expected_validation.errors
+    # Observed errors come from running the detector on the submitted answer,
+    # NOT from the fixture's self-declared expected_validation block.
+    observed = _observed_collapses(fixture)
     missing = sorted(set(expected) - set(observed))
-    ok = fixture.expected_validation.status == "invalid" and not missing
+    status = "invalid" if observed else "valid"
+    ok = not missing
     message = "Expected anti-collapse failures observed." if ok else "Missing expected failures."
 
     return AntiCollapseResult(
@@ -76,7 +96,7 @@ def check_fixture(path: Path, expected_errors: list[str] | None = None) -> AntiC
         expected_errors=expected,
         observed_errors=observed,
         missing_errors=missing,
-        status=fixture.expected_validation.status,
+        status=status,
         message=message,
     )
 

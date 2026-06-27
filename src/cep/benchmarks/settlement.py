@@ -33,7 +33,11 @@ class SettlementAnswer(BaseModel):
     preserved_distinctions: list[str]
 
 
-def _detected_failures(answer: SettlementAnswer) -> list[str]:
+def _detected_failures(answer_key: SettlementAnswerKey, answer: SettlementAnswer) -> list[str]:
+    # Collapse only when the answer calls something settled that the case does
+    # not consider settled. A genuinely-settled case must be scoreable.
+    if answer_key.expected_settlement_status == "settled":
+        return []
     if answer.completion_claim_accepted or answer.settlement_status == "settled":
         return ["completion_settlement_collapse"]
     return []
@@ -58,7 +62,7 @@ def score_settlement(case_dir: Path, answer_path: Path) -> ScoreRecord:
         50.0 if answer.settlement_status == answer_key.expected_settlement_status else 0.0
     )
     raw_score = min(100.0, status_score + (30.0 * evidence_recall) + (20.0 * distinction_recall))
-    critical_failures = _detected_failures(answer)
+    critical_failures = _detected_failures(answer_key, answer)
     score = round(_apply_failure_caps(raw_score, critical_failures), 2)
     return ScoreRecord(
         result_id=f"result-{answer.case_ref}-{answer.answer_id}",
@@ -70,9 +74,11 @@ def score_settlement(case_dir: Path, answer_path: Path) -> ScoreRecord:
         metrics=ScoreMetrics(
             raw_score=round(raw_score, 2),
             evidence_recall=round(evidence_recall, 3),
-            constraint_recall=1.0,
+            # SettlementBench does not define constraint/relation recall; recall
+            # over an empty required set is vacuously complete (see recall()).
+            constraint_recall=recall(set(), set()),
             distinction_recall=round(distinction_recall, 3),
-            relation_recall=1.0,
+            relation_recall=recall(set(), set()),
         ),
         critical_failures=critical_failures,
     )

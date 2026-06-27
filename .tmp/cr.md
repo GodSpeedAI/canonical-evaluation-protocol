@@ -17,7 +17,6 @@
 ~~  list so each fixtures[] object is validated against a stable, trusted~~
 ~~  protocol shape.~~
 
-
 ~~────────────────────────────────────────────────────────────────────────~~
 ~~  major [Data Integrity & Integration]~~
 ~~  → ]8;;vscode://file//home/sprime01/projects/cep/schemas/reality-gap-answer-key.schema.json:19schemas/reality-gap-answer-key.schema.json:19-65]8;;~~
@@ -36,7 +35,6 @@
 ~~  narrowly limit additionalProperties so unknown fields cannot validate~~
 ~~  silently. Use the schema’s existing property block and required section to~~
 ~~  keep the answer-key contract aligned with scoring behavior.~~
-
 
 ~~────────────────────────────────────────────────────────────────────────~~
 ~~  major [Functional Correctness]~~
@@ -57,7 +55,6 @@
 ~~  use the observed_failures, expected_failures, and check_fixture~~
 ~~  symbols to locate the change.~~
 
-
 ~~────────────────────────────────────────────────────────────────────────~~
 ~~  major [Functional Correctness]~~
 ~~  → ]8;;vscode://file//home/sprime01/projects/cep/tools/validate_okf.py:126tools/validate_okf.py:126-131]8;;~~
@@ -73,7 +70,6 @@
 ~~  same way the index.md path does, using the existing check_link logic and~~
 ~~  the surrounding validation flow in validate_okf.py to return a non-success~~
 ~~  result instead of printing a WARNING.~~
-
 
 ~~────────────────────────────────────────────────────────────────────────~~
 ~~  major [Data Integrity & Integration]~~
@@ -93,7 +89,6 @@
 ~~  properties like case_id, evidence_requirements, and transformation_refs,~~
 ~~  but make the contract strict enough to enforce cross-file semantics.~~
 
-
 ~~────────────────────────────────────────────────────────────────────────~~
 ~~  major [Data Integrity & Integration]~~
 ~~  → ]8;;vscode://file//home/sprime01/projects/cep/src/cep/validation.py:221src/cep/validation.py:221-232]8;;~~
@@ -104,13 +99,12 @@
 
 ~~  In @src/cep/validation.py around lines 221 - 232, _validate_all_schemas()~~
 ~~  currently treats a malformed registry as an empty schema list because~~
-~~  _schema_names() filters values; change _schema_names(registry) to validate~~
+~~_schema_names() filters values; change_schema_names(registry) to validate~~
 ~~  the schemas field strictly and raise a validation/document error when~~
 ~~  schemas/index.json is missing schemas, has a non-array value, or contains~~
 ~~  non-string entries. Then update validate_all_schemas() to surface that~~
 ~~  failure instead of continuing with an empty list, so malformed registry~~
 ~~  contents cause validation to fail.~~
-
 
 ~~────────────────────────────────────────────────────────────────────────~~
 ~~  minor [Maintainability & Code Quality]~~
@@ -128,7 +122,6 @@
 ~~  with full-cep.md and the existing cep validate all/doctor/validate~~
 ~~  references.~~
 
-
 ~~────────────────────────────────────────────────────────────────────────~~
 ~~  major [Functional Correctness]~~
 ~~  → ]8;;vscode://file//home/sprime01/projects/cep/src/cep/paths.py:3src/cep/paths.py:3-10]8;;~~
@@ -145,7 +138,6 @@
 ~~  not assume a source checkout; either load package data via resources or~~
 ~~  accept an explicit repo root from callers and use that throughout the~~
 ~~  module.~~
-
 
 ~~────────────────────────────────────────────────────────────────────────~~
 ~~  major [Data Integrity & Integration]~~
@@ -166,7 +158,6 @@
 ~~  schema by revisiting additionalProperties in the same schema so undeclared~~
 ~~  fields cannot bypass validation.~~
 
-
 ~~────────────────────────────────────────────────────────────────────────~~
 ~~  major [Functional Correctness]~~
 ~~  → ]8;;vscode://file//home/sprime01/projects/cep/tools/validate_okf.py:19tools/validate_okf.py:19-25]8;;~~
@@ -182,7 +173,6 @@
 ~~  the current os.path.exists path check so only repo-relative markdown~~
 ~~  targets are accepted, explicitly rejecting absolute filesystem paths and~~
 ~~  file:/// URLs before resolving against base_dir.~~
-
 
 ~~────────────────────────────────────────────────────────────────────────~~
 ~~  major [Data Integrity & Integration]~~
@@ -201,7 +191,6 @@
 ~~  correctly distinguishes an explicit null const from a missing const field.~~
 ~~  Preserve CEP semantics by making unsupported schema features fail fast~~
 ~~  instead of silently under-validating.~~
-
 
 ~~────────────────────────────────────────────────────────────────────────~~
 ~~  major [Data Integrity & Integration]~~
@@ -222,7 +211,6 @@
 ~~  the claim/evidence boundary through the existing evidence_id and~~
 ~~  evidence-related fields.~~
 
-
 ~~────────────────────────────────────────────────────────────────────────~~
 ~~  major [Data Integrity & Integration]~~
 ~~  → ]8;;vscode://file//home/sprime01/projects/cep/schemas/conformance-report.schema.json:17schemas/conformance-report.schema.json:17-23]8;;~~
@@ -240,7 +228,6 @@
 ~~  conformance-report schema so validation enforces the shared result shape~~
 ~~  consistently across files.~~
 
-
 ~~────────────────────────────────────────────────────────────────────────~~
 ~~  minor [Maintainability & Code Quality]~~
 ~~  → ]8;;vscode://file//home/sprime01/projects/cep/.agents/EVIDENCE.md:30.agents/EVIDENCE.md:30-35]8;;~~
@@ -255,7 +242,6 @@
 ~~  reference, and make the path style consistent across all entries in the~~
 ~~  list. Use the existing file list section in EVIDENCE.md to locate and~~
 ~~  clean up the duplicated .agents/CURRENT_STATUS.md item.~~
-
 
 ~~────────────────────────────────────────────────────────────────────────~~
 ~~  minor [Data Integrity & Integration]~~
@@ -275,7 +261,6 @@
 ~~  filtering them away, while keeping the existing schema required fields~~
 ~~  error messaging in place.~~
 
-
 ~~────────────────────────────────────────────────────────────────────────~~
 ~~  major [Functional Correctness]~~
 ~~  → ]8;;vscode://file//home/sprime01/projects/cep/.agents/plans/full-cep.md:1471.agents/plans/full-cep.md:1471-1483]8;;~~
@@ -292,7 +277,6 @@
 ~~  example, a precise prefix/suffix pattern for example__valid_answer.json~~
 ~~  versus example__invalid_answer.json) so the failed flag is set only~~
 ~~  for the intended example type.~~
-
 
 ~~────────────────────────────────────────────────────────────────────────~~
 ~~  major [Data Integrity & Integration]~~
@@ -312,7 +296,6 @@
 ~~  anti-collapse-fixture.schema.json so broken fixtures cannot pass~~
 ~~  validation while still missing the collapse-failure behavior.~~
 
-
 ~~────────────────────────────────────────────────────────────────────────~~
 ~~  minor [Functional Correctness]~~
 ~~  → ]8;;vscode://file//home/sprime01/projects/cep/src/cep/cli.py:43src/cep/cli.py:43-45]8;;~~
@@ -329,4 +312,3 @@
 ~~  Use the doctor function and its console.print behavior as the entry point,~~
 ~~  and make sure the command’s reported status matches what it actually~~
 ~~  validates.~~
-

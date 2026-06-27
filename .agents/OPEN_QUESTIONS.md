@@ -48,3 +48,10 @@ timestamp: "2026-06-26T14:13:47Z"
 - **Question**: The specifications and benchmarks do not contain creation or update timestamps. What timestamp should be used?
 - **Default**: `2026-06-26T14:13:47Z` (the bootstrap timestamp of the repository).
 - **Impact**: Provides auditability for standard knowledge bundles.
+
+## OQ-0008 — Anti-collapse conformance design intent
+- **Question**: Was the self-referential anti-collapse harness (fixtures declare their own `expected_validation.errors`; the engine is never run) a deliberate v0 placeholder, or an oversight? CEP-0010 requires behavioral enforcement.
+- **Raised By**: Final Protocol Audit (F-01 / DEBT-0002), 2026-06-27.
+- **Default**: Treat as a blocker to fix — drive fixtures through the real scorer/validator before claiming anti-collapse conformance publicly.
+- **Impact**: Determines whether `cep conformance anti-collapse` is evidence of detection or only of fixture authoring.
+- **Resolved (2026-06-27)**: Implemented as a real detector (`src/cep/detect.py`); the harness now scores `submitted_answer` content. No human decision needed.
