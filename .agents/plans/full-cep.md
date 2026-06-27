@@ -1774,12 +1774,12 @@ cep run authority-corpus
 
 ### Done Conditions — Phase 8
 
-* [ ] AuthorityBench exists.
-* [ ] Smoke case exists.
-* [ ] Scorer exists.
-* [ ] False allow fails.
-* [ ] CLI run command works.
-* [ ] Evidence and handoff updated.
+* [x] AuthorityBench exists.
+* [x] Smoke case exists.
+* [x] Scorer exists.
+* [x] False allow fails.
+* [x] CLI run command works.
+* [x] Evidence and handoff updated.
 
 ---
 
@@ -1855,12 +1855,12 @@ cep run settlement-corpus
 
 ### Done Conditions — Phase 9
 
-* [ ] SettlementBench exists.
-* [ ] Smoke case exists.
-* [ ] Scorer exists.
-* [ ] Premature completion fails.
-* [ ] CLI run command works.
-* [ ] Evidence and handoff updated.
+* [x] SettlementBench exists.
+* [x] Smoke case exists.
+* [x] Scorer exists.
+* [x] Premature completion fails.
+* [x] CLI run command works.
+* [x] Evidence and handoff updated.
 
 ---
 
@@ -1939,13 +1939,13 @@ cep run capability-corpus
 
 ### Done Conditions — Phase 10
 
-* [ ] CapabilityBench exists.
-* [ ] Campaign smoke case exists.
-* [ ] Scorer exists.
-* [ ] Capability overclaim fails.
-* [ ] Possibility/affordance collapse fails.
-* [ ] CLI run command works.
-* [ ] Evidence and handoff updated.
+* [x] CapabilityBench exists.
+* [x] Campaign smoke case exists.
+* [x] Scorer exists.
+* [x] Capability overclaim fails.
+* [x] Possibility/affordance collapse fails.
+* [x] CLI run command works.
+* [x] Evidence and handoff updated.
 
 ---
 

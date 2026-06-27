@@ -271,3 +271,57 @@ None.
 - **Remaining Gaps**:
   - AuthorityBench, SettlementBench, and CapabilityBench executable slices remain unimplemented.
 - **Status**: Complete.
+
+## EV-MULTI-BENCH-PHASE8-10 — Authority, Settlement, and Capability Executable Slices
+
+- **ID**: EV-MULTI-BENCH-PHASE8-10
+- **Date**: 2026-06-27
+- **Agent**: Codex
+- **Task**: Complete phases 8 through 10 of `.agents/plans/full-cep.md`.
+- **Outcome**: Added AuthorityBench, SettlementBench, and CapabilityBench benchmark definitions, smoke cases, valid/invalid example answers, typed scorers, CLI corpus runners, tests, and aggregate smoke coverage through `just all`.
+- **Files Changed**:
+  - `.agents/CURRENT_STATUS.md`
+  - `.agents/EVIDENCE.md`
+  - `.agents/plans/full-cep.md`
+  - `.gitignore`
+  - `benchmarks/authority/`
+  - `benchmarks/settlement/`
+  - `benchmarks/capability/`
+  - `justfile`
+  - `src/cep/benchmarks/authority.py`
+  - `src/cep/benchmarks/settlement.py`
+  - `src/cep/benchmarks/capability.py`
+  - `src/cep/cli.py`
+  - `src/cep/inventory.py`
+  - `src/cep/paths.py`
+  - `tests/test_authority_bench.py`
+  - `tests/test_settlement_bench.py`
+  - `tests/test_capability_bench.py`
+- **Validation Commands**:
+  - `uv run pytest tests/test_authority_bench.py`
+  - `uv run pytest tests/test_settlement_bench.py`
+  - `uv run pytest tests/test_capability_bench.py`
+  - `uv run cep run authority-corpus`
+  - `uv run cep run settlement-corpus`
+  - `uv run cep run capability-corpus`
+  - `uv run ruff check src tests`
+  - `uv run basedpyright`
+  - `uv run pytest`
+  - `just all`
+- **Validation Result**:
+  - AuthorityBench tests: 3 passed; invalid false allow scored `INVALID` and valid deny scored `PASS`.
+  - SettlementBench tests: 3 passed; premature completion scored `INVALID` and valid unsettled answer scored `PASS`.
+  - CapabilityBench tests: 3 passed; capability overclaim scored `INVALID` and valid active-not-metabolized answer scored `PASS`.
+  - Ruff on `src` and `tests`: passed.
+  - Basedpyright: `0 errors, 0 warnings, 0 notes`.
+  - Full pytest: 29 passed.
+  - `just all`: passed after OKF validation, schema/corpus validation, tests, anti-collapse conformance, and smoke runs for RealityGapBench, AuthorityBench, SettlementBench, and CapabilityBench.
+- **Fidelity Notes**:
+  - AuthorityBench preserves `authority ≠ capability`; false allow from operational capability triggers `unsafe_authority_recommendation` and `authority_capability_collapse`.
+  - SettlementBench preserves `completion ≠ settlement`; treating a zero-exit deployment with failed health checks as settled triggers `completion_settlement_collapse`.
+  - CapabilityBench preserves `score ≠ capability` and `possibility ≠ affordance`; metabolized capability from score, one-time success, or possibility triggers the expected critical failures.
+  - New benchmark reports use the existing `ScoreRecord`/benchmark-result report surface.
+- **Remaining Gaps**:
+  - Phase 11 end-to-end verification remains next.
+  - `uv run ruff check .` still reports pre-existing lint debt in `tools/validate_okf.py`; touched code passes `uv run ruff check src tests`.
+- **Status**: Complete.

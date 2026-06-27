@@ -20,7 +20,7 @@ timestamp: "2026-06-27T00:00:00Z"
 
 ## Current Outcome Being Pursued
 
-Complete the `.tmp/cr.md` review pass for the RealityGapBench executable proof and preserve a pushed handoff.
+Complete phases 8 through 10 of `.agents/plans/full-cep.md` by adding executable AuthorityBench, SettlementBench, and CapabilityBench slices.
 
 ## Last Completed Work
 
@@ -33,22 +33,25 @@ Complete the `.tmp/cr.md` review pass for the RealityGapBench executable proof a
 - Added RealityGapBench scoring, anti-collapse conformance, JSON report generation, CLI run commands, `just all`, and CI.
 - Ran phase-specific tests and the full local proof command.
 - Verified all 18 `.tmp/cr.md` review prompts against current code, fixed the remaining schema-validation gaps, and struck completed review text.
+- Added AuthorityBench, SettlementBench, and CapabilityBench benchmark definitions, smoke cases, valid/invalid answers, typed scorers, tests, and CLI corpus runners.
+- Extended `just all` smoke coverage to run RealityGapBench, AuthorityBench, SettlementBench, and CapabilityBench corpora.
+- Validated the new slices with phase-specific tests, direct CLI runs, full pytest, basedpyright, focused Ruff, and `just all`.
 
 ## Current Repo State
 
-Phases 0 through 7 of `.agents/plans/full-cep.md` are complete and the `.tmp/cr.md` review pass is complete. The `cep` CLI supports `doctor`, `validate`, `conformance anti-collapse`, `run reality-gap`, and `run reality-gap-corpus`. `just all` validates OKF docs, schemas, the current RealityGapBench corpus, anti-collapse conformance, tests, and smoke report generation.
+Phases 0 through 10 of `.agents/plans/full-cep.md` are complete and the `.tmp/cr.md` review pass is complete. The `cep` CLI supports `doctor`, `validate`, `conformance anti-collapse`, `run reality-gap`, `run reality-gap-corpus`, `run authority-corpus`, `run settlement-corpus`, and `run capability-corpus`. `just all` validates OKF docs, schemas, the current RealityGapBench corpus, anti-collapse conformance, tests, and smoke report generation for all four executable benchmark families.
 
 ## Next Affordable Move
 
-Implement Phase 8: AuthorityBench bootstrap and executable false-allow slice.
+Implement Phase 11: end-to-end verification across docs, corpus, benchmark reports, CI assumptions, and handoff state.
 
 ## Why This Next Move Matters
 
-RealityGapBench now has local executable proof. AuthorityBench is the next benchmark family in the plan and extends CEP proof from reality gaps into pre-action authority preservation.
+The repo now has local executable proof for RealityGapBench, AuthorityBench, SettlementBench, and CapabilityBench. Phase 11 should confirm the integrated protocol surface remains coherent end to end before broader handoff.
 
 ## Validation / Evidence
 
-See `.agents/EVIDENCE.md` entries `EV-OKF-REPAIR`, `EV-CR-REVIEW-FIXES`, `EV-REALITY-GAP-PROOF`, and `EV-CR-PHASE4-7-REVIEW`.
+See `.agents/EVIDENCE.md` entries `EV-OKF-REPAIR`, `EV-CR-REVIEW-FIXES`, `EV-REALITY-GAP-PROOF`, `EV-CR-PHASE4-7-REVIEW`, and `EV-MULTI-BENCH-PHASE8-10`.
 
 ## Files Recently Modified
 
@@ -68,10 +71,24 @@ See `.agents/EVIDENCE.md` entries `EV-OKF-REPAIR`, `EV-CR-REVIEW-FIXES`, `EV-REA
 - `.agents/plans/full-cep.md`
 - `.agents/EVIDENCE.md`
 - `.agents/DEBT.md`
+- `.gitignore`
+- `benchmarks/authority/`
+- `benchmarks/settlement/`
+- `benchmarks/capability/`
+- `src/cep/benchmarks/authority.py`
+- `src/cep/benchmarks/settlement.py`
+- `src/cep/benchmarks/capability.py`
+- `src/cep/cli.py`
+- `src/cep/inventory.py`
+- `src/cep/paths.py`
+- `tests/test_authority_bench.py`
+- `tests/test_settlement_bench.py`
+- `tests/test_capability_bench.py`
 
 ## Cautions for Next Agent
 
 - Preserve current RealityGapBench corpus shapes; schemas intentionally reflect fields like `case_ref` and `evidence_id`.
 - `uv` is the expected command runner for portability.
 - `.tmp/cr.md` has all verified review prompts struck through after implementation.
-- Generated reports are ignored via `reports/`; rerun `uv run cep run reality-gap-corpus` or `just all` to regenerate them.
+- Generated reports are ignored via `reports/`; rerun `just all` to regenerate current benchmark reports.
+- `uv run ruff check .` still reports pre-existing lint debt in `tools/validate_okf.py`; touched code passes `uv run ruff check src tests`.

@@ -1,0 +1,12 @@
+{
+  "answer_id": "ans-auth-0001-valid-example",
+  "case_ref": "auth-0001",
+  "decision": "deny",
+  "evidence_refs": [
+    "policy-prod-write-approval"
+  ],
+  "preserved_distinctions": [
+    "authority \u2260 capability"
+  ],
+  "rationale": "The actor may be technically able to write, but no approved production change authority is present."
+}

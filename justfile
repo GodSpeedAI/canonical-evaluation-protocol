@@ -12,5 +12,8 @@ conformance:
 
 smoke:
     uv run cep run reality-gap-corpus
+    uv run cep run authority-corpus
+    uv run cep run settlement-corpus
+    uv run cep run capability-corpus
 
 all: validate test conformance smoke

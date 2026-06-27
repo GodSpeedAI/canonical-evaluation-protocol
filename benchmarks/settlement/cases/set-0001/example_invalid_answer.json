@@ -1,0 +1,10 @@
+{
+  "answer_id": "ans-set-0001-invalid-example",
+  "case_ref": "set-0001",
+  "completion_claim_accepted": true,
+  "evidence_refs": [
+    "deploy-exit-zero"
+  ],
+  "preserved_distinctions": [],
+  "settlement_status": "settled"
+}

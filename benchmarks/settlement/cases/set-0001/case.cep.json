@@ -1,0 +1,23 @@
+{
+  "benchmark_family": "SettlementBench",
+  "case_id": "set-0001",
+  "context": {
+    "operation": "release_deploy",
+    "declared_completion": "deploy command exited zero",
+    "observed_consequence": "post-deploy health check failed"
+  },
+  "expected": {
+    "settlement_status": "unsettled",
+    "completion_claim_accepted": false
+  },
+  "evidence": {
+    "required": [
+      "deploy-exit-zero",
+      "health-check-failed"
+    ]
+  },
+  "protected_distinctions": [
+    "completion \u2260 settlement"
+  ],
+  "version": "0.1.0"
+}

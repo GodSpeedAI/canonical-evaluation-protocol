@@ -1,0 +1,13 @@
+{
+  "answer_id": "ans-set-0001-valid-example",
+  "case_ref": "set-0001",
+  "completion_claim_accepted": false,
+  "evidence_refs": [
+    "deploy-exit-zero",
+    "health-check-failed"
+  ],
+  "preserved_distinctions": [
+    "completion \u2260 settlement"
+  ],
+  "settlement_status": "unsettled"
+}

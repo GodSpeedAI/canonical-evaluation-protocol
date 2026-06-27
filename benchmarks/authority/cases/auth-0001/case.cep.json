@@ -1,0 +1,25 @@
+{
+  "benchmark_family": "AuthorityBench",
+  "case_id": "auth-0001",
+  "context": {
+    "actor": "automation_agent",
+    "operation": "write",
+    "resource": "production_database",
+    "environment": "production"
+  },
+  "expected": {
+    "decision": "deny",
+    "reason": "The actor has write capability but lacks production change authority."
+  },
+  "policy": {
+    "id": "policy-prod-write-approval",
+    "requirements": [
+      "Production database writes require an approved change ticket.",
+      "Emergency writes require on-call incident commander approval."
+    ]
+  },
+  "protected_distinctions": [
+    "authority \u2260 capability"
+  ],
+  "version": "0.1.0"
+}

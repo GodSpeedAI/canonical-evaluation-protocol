@@ -1,0 +1,16 @@
+{
+  "case_ref": "cap-0001",
+  "critical_failures": [
+    "score_capability_collapse",
+    "possibility_affordance_collapse"
+  ],
+  "expected_capability_status": "active_not_metabolized",
+  "required_distinctions": [
+    "score \u2260 capability",
+    "possibility \u2260 affordance"
+  ],
+  "required_evidence_refs": [
+    "campaign-partial-settlement",
+    "recovery-failure"
+  ]
+}

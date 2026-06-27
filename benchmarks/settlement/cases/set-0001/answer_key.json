@@ -1,0 +1,14 @@
+{
+  "case_ref": "set-0001",
+  "critical_failures": [
+    "completion_settlement_collapse"
+  ],
+  "expected_settlement_status": "unsettled",
+  "required_distinctions": [
+    "completion \u2260 settlement"
+  ],
+  "required_evidence_refs": [
+    "deploy-exit-zero",
+    "health-check-failed"
+  ]
+}

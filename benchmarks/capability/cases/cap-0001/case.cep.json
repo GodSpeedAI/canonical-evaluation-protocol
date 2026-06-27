@@ -1,0 +1,19 @@
+{
+  "benchmark_family": "CapabilityBench",
+  "case_id": "cap-0001",
+  "campaign": {
+    "attempts": 3,
+    "settled_successes": 1,
+    "failed_recovery": true,
+    "score": 82
+  },
+  "expected": {
+    "capability_status": "active_not_metabolized",
+    "metabolized_capability": false
+  },
+  "protected_distinctions": [
+    "score \u2260 capability",
+    "possibility \u2260 affordance"
+  ],
+  "version": "0.1.0"
+}

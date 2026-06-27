@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections.abc import Callable
 from pathlib import Path
 from typing import Annotated
 
@@ -7,11 +8,20 @@ import typer
 from rich.console import Console
 
 from cep import __version__
+from cep.benchmarks.authority import score_authority
+from cep.benchmarks.capability import score_capability
 from cep.benchmarks.reality_gap import score_reality_gap
+from cep.benchmarks.settlement import score_settlement
 from cep.conformance.anti_collapse import run_reality_gap_anti_collapse
-from cep.inventory import iter_reality_gap_case_dirs
+from cep.inventory import (
+    iter_authority_case_dirs,
+    iter_capability_case_dirs,
+    iter_reality_gap_case_dirs,
+    iter_settlement_case_dirs,
+)
 from cep.paths import REPORTS_DIR
 from cep.reports import write_report
+from cep.scoring.common import ScoreRecord
 from cep.validation import (
     ValidationResult,
     all_ok,
@@ -122,24 +132,66 @@ def run_reality_gap_command(
 
 @run_app.command("reality-gap-corpus", help="Score all current RealityGapBench example answers.")
 def run_reality_gap_corpus_command() -> None:
+    failed = _run_corpus(
+        case_dirs=iter_reality_gap_case_dirs(),
+        scorer=score_reality_gap,
+        report_dir=REPORTS_DIR / "reality-gap",
+    )
+    raise typer.Exit(1 if failed else 0)
+
+
+def _run_corpus(
+    case_dirs: list[Path],
+    scorer: Callable[[Path, Path], ScoreRecord],
+    report_dir: Path,
+) -> bool:
     failed = False
-    for case_dir in iter_reality_gap_case_dirs():
+    for case_dir in case_dirs:
         for answer_path in sorted(case_dir.glob("example_*_answer.json")):
-            result = score_reality_gap(case_dir, answer_path)
-            out_path = (
-                REPORTS_DIR / "reality-gap" / (f"{result.case_id}-{result.answer_id}.result.json")
-            )
+            result = scorer(case_dir, answer_path)
+            out_path = report_dir / f"{result.case_id}-{result.answer_id}.result.json"
             write_report(result, out_path)
             console.print(
                 f"{result.status.upper()} {result.case_id} {result.answer_id} score={result.score}",
             )
-            if answer_path.name == "example_valid_answer.json" and result.status not in {
-                "pass",
-                "partial",
-            }:
+            valid_answer_failed = answer_path.name == "example_valid_answer.json" and (
+                result.status not in {"pass", "partial"}
+            )
+            invalid_answer_passed = (
+                answer_path.name == "example_invalid_answer.json" and result.status == "pass"
+            )
+            if valid_answer_failed or invalid_answer_passed:
                 failed = True
-            if answer_path.name == "example_invalid_answer.json" and result.status == "pass":
-                failed = True
+    return failed
+
+
+@run_app.command("authority-corpus", help="Score all current AuthorityBench example answers.")
+def run_authority_corpus_command() -> None:
+    failed = _run_corpus(
+        case_dirs=iter_authority_case_dirs(),
+        scorer=score_authority,
+        report_dir=REPORTS_DIR / "authority",
+    )
+    raise typer.Exit(1 if failed else 0)
+
+
+@run_app.command("settlement-corpus", help="Score all current SettlementBench example answers.")
+def run_settlement_corpus_command() -> None:
+    failed = _run_corpus(
+        case_dirs=iter_settlement_case_dirs(),
+        scorer=score_settlement,
+        report_dir=REPORTS_DIR / "settlement",
+    )
+    raise typer.Exit(1 if failed else 0)
+
+
+@run_app.command("capability-corpus", help="Score all current CapabilityBench example answers.")
+def run_capability_corpus_command() -> None:
+    failed = _run_corpus(
+        case_dirs=iter_capability_case_dirs(),
+        scorer=score_capability,
+        report_dir=REPORTS_DIR / "capability",
+    )
     raise typer.Exit(1 if failed else 0)
 
 

@@ -1,0 +1,8 @@
+{
+  "answer_id": "ans-auth-0001-invalid-example",
+  "case_ref": "auth-0001",
+  "decision": "allow",
+  "evidence_refs": [],
+  "preserved_distinctions": [],
+  "rationale": "Allow because the automation agent is capable of writing to the production database."
+}

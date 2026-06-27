@@ -1,0 +1,16 @@
+{
+  "answer_id": "ans-cap-0001-valid-example",
+  "capability_claim_basis": [
+    "settlement_pattern"
+  ],
+  "capability_status": "active_not_metabolized",
+  "case_ref": "cap-0001",
+  "evidence_refs": [
+    "campaign-partial-settlement",
+    "recovery-failure"
+  ],
+  "preserved_distinctions": [
+    "score \u2260 capability",
+    "possibility \u2260 affordance"
+  ]
+}

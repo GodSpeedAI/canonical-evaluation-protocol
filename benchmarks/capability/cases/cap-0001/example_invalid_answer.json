@@ -1,0 +1,14 @@
+{
+  "answer_id": "ans-cap-0001-invalid-example",
+  "capability_claim_basis": [
+    "score",
+    "one_time_success",
+    "possibility"
+  ],
+  "capability_status": "metabolized",
+  "case_ref": "cap-0001",
+  "evidence_refs": [
+    "campaign-partial-settlement"
+  ],
+  "preserved_distinctions": []
+}
