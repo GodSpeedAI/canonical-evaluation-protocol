@@ -3,9 +3,10 @@ from __future__ import annotations
 from pathlib import Path
 from typing import ClassVar, Final
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 from cep.io import load_json
+from cep.json_types import JsonObject
 from cep.scoring.common import ScoreMetrics, ScoreRecord, recall, status_from_score
 
 CRITICAL_FAILURE_CAPS: Final[dict[str, float]] = {
@@ -53,6 +54,16 @@ def _apply_failure_caps(score: float, failures: list[str]) -> float:
 def score_settlement(case_dir: Path, answer_path: Path) -> ScoreRecord:
     answer_key = SettlementAnswerKey.model_validate(load_json(case_dir / "answer_key.json"))
     answer = SettlementAnswer.model_validate(load_json(answer_path))
+    return score_settlement_answer(answer_key, answer)
+
+
+# Stable call surface for producers (e.g. godspeed_agent) scoring a settlement
+# synchronously at `SettlementRecorded` time, without a benchmark case_dir on
+# disk. Input/output contract: docs/settlement-call-surface.md.
+def score_settlement_answer(
+    answer_key: SettlementAnswerKey,
+    answer: SettlementAnswer,
+) -> ScoreRecord:
     evidence_recall = recall(set(answer_key.required_evidence_refs), set(answer.evidence_refs))
     distinction_recall = recall(
         set(answer_key.required_distinctions),
@@ -81,4 +92,52 @@ def score_settlement(case_dir: Path, answer_path: Path) -> ScoreRecord:
             relation_recall=recall(set(), set()),
         ),
         critical_failures=critical_failures,
+    )
+
+
+class ScoreSettlementInput(BaseModel):
+    """Input document shape for `cep score-settlement --input <file>`; see
+    docs/settlement-call-surface.md for the full contract."""
+
+    model_config: ClassVar[ConfigDict] = ConfigDict(frozen=True, extra="ignore")
+
+    settlement_recorded: JsonObject
+    expected: JsonObject
+    evidence_refs: list[str] = Field(default_factory=list)
+    preserved_distinctions: list[str] = Field(default_factory=list)
+
+
+_OUTCOME_TO_SETTLEMENT_STATUS: Final[dict[str, str]] = {
+    "usable": "settled",
+    "partial": "partially_settled",
+    "unusable": "unsettled",
+}
+
+
+def from_settlement_recorded(
+    payload: JsonObject,
+    *,
+    evidence_refs: list[str] | None = None,
+    preserved_distinctions: list[str] | None = None,
+) -> SettlementAnswer:
+    """Adapt a real `SettlementRecorded` event payload (godspeed_agent
+    `agentic_capability_loop/adapters.py: emit_settlement_recorded`) into a
+    `SettlementAnswer`. CEP owns this translation so producers never reshape
+    their own event to match CEP's vocabulary.
+
+    `outcome` ("usable" | "partial" | "unusable") maps to `settlement_status`
+    ("settled" | "partially_settled" | "unsettled"); `completion_claim_accepted`
+    is true only for "usable", since that's the only outcome the producer
+    itself is claiming as a settled result. `evidence_refs` and
+    `preserved_distinctions` aren't part of the raw event and must be
+    supplied by the caller if required for scoring.
+    """
+    outcome = str(payload["outcome"])
+    return SettlementAnswer(
+        answer_id=str(payload["evidence_event_id"]),
+        case_ref=str(payload["work_request_id"]),
+        settlement_status=_OUTCOME_TO_SETTLEMENT_STATUS.get(outcome, "unknown"),
+        completion_claim_accepted=outcome == "usable",
+        evidence_refs=evidence_refs or [],
+        preserved_distinctions=preserved_distinctions or [],
     )

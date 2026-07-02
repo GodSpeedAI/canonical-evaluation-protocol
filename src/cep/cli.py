@@ -11,7 +11,13 @@ from cep import __version__
 from cep.benchmarks.authority import score_authority
 from cep.benchmarks.capability import score_capability
 from cep.benchmarks.reality_gap import score_reality_gap
-from cep.benchmarks.settlement import score_settlement
+from cep.benchmarks.settlement import (
+    ScoreSettlementInput,
+    SettlementAnswerKey,
+    from_settlement_recorded,
+    score_settlement,
+    score_settlement_answer,
+)
 from cep.conformance.anti_collapse import run_reality_gap_anti_collapse
 from cep.conformance.benchmark_invariants import run_benchmark_anti_collapse
 from cep.inventory import (
@@ -20,7 +26,9 @@ from cep.inventory import (
     iter_reality_gap_case_dirs,
     iter_settlement_case_dirs,
 )
+from cep.io import load_json
 from cep.paths import REPORTS_DIR
+from cep.schema_profile import as_object
 from cep.reports import write_report
 from cep.scoring.common import ScoreRecord
 from cep.validation import (
@@ -28,6 +36,7 @@ from cep.validation import (
     all_ok,
     validate_all_schemas,
     validate_reality_gap_corpus,
+    validate_semantic_envelope_corpus,
 )
 
 app = typer.Typer(help="Canonical Evaluation Protocol CLI.", no_args_is_help=True)
@@ -92,9 +101,21 @@ def validate_reality_gap_corpus_command() -> None:
     raise typer.Exit(0 if all_ok(results) else 1)
 
 
+@validate_app.command(
+    "semantic-envelope",
+    help="Validate Semantic Envelope fixtures against the CEP-0008 schema profile.",
+)
+def validate_semantic_envelope_command() -> None:
+    results = validate_semantic_envelope_corpus()
+    _print_results(results)
+    raise typer.Exit(0 if all_ok(results) else 1)
+
+
 @validate_app.command("all", help="Validate schemas and current corpus artifacts.")
 def validate_all_command() -> None:
-    results = validate_all_schemas() + validate_reality_gap_corpus()
+    results = (
+        validate_all_schemas() + validate_reality_gap_corpus() + validate_semantic_envelope_corpus()
+    )
     _print_results(results)
     raise typer.Exit(0 if all_ok(results) else 1)
 
@@ -196,6 +217,34 @@ def run_capability_corpus_command() -> None:
         report_dir=REPORTS_DIR / "capability",
     )
     raise typer.Exit(1 if failed else 0)
+
+
+@app.command(
+    "score-settlement",
+    help="Score a SettlementRecorded-shaped payload against expected settlement criteria.",
+)
+def score_settlement_command(
+    input_path: Annotated[Path, typer.Option("--input", exists=True, dir_okay=False)],
+) -> None:
+    document = ScoreSettlementInput.model_validate(load_json(input_path))
+    payload = as_object(document.settlement_recorded.get("payload"))
+    if payload is None:
+        console.print("error: settlement_recorded.payload must be an object")
+        raise typer.Exit(1)
+    answer_key = SettlementAnswerKey.model_validate(
+        {"case_ref": payload.get("work_request_id"), **document.expected},
+    )
+    answer = from_settlement_recorded(
+        payload,
+        evidence_refs=document.evidence_refs,
+        preserved_distinctions=document.preserved_distinctions,
+    )
+    result = score_settlement_answer(answer_key, answer)
+    console.print(
+        f"{result.status.upper()} {result.case_id} {result.answer_id} score={result.score}",
+    )
+    if result.critical_failures:
+        console.print(f"critical_failures={result.critical_failures}")
 
 
 app.add_typer(conformance_app, name="conformance")

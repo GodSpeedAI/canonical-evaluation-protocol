@@ -10,6 +10,7 @@ from cep.inventory import (
     iter_reality_gap_case_files,
     iter_reality_gap_evidence_files,
     iter_reality_gap_example_answers,
+    iter_semantic_envelope_fixtures,
     reality_gap_anti_collapse_manifest,
 )
 from cep.io import load_json
@@ -173,6 +174,13 @@ def validate_reality_gap_corpus() -> list[ValidationResult]:
     )
 
     return results
+
+
+def validate_semantic_envelope_corpus() -> list[ValidationResult]:
+    schema_path = SCHEMAS_DIR / "semantic-envelope.schema.json"
+    return [
+        validate_instance(path, schema_path) for path in iter_semantic_envelope_fixtures()
+    ]
 
 
 def all_ok(results: list[ValidationResult]) -> bool:

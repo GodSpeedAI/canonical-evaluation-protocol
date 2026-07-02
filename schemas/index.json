@@ -10,6 +10,7 @@
     "anti-collapse-manifest.schema.json",
     "anti-collapse-fixture.schema.json",
     "benchmark-result.schema.json",
-    "conformance-report.schema.json"
+    "conformance-report.schema.json",
+    "semantic-envelope.schema.json"
   ]
 }

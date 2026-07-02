@@ -1,0 +1,30 @@
+# WP-7 (F-11): nightly ledger → CEP evaluation.
+#
+# Exports real SettlementRecorded rows from the ledger Postgres into scored
+# CEP benchmark results, then enforces the §14 ratchet (week-over-week
+# non-regression + hard anti-collapse caps). Results go to humans first
+# (reports/ledger/aggregate.json); no absolute thresholds are wired into
+# capability gates.
+#
+# Configure PG_DSN as a repository secret pointing at the ledger Postgres
+# (read-only credentials suffice — the exporter only SELECTs).
+
+name: ledger-eval
+
+on:
+  schedule:
+    - cron: "17 3 * * *"   # nightly, 03:17 UTC
+  workflow_dispatch: {}
+
+jobs:
+  ledger-eval:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+      - run: uv sync
+      - run: just ledger-eval PG_DSN="${{ secrets.LEDGER_PG_DSN }}"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ledger-eval-report
+          path: reports/ledger/

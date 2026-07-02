@@ -55,3 +55,9 @@ timestamp: "2026-06-26T14:13:47Z"
 - **Default**: Treat as a blocker to fix — drive fixtures through the real scorer/validator before claiming anti-collapse conformance publicly.
 - **Impact**: Determines whether `cep conformance anti-collapse` is evidence of detection or only of fixture authoring.
 - **Resolved (2026-06-27)**: Implemented as a real detector (`src/cep/detect.py`); the harness now scores `submitted_answer` content. No human decision needed.
+
+## OQ-0009 — v1 flat contract has no top-level field for scope/boundary/completeness/omission status
+- **Question**: CEP-0008 SS52 requires a minimally valid envelope to preserve `scope`, `boundary_record`, `completeness_status`, and `omission_status`. The v1 flat contract (`sea.agent.event.v1.json`) has no dedicated top-level field for any of these under `additionalProperties: false`; they can only be nested unenforced inside `payload` or `metadata`. Should v1 grow explicit top-level fields for these, or should CEP-0008 define an "opaque carrier" allowance for flat envelope profiles that don't expose them?
+- **Raised By**: Plan `02-cep.md` Task 1 (schema conformance work), 2026-07-01. See `schemas/semantic-envelope.mapping.md` for the full mapping and gap detail.
+- **Default**: Leave open; `semantic-envelope.schema.json` does not invent fields to close this gap.
+- **Impact**: Determines whether v1 producers (e.g. agent-memory-ledger) need a schema migration, or whether CEP-0008's SS52 minimal-envelope requirement needs a flat-profile carve-out.

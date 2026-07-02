@@ -343,6 +343,17 @@ To run a single family or score one answer, see
 * [Running the Benchmarks](docs/running-benchmarks.md) — install, run, and interpret results.
 * [Authoring Benchmark Cases](docs/authoring-cases.md) — add human-reviewed cases to grow the corpus.
 * [Anti-Collapse Reference](docs/anti-collapse.md) — the collapses CEP detects and how.
+* [Settlement Scoring Call Surface](docs/settlement-call-surface.md) — how a producer repo scores a settlement synchronously.
+
+---
+
+## Not to Be Confused With PET's "Prompt Judge"
+
+CEP's benchmark scorers evaluate *agent transformations* against
+evidence/settlement/authority/capability distinctions. They are unrelated to
+SEA's PET (`libs/pet`) "Prompt Judge", which evaluates *human-written
+prompts* in a gamified training app — different product, different domain,
+coincidental name overlap.
 
 ---
 

@@ -3,11 +3,18 @@ from pathlib import Path
 
 from typer.testing import CliRunner
 
-from cep.benchmarks.settlement import score_settlement
+from cep.benchmarks.settlement import (
+    SettlementAnswerKey,
+    from_settlement_recorded,
+    score_settlement,
+    score_settlement_answer,
+)
 from cep.cli import app
+from cep.json_types import JsonObject
 
 ROOT = Path(__file__).resolve().parents[1]
 CASE_DIR = ROOT / "benchmarks" / "settlement" / "cases" / "set-0001"
+SAMPLE_SETTLEMENT_RECORDED = ROOT / "tests" / "fixtures" / "sample_settlement_recorded.json"
 
 
 def test_settlement_valid_unsettled_answer_passes() -> None:
@@ -81,3 +88,63 @@ def test_run_settlement_corpus_generates_report() -> None:
         / "settlement"
         / "set-0001-ans-set-0001-valid-example.result.json"
     ).exists()
+
+
+def test_from_settlement_recorded_maps_usable_outcome_to_settled() -> None:
+    # Given: a real SettlementRecorded payload shape (godspeed_agent adapters.py).
+    payload: JsonObject = {
+        "work_request_id": "wr-0001",
+        "proof_result_id": "proof-0001",
+        "evidence_event_id": "evidence-0001",
+        "outcome": "usable",
+        "outcome_reason": "Observed result matches expected result",
+        "context_packet_id": None,
+        "settled_at": "2026-07-01T12:05:00Z",
+    }
+
+    # When: adapted into a SettlementAnswer.
+    answer = from_settlement_recorded(payload)
+
+    # Then: CEP's vocabulary is applied without godspeed_agent reshaping its event.
+    assert answer.case_ref == "wr-0001"
+    assert answer.answer_id == "evidence-0001"
+    assert answer.settlement_status == "settled"
+    assert answer.completion_claim_accepted is True
+
+
+def test_score_settlement_answer_caps_score_on_completion_settlement_collapse() -> None:
+    # Given: a producer's "usable" outcome for a case that expected only partial settlement.
+    answer_key = SettlementAnswerKey(
+        case_ref="wr-0001",
+        expected_settlement_status="partially_settled",
+        required_evidence_refs=["ev-0001"],
+        required_distinctions=["completion_vs_settlement"],
+    )
+    payload: JsonObject = {
+        "work_request_id": "wr-0001",
+        "proof_result_id": "proof-0001",
+        "evidence_event_id": "evidence-0001",
+        "outcome": "usable",
+        "outcome_reason": "Observed result matches expected result",
+    }
+    answer = from_settlement_recorded(payload)
+
+    # When: scored through the stable call surface, routed through the real scorer.
+    result = score_settlement_answer(answer_key, answer)
+
+    # Then: anti-collapse enforcement caps the score, proving this isn't a stub.
+    assert "completion_settlement_collapse" in result.critical_failures
+    assert result.score <= 30.0, result.to_json()
+
+
+def test_cli_score_settlement_reads_realistic_fixture() -> None:
+    # Given: the CLI's score-settlement passthrough and a realistic fixture.
+    runner = CliRunner()
+
+    # When: it scores a SettlementRecorded-shaped input file.
+    result = runner.invoke(app, ["score-settlement", "--input", str(SAMPLE_SETTLEMENT_RECORDED)])
+
+    # Then: it runs the real scorer end to end and reports the collapse.
+    assert result.exit_code == 0, result.output
+    assert "INVALID" in result.output or "FAIL" in result.output
+    assert "completion_settlement_collapse" in result.output

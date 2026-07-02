@@ -1,0 +1,28 @@
+{
+  "settlement_recorded": {
+    "schema_version": "v1",
+    "event_id": "e7a1b2c3-4d5e-4f6a-8b9c-0d1e2f3a4b5c",
+    "source_agent": "godspeed_agent",
+    "event_type": "SettlementRecorded",
+    "occurred_at": "2026-07-01T12:05:00Z",
+    "payload": {
+      "work_request_id": "wr-0001",
+      "proof_result_id": "proof-0001",
+      "evidence_event_id": "evidence-0001",
+      "outcome": "usable",
+      "outcome_reason": "Observed result matches expected result",
+      "context_packet_id": null,
+      "settled_at": "2026-07-01T12:05:00Z"
+    },
+    "provenance": {
+      "origin": "godspeed_agent/agentic_capability_loop"
+    }
+  },
+  "expected": {
+    "expected_settlement_status": "partially_settled",
+    "required_evidence_refs": ["ev-0001"],
+    "required_distinctions": ["completion_vs_settlement"]
+  },
+  "evidence_refs": [],
+  "preserved_distinctions": []
+}
