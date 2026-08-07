@@ -85,7 +85,9 @@ contract for Semantic Exhaust Runtime emissions.
   possibility-as-affordance, signature-as-truth) fail as `unknown field`,
   and unknown top-level fields fail the uncertainty-drop check.
 - Hash-bearing fields use the frozen runtime spec's pattern
-  `^[a-z0-9]+:[0-9a-f]{16,128}$`; `created_at`-style fields use RFC 3339.
+  `^[a-z0-9]+:[0-9a-f]{16,128}$`; `content_ref` admits CAS URIs via
+  `^[a-z0-9]+://[a-z0-9]+:[0-9a-f]{16,128}$` (e.g. `cas://sha256:<hex>` per the
+  frozen spec's §10.7a carriage table); `created_at`-style fields use RFC 3339.
 - SS11 lists `perspectives` and `actors` sections; CEP-0008 defines no
   record vocabulary for them (only `perspective_ref`/`actor_ref`-style
   references in SS25/SS30), so the full profile does not invent one.
