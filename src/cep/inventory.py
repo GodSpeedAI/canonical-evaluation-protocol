@@ -8,6 +8,7 @@ from cep.paths import (
     CAPABILITY_CASES_DIR,
     REALITY_GAP_CASES_DIR,
     SEMANTIC_ENVELOPE_FIXTURES_DIR,
+    SEMANTIC_ENVELOPE_FULL_FIXTURES_DIR,
     SETTLEMENT_CASES_DIR,
 )
 
@@ -69,4 +70,10 @@ def reality_gap_anti_collapse_manifest(
 
 
 def iter_semantic_envelope_fixtures(root: Path = SEMANTIC_ENVELOPE_FIXTURES_DIR) -> list[Path]:
+    return sorted(root.glob("*.json"))
+
+
+def iter_semantic_envelope_full_fixtures(
+    root: Path = SEMANTIC_ENVELOPE_FULL_FIXTURES_DIR,
+) -> list[Path]:
     return sorted(root.glob("*.json"))

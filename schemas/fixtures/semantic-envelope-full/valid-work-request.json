@@ -1,0 +1,74 @@
+{
+  "envelope_id": "env-wr-2026-08-07-0007",
+  "cep_version": "1.0.0",
+  "envelope_version": "1.0",
+  "envelope_kind": "work_request",
+  "created_at": "2026-08-07T11:00:00Z",
+  "created_by": "ops-scheduler-0.2.0",
+  "scope": {
+    "domain": "order_fulfillment",
+    "system": "warehouse-core",
+    "evaluation_context": "transformation-eval"
+  },
+  "boundary_record": {
+    "scope": "single order packing request",
+    "included_sections": ["questions", "constraints", "references"],
+    "excluded_sections": ["benchmarks", "settlements"],
+    "known_omissions": ["item-level provenance"],
+    "unknowns": ["inventory freshness at execution time"],
+    "redactions": [],
+    "compression_notes": [],
+    "out_of_scope_entities": ["delivery logistics"],
+    "classification": "internal",
+    "limitations": ["request valid until 2026-08-07T18:00:00Z"]
+  },
+  "completeness_status": "complete_for_context",
+  "omission_status": "marked",
+  "provenance_refs": ["prov-wr-0007"],
+  "validation_status": "valid",
+  "lineage_refs": ["env-snap-2026-08-07-0001"],
+  "references": [
+    {
+      "ref_id": "ref-order-1042",
+      "ref_type": "local_id",
+      "target_uri_or_id": "order-1042",
+      "target_hash": "sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+      "target_version": "1.0",
+      "access_method": "direct",
+      "availability_status": "available",
+      "integrity_status": "verified",
+      "scope": "order-1042 canonical record",
+      "limitations": []
+    }
+  ],
+  "constraints": [
+    {
+      "constraint_id": "con-pack-deadline",
+      "constraint_type": "deadline",
+      "description": "order-1042 must be packed by 18:00 UTC",
+      "scope": "order lifecycle",
+      "source": "sla-registry",
+      "status": "active"
+    }
+  ],
+  "questions": [
+    {
+      "question_id": "q-packed-complete",
+      "question_form": "is_complete",
+      "question_type": "completion",
+      "scope": "order-1042 packing",
+      "target_entities": ["order-1042"],
+      "expected_answer_shape": "boolean"
+    }
+  ],
+  "provenance": [
+    {
+      "provenance_id": "prov-wr-0007",
+      "source_system_refs": ["ops-scheduler"],
+      "producer_refs": ["ops-scheduler-0.2.0"],
+      "production_method": "scheduled_emission",
+      "created_at": "2026-08-07T11:00:00Z",
+      "verification_status": "verified"
+    }
+  ]
+}

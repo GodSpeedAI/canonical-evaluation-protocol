@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import sys
 from collections.abc import Callable
 from pathlib import Path
 from typing import Annotated
@@ -27,16 +28,20 @@ from cep.inventory import (
     iter_settlement_case_dirs,
 )
 from cep.io import load_json
-from cep.paths import REPORTS_DIR
-from cep.schema_profile import as_object
+from cep.paths import REPORTS_DIR, SCHEMAS_DIR
 from cep.reports import write_report
+from cep.schema_profile import as_object
 from cep.scoring.common import ScoreRecord
 from cep.validation import (
     ValidationResult,
     all_ok,
     validate_all_schemas,
+    validate_instance,
+    validate_instance_json,
     validate_reality_gap_corpus,
     validate_semantic_envelope_corpus,
+    validate_semantic_envelope_full_corpus,
+    validate_semantic_envelope_invalid_corpus,
 )
 
 app = typer.Typer(help="Canonical Evaluation Protocol CLI.", no_args_is_help=True)
@@ -105,8 +110,36 @@ def validate_reality_gap_corpus_command() -> None:
     "semantic-envelope",
     help="Validate Semantic Envelope fixtures against the CEP-0008 schema profile.",
 )
-def validate_semantic_envelope_command() -> None:
-    results = validate_semantic_envelope_corpus()
+def validate_semantic_envelope_command(
+    path: Annotated[Path | None, typer.Argument(dir_okay=False)] = None,
+    stdin: Annotated[
+        bool,
+        typer.Option("--stdin", help="Read one envelope from standard input."),
+    ] = False,
+) -> None:
+    if path is not None:
+        result = validate_instance(
+            path,
+            SCHEMAS_DIR / "cep-semantic-envelope.schema.json",
+        )
+        _print_results([result])
+        raise typer.Exit(0 if result.ok else 1)
+
+    if stdin:
+        content = sys.stdin.read()
+        result = validate_instance_json(
+            content,
+            SCHEMAS_DIR / "cep-semantic-envelope.schema.json",
+            target="stdin",
+        )
+        _print_results([result])
+        raise typer.Exit(0 if result.ok else 1)
+
+    results = (
+        validate_semantic_envelope_corpus()
+        + validate_semantic_envelope_full_corpus()
+        + validate_semantic_envelope_invalid_corpus()
+    )
     _print_results(results)
     raise typer.Exit(0 if all_ok(results) else 1)
 
@@ -114,7 +147,11 @@ def validate_semantic_envelope_command() -> None:
 @validate_app.command("all", help="Validate schemas and current corpus artifacts.")
 def validate_all_command() -> None:
     results = (
-        validate_all_schemas() + validate_reality_gap_corpus() + validate_semantic_envelope_corpus()
+        validate_all_schemas()
+        + validate_reality_gap_corpus()
+        + validate_semantic_envelope_corpus()
+        + validate_semantic_envelope_full_corpus()
+        + validate_semantic_envelope_invalid_corpus()
     )
     _print_results(results)
     raise typer.Exit(0 if all_ok(results) else 1)

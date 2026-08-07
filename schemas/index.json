@@ -11,6 +11,7 @@
     "anti-collapse-fixture.schema.json",
     "benchmark-result.schema.json",
     "conformance-report.schema.json",
-    "semantic-envelope.schema.json"
+    "semantic-envelope.schema.json",
+    "cep-semantic-envelope.schema.json"
   ]
 }

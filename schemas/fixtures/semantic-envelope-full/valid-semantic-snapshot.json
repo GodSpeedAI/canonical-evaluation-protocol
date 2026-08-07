@@ -1,0 +1,102 @@
+{
+  "envelope_id": "env-snap-2026-08-07-0001",
+  "cep_version": "1.0.0",
+  "envelope_version": "1.0",
+  "envelope_kind": "semantic_snapshot",
+  "created_at": "2026-08-07T10:00:00Z",
+  "created_by": "cep-exporter-0.3.0",
+  "scope": {
+    "domain": "order_fulfillment",
+    "system": "warehouse-core",
+    "evaluation_context": "transformation-eval"
+  },
+  "boundary_record": {
+    "scope": "inventory and order states for the 2026-08-07 morning snapshot",
+    "included_sections": ["states", "representations", "transformations"],
+    "excluded_sections": ["benchmarks"],
+    "known_omissions": ["pricing history before 2026-08-01"],
+    "unknowns": ["partial_orders: how they were created"],
+    "redactions": ["customer contact details"],
+    "compression_notes": [],
+    "out_of_scope_entities": ["supplier catalogs"],
+    "classification": "internal",
+    "limitations": ["snapshot reflects 06:00 UTC state only"]
+  },
+  "completeness_status": "complete_for_context",
+  "omission_status": "marked",
+  "provenance_refs": ["prov-2026-08-07-0001"],
+  "validation_status": "valid",
+  "lineage_refs": ["env-snap-2026-08-06-0001"],
+  "content_hash": "sha256:abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789",
+  "semantic_hash": "semhash:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+  "provenance": [
+    {
+      "provenance_id": "prov-2026-08-07-0001",
+      "source_system_refs": ["warehouse-core"],
+      "producer_refs": ["cep-exporter-0.3.0"],
+      "production_method": "periodic_snapshot",
+      "created_at": "2026-08-07T10:00:00Z",
+      "verification_status": "verified"
+    }
+  ],
+  "integrity": {
+    "content_hash": "sha256:abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789",
+    "semantic_hash": "semhash:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+    "verification_status": "verified",
+    "tamper_status": "intact",
+    "checked_at": "2026-08-07T10:05:00Z",
+    "checker_ref": "cep-verifier-0.1.0"
+  },
+  "states": [
+    {
+      "state_id": "st-order-1042",
+      "state_type": "declared_state",
+      "subject_ref": "order-1042",
+      "representation_refs": ["rep-order-1042-json"],
+      "scope": "order lifecycle",
+      "time_context": "2026-08-07T06:00:00Z",
+      "confidence": "high",
+      "provenance_refs": ["prov-2026-08-07-0001"]
+    },
+    {
+      "state_id": "st-order-1042-observed",
+      "state_type": "observed_state",
+      "subject_ref": "order-1042",
+      "representation_refs": ["rep-order-1042-json"],
+      "scope": "order lifecycle",
+      "time_context": "2026-08-07T06:00:00Z",
+      "confidence": "high",
+      "provenance_refs": ["prov-2026-08-07-0001"]
+    }
+  ],
+  "representations": [
+    {
+      "representation_id": "rep-order-1042-json",
+      "representation_kind": "inline",
+      "representation_type": "application/json",
+      "scope": "order-1042 canonical record",
+      "inline_content": {
+        "order_id": "order-1042",
+        "status": "packed",
+        "items": 3
+      },
+      "content_hash": "sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+      "semantic_hash": "semhash:abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789",
+      "content_availability": "available",
+      "size_bytes": 96,
+      "media_type": "application/json"
+    }
+  ],
+  "transformations": [
+    {
+      "transformation_id": "tf-order-1042-pack",
+      "transformation_type": "packing",
+      "source_state_ref": "st-order-1042",
+      "target_state_ref": "st-order-1042-observed",
+      "scope": "order lifecycle",
+      "time_context": "2026-08-07T05:40:00Z",
+      "confidence": "high",
+      "provenance_refs": ["prov-2026-08-07-0001"]
+    }
+  ]
+}

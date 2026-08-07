@@ -1,0 +1,55 @@
+{
+  "envelope_id": "env-min-2026-08-07-0001",
+  "cep_version": "1.0.0",
+  "envelope_version": "1.0",
+  "envelope_kind": "unknown",
+  "created_at": "2026-08-07T12:00:00Z",
+  "created_by": "cep-min-writer",
+  "scope": {
+    "evaluation_context": "minimal-validity-check"
+  },
+  "boundary_record": {
+    "scope": "minimal envelope carrying exactly one entity section",
+    "included_sections": [
+      "states"
+    ],
+    "excluded_sections": [],
+    "known_omissions": [
+      "all other CEP-0008 sections"
+    ],
+    "unknowns": [],
+    "redactions": [],
+    "compression_notes": [],
+    "out_of_scope_entities": [],
+    "classification": "test",
+    "limitations": []
+  },
+  "completeness_status": "minimal",
+  "omission_status": "marked",
+  "provenance_refs": [
+    "prov-min-0001"
+  ],
+  "validation_status": "valid",
+  "lineage_refs": [],
+  "provenance": [
+    {
+      "provenance_id": "prov-min-0001",
+      "source_system_refs": [
+        "cep-tests"
+      ],
+      "producer_refs": [
+        "cep-min-writer"
+      ],
+      "production_method": "fixture",
+      "created_at": "2026-08-07T12:00:00Z"
+    }
+  ],
+  "representations": [
+    {
+      "representation_id": "rep-1",
+      "representation_kind": "inline",
+      "representation_type": "text/plain",
+      "is_reality": true
+    }
+  ]
+}
