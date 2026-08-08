@@ -21,6 +21,10 @@ from cep.benchmarks.settlement import (
 )
 from cep.conformance.anti_collapse import run_reality_gap_anti_collapse
 from cep.conformance.benchmark_invariants import run_benchmark_anti_collapse
+from cep.conformance.corpus import (
+    CorpusError,
+    evaluate_corpus,
+)
 from cep.inventory import (
     iter_authority_case_dirs,
     iter_capability_case_dirs,
@@ -161,7 +165,33 @@ app.add_typer(validate_app, name="validate")
 
 
 @conformance_app.command("anti-collapse", help="Run anti-collapse conformance for all families.")
-def conformance_anti_collapse_command() -> None:
+def conformance_anti_collapse_command(
+    corpus: Annotated[Path | None, typer.Option(exists=True, dir_okay=False)] = None,
+) -> None:
+    """Run CEP anti-collapse conformance.
+
+    Without `--corpus`: evaluate CEP's own reality-gap fixtures and the
+    cross-family example-answer invariants (historical behavior).
+
+    With `--corpus <path>`: evaluate an externally supplied corpus (e.g. an
+    `sxr`-exported record set) through the same anti-collapse evaluator. The
+    gate passes only if every record commits no anti-collapse violation.
+    """
+    if corpus is not None:
+        try:
+            results = evaluate_corpus(corpus)
+        except CorpusError as exc:
+            console.print(f"ERROR {exc.reason}")
+            raise typer.Exit(2) from exc
+        failed = 0
+        for result in results:
+            marker = "PASS" if result.ok else "FAIL"
+            console.print(f"{marker} {result.record_id}: {result.message}")
+            if not result.ok:
+                failed += 1
+        console.print(f"corpus: {len(results) - failed}/{len(results)} passed")
+        raise typer.Exit(0 if failed == 0 else 1)
+
     ok = True
     for result in run_reality_gap_anti_collapse():
         marker = "PASS" if result.ok else "FAIL"
