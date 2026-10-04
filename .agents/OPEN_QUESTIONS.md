@@ -62,3 +62,9 @@ timestamp: "2026-06-26T14:13:47Z"
 - **Default**: Leave open; `semantic-envelope.schema.json` does not invent fields to close this gap.
 - **Impact**: Determines whether v1 producers (e.g. agent-memory-ledger) need a schema migration, or whether CEP-0008's SS52 minimal-envelope requirement needs a flat-profile carve-out.
 - **Resolved (2026-08-07, Slice 0A)**: Closed on the "explicit top-level fields" basis. The canonical full profile (`schemas/cep-semantic-envelope.schema.json`) makes `scope`, `boundary_record`, `completeness_status`, `omission_status`, and every other SS52 minimal-valid field explicit top-level `required` fields. The v1 flat profile (`semantic-envelope.schema.json`) remains untouched as a limited compatibility contract; v1 producers targeting the runtime spec must emit the canonical full profile instead of growing v1.
+
+## OQ-0006 — profiles/godspeed-v1 is stacked on an unmerged branch
+- **Question**: The canonical full envelope schema lives on `slice-0a-cep-semantic-envelope`, 5 commits ahead of `main` and not merged. `profiles/godspeed-v1` is stacked on it. Should `slice-0a` merge to `main` before the profiles do?
+- **Default**: Yes; merge `slice-0a` first, then rebase or merge `profiles/godspeed-v1`. Consumers (DomainForge, RealityTrace) already target the full schema.
+- **Impact**: Until then `main` has no canonical full profile and consumers must pin a branch.
+
