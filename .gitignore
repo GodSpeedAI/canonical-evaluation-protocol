@@ -1,3 +1,7 @@
 .tmp
 reports/
 __pycache__/
+
+# contracts build output
+contracts/rust/target/
+contracts/typescript/node_modules/
