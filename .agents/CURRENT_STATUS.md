@@ -24,6 +24,7 @@ GodSpeed migration Stage 3: one machine-readable CEP-0008 contract with six prof
 
 ## Last Completed Work
 
+- Typed validators: Rust crate `contracts/rust` (jsonschema 0.58.5, typed `Decision`) and TypeScript package `contracts/typescript` (Ajv 8.20, generated types), both passing the shared corpus; `just contracts` runs them. Four validators (CEP Python, standard jsonschema, Rust, Ajv) agree on all 34 cases.
 - GodSpeed profiles v1 (DEC-0005..0007): `allOf` support in the validator (`tests/test_all_of.py`); generated profile schemas `schemas/profiles/godspeed/` (six profiles plus `world-transition.v1`) from `tools/generate_godspeed_profiles.py`; shared conformance corpus `schemas/fixtures/godspeed/` (34 cases, manifest, lineage chains) from `tools/generate_godspeed_fixtures.py`; `src/cep/godspeed.py` (schema validation, identity-digest recomputation, world consistency, transition check); normative `spec/profiles/GODSPEED-PROFILES-v1.md`; DomainForge golden vectors vendored and hash-pinned in `schemas/vendored/world_ref/`.
 - Added OKF frontmatter to `AGENTS.md` and `CLAUDE.md`.
 - Updated root `index.md` to link to `.agents/CURRENT_STATUS.md`, `.agents/EVIDENCE.md`, and `.agents/OPEN_QUESTIONS.md`.
@@ -54,6 +55,7 @@ The repo now has end-to-end local executable proof. More reviewed cases will red
 
 ## Validation / Evidence
 
+- 2026-10-04 contracts: `cargo test --locked` 7 passed, clippy `-D warnings` and fmt clean; `bun test` 57 passed, `tsc --noEmit` clean, generated types up to date.
 - 2026-10-04: `uv run pytest --ignore=tests/test_ledger_exporter.py` 133 passed; `tools/validate_okf.py` passes; `cep conformance anti-collapse` and the four corpora pass; the standard `jsonschema` library agrees with the CEP validator on all 34 corpus cases; `basedpyright src/cep/godspeed.py` 0 errors. `tests/test_ledger_exporter.py` cannot be collected here (no `psycopg`), identical at baseline.
 See `.agents/EVIDENCE.md` entries `EV-OKF-REPAIR`, `EV-CR-REVIEW-FIXES`, `EV-REALITY-GAP-PROOF`, `EV-CR-PHASE4-7-REVIEW`, `EV-MULTI-BENCH-PHASE8-10`, and `EV-END-TO-END-PHASE11`.
 

@@ -18,6 +18,10 @@ smoke:
     uv run cep run settlement-corpus
     uv run cep run capability-corpus
 
+contracts:
+    cd contracts/rust && cargo test --locked && cargo clippy --all-targets -- -D warnings
+    cd contracts/typescript && bun install --frozen-lockfile && bun run check && bun run generate:check && bun test
+
 all: validate test conformance smoke
 
 # WP-7 (F-11): export real ledger SettlementRecorded rows → scored CEP corpus,

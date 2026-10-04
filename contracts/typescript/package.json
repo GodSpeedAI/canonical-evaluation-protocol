@@ -1,0 +1,23 @@
+{
+  "name": "@godspeedai/cep-godspeed-contract",
+  "version": "0.1.0",
+  "private": true,
+  "description": "GodSpeed CEP-0008 profile validation (TypeScript). Schemas and corpus live in the cep repository.",
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "generate": "bun run scripts/generate-types.ts",
+    "generate:check": "bun run scripts/generate-types.ts --check",
+    "check": "tsc --noEmit -p tsconfig.json",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "ajv": "8.20.0"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "json-schema-to-typescript": "16.0.0",
+    "typescript": "^5.6.0"
+  }
+}
