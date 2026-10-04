@@ -88,5 +88,5 @@ A natural question is: *Why does `cep.detect` use deterministic pattern and refe
 
 * [src/cep/detect.py](../../src/cep/detect.py) — Content-based collapse detection engine
 * [src/cep/conformance/anti_collapse.py](../../src/cep/conformance/anti_collapse.py) — Independent manifest verification
-* [.agents/reports/final_protocol_audit.md](../../.agents/reports/final_protocol_audit.md) — Complete audit report detailing F-01 through F-11
+* `.agents/reports/final_protocol_audit.md` (local working report; `reports/` is gitignored, so it is not in a fresh checkout) — Complete audit report detailing F-01 through F-11
 * [tests/test_anti_collapse_conformance.py](../../tests/test_anti_collapse_conformance.py) — Engine verification tests
