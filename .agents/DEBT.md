@@ -96,3 +96,20 @@
 - **Recommended Repair**: Delete.
 - **Priority**: Low.
 - **Status**: Resolved (2026-06-27) — see Remediation Log in `.agents/reports/final_protocol_audit.md`.
+
+## DEBT-0009 — Environment lacks psycopg; ledger exporter test cannot be collected
+
+- **ID**: DEBT-0009
+- **Date**: 2026-10-04
+- **Evidence**: `uv run pytest tests/test_ledger_exporter.py` -> `ModuleNotFoundError: No module named 'psycopg'` (same at baseline). `just test` therefore fails at collection on this machine.
+- **Impact**: `just all` is red locally before any test runs.
+- **Next move**: add `psycopg` to the `dev` extra or mark the module as optional-skip.
+
+## DEBT-0010 — Static-analysis claims in the remediation banner are stale
+
+- **ID**: DEBT-0010
+- **Date**: 2026-10-04
+- **Evidence**: `uv run basedpyright src` reports 39 errors and `uv run ruff check src tests` reports findings at the pre-change commit, while the banner above says 0 errors.
+- **Impact**: the "clean" claim cannot be relied on; new code is held to 0 errors individually (`src/cep/godspeed.py`).
+- **Next move**: fix or re-baseline, then update the banner.
+

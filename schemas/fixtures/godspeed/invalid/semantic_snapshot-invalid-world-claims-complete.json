@@ -1,0 +1,70 @@
+{
+  "envelope_id": "env-semantic_snapshot-0001",
+  "cep_version": "1.0.0",
+  "envelope_version": "1.0",
+  "envelope_kind": "semantic_snapshot",
+  "created_at": "2026-10-04T12:00:00Z",
+  "created_by": "godspeed-fixture-writer",
+  "scope": {
+    "evaluation_context": "godspeed-semantic_snapshot"
+  },
+  "boundary_record": {
+    "scope": "semantic_snapshot fixture",
+    "included_sections": [
+      "omissions",
+      "references"
+    ],
+    "excluded_sections": [],
+    "known_omissions": [
+      "fixture content is illustrative"
+    ],
+    "unknowns": [],
+    "redactions": [],
+    "compression_notes": [],
+    "out_of_scope_entities": [],
+    "classification": "test",
+    "limitations": []
+  },
+  "completeness_status": "partial",
+  "omission_status": "marked",
+  "provenance_refs": [
+    "prov-semantic_snapshot-0001"
+  ],
+  "validation_status": "valid",
+  "lineage_refs": [],
+  "provenance": [
+    {
+      "provenance_id": "prov-semantic_snapshot-0001",
+      "source_system_refs": [
+        "godspeed-fixtures"
+      ],
+      "producer_refs": [
+        "godspeed-fixture-writer"
+      ],
+      "production_method": "fixture",
+      "created_at": "2026-10-04T12:00:00Z"
+    }
+  ],
+  "references": [
+    {
+      "ref_id": "ref-resource-0001",
+      "ref_type": "artifact_id",
+      "target_uri_or_id": "artifact:report-0001",
+      "availability_status": "available",
+      "integrity_status": "verifiable"
+    }
+  ],
+  "omissions": [
+    {
+      "omission_id": "om-0001",
+      "omission_type": "canonical_representation_D",
+      "reason": "model failed validation; no canonical representation exists"
+    }
+  ],
+  "extensions": {
+    "cep.profile": {
+      "profile_id": "godspeed.semantic_snapshot",
+      "profile_version": "1.0.0"
+    }
+  }
+}

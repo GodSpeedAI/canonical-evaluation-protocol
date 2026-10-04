@@ -1,0 +1,239 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cep.dev/schemas/profiles/godspeed/semantic_snapshot.v1.schema.json",
+  "title": "GodSpeed semantic_snapshot profile v1.0.0",
+  "description": "Bounded state of a semantic world, pinned by world_ref (CEP-0008 §9.11).",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "../../cep-semantic-envelope.schema.json"
+    },
+    {
+      "required": [
+        "scope",
+        "extensions",
+        "provenance"
+      ],
+      "properties": {
+        "envelope_kind": {
+          "const": "semantic_snapshot"
+        },
+        "scope": {
+          "type": "object",
+          "properties": {
+            "world_ref": {
+              "type": "string",
+              "description": "Immutable reference to exactly one resolved semantic-world revision (world:<name>@sha256:<digest>); defined by DomainForge.",
+              "allOf": [
+                {
+                  "pattern": "^world:[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*@sha256:[0-9a-f]{64}$"
+                },
+                {
+                  "pattern": "^world:[^@]{1,64}@.*$"
+                }
+              ]
+            },
+            "world_alias": {
+              "type": "string",
+              "description": "Mutable selector (world:<name>). Informational only; consequential records pin world_ref.",
+              "allOf": [
+                {
+                  "pattern": "^world:[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$"
+                },
+                {
+                  "pattern": "^world:[^@]{1,64}$"
+                }
+              ]
+            },
+            "world_label": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Presentation only; never identity."
+            }
+          }
+        },
+        "extensions": {
+          "type": "object",
+          "required": [
+            "cep.profile"
+          ],
+          "properties": {
+            "cep.profile": {
+              "type": "object",
+              "required": [
+                "profile_id",
+                "profile_version"
+              ],
+              "properties": {
+                "profile_id": {
+                  "const": "godspeed.semantic_snapshot"
+                },
+                "profile_version": {
+                  "const": "1.0.0"
+                }
+              }
+            }
+          }
+        }
+      },
+      "anyOf": [
+        {
+          "description": "valid world: pinned world_ref, identity and integrity present",
+          "required": [
+            "scope",
+            "integrity",
+            "representations",
+            "references",
+            "provenance"
+          ],
+          "properties": {
+            "extensions": {
+              "required": [
+                "domainforge.identity"
+              ],
+              "properties": {
+                "domainforge.identity": {
+                  "type": "object",
+                  "required": [
+                    "domain_model_identity",
+                    "semantic_closure_hash"
+                  ],
+                  "properties": {
+                    "domain_model_identity": {
+                      "type": "object",
+                      "required": [
+                        "identity_scheme_version",
+                        "producer",
+                        "producer_version",
+                        "language_schema_version",
+                        "compiler_interpretation_version",
+                        "canonicalization_version",
+                        "source_set_hash",
+                        "content_hash",
+                        "semantic_closure_hash",
+                        "semantic_pack_set_hash",
+                        "registry_content_hash"
+                      ],
+                      "properties": {
+                        "identity_scheme_version": {
+                          "const": "v2-full-preimage"
+                        },
+                        "producer": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "producer_version": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "language_schema_version": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "compiler_interpretation_version": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "canonicalization_version": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "source_set_hash": {
+                          "type": "string",
+                          "pattern": "^sha256:[0-9a-f]{64}$"
+                        },
+                        "content_hash": {
+                          "type": "string",
+                          "pattern": "^sha256:[0-9a-f]{64}$"
+                        },
+                        "semantic_closure_hash": {
+                          "type": "string",
+                          "pattern": "^sha256:[0-9a-f]{64}$"
+                        },
+                        "semantic_pack_set_hash": {
+                          "anyOf": [
+                            {
+                              "const": null
+                            },
+                            {
+                              "type": "string",
+                              "pattern": "^sha256:[0-9a-f]{64}$"
+                            }
+                          ]
+                        },
+                        "registry_content_hash": {
+                          "anyOf": [
+                            {
+                              "const": null
+                            },
+                            {
+                              "type": "string",
+                              "pattern": "^sha256:[0-9a-f]{64}$"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "semantic_closure_hash": {
+                      "type": "string",
+                      "pattern": "^sha256:[0-9a-f]{64}$"
+                    }
+                  }
+                }
+              }
+            },
+            "scope": {
+              "type": "object",
+              "properties": {
+                "world_ref": {
+                  "type": "string",
+                  "description": "Immutable reference to exactly one resolved semantic-world revision (world:<name>@sha256:<digest>); defined by DomainForge.",
+                  "allOf": [
+                    {
+                      "pattern": "^world:[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*@sha256:[0-9a-f]{64}$"
+                    },
+                    {
+                      "pattern": "^world:[^@]{1,64}@.*$"
+                    }
+                  ]
+                },
+                "world_alias": {
+                  "type": "string",
+                  "description": "Mutable selector (world:<name>). Informational only; consequential records pin world_ref.",
+                  "allOf": [
+                    {
+                      "pattern": "^world:[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$"
+                    },
+                    {
+                      "pattern": "^world:[^@]{1,64}$"
+                    }
+                  ]
+                },
+                "world_label": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "Presentation only; never identity."
+                }
+              },
+              "required": [
+                "world_ref"
+              ]
+            }
+          }
+        },
+        {
+          "description": "invalid world: explicitly invalid, omissions recorded, no world pretended",
+          "required": [
+            "omissions",
+            "completeness_status"
+          ],
+          "properties": {
+            "completeness_status": {
+              "const": "invalid"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

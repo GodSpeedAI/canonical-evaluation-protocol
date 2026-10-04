@@ -1,0 +1,94 @@
+{
+  "envelope_id": "env-semantic_snapshot-0001",
+  "cep_version": "1.0.0",
+  "envelope_version": "1.0",
+  "envelope_kind": "semantic_snapshot",
+  "created_at": "2026-10-04T12:00:00Z",
+  "created_by": "godspeed-fixture-writer",
+  "scope": {
+    "evaluation_context": "godspeed-semantic_snapshot",
+    "world_alias": "world:corporate",
+    "world_label": "GodSpeed Corporate World"
+  },
+  "boundary_record": {
+    "scope": "semantic_snapshot fixture",
+    "included_sections": [
+      "integrity",
+      "references",
+      "representations"
+    ],
+    "excluded_sections": [],
+    "known_omissions": [
+      "fixture content is illustrative"
+    ],
+    "unknowns": [],
+    "redactions": [],
+    "compression_notes": [],
+    "out_of_scope_entities": [],
+    "classification": "test",
+    "limitations": []
+  },
+  "completeness_status": "partial",
+  "omission_status": "marked",
+  "provenance_refs": [
+    "prov-semantic_snapshot-0001"
+  ],
+  "validation_status": "valid",
+  "lineage_refs": [],
+  "provenance": [
+    {
+      "provenance_id": "prov-semantic_snapshot-0001",
+      "source_system_refs": [
+        "godspeed-fixtures"
+      ],
+      "producer_refs": [
+        "godspeed-fixture-writer"
+      ],
+      "production_method": "fixture",
+      "created_at": "2026-10-04T12:00:00Z"
+    }
+  ],
+  "references": [
+    {
+      "ref_id": "ref-resource-0001",
+      "ref_type": "artifact_id",
+      "target_uri_or_id": "artifact:report-0001",
+      "availability_status": "available",
+      "integrity_status": "verifiable"
+    }
+  ],
+  "representations": [
+    {
+      "representation_id": "rep-d-0001",
+      "representation_kind": "canonical_semantic_representation",
+      "representation_type": "domainforge-semantic-envelope/v1",
+      "content_hash": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+    }
+  ],
+  "integrity": {
+    "content_hash": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+    "semantic_hash": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+  },
+  "extensions": {
+    "cep.profile": {
+      "profile_id": "godspeed.semantic_snapshot",
+      "profile_version": "1.0.0"
+    },
+    "domainforge.identity": {
+      "domain_model_identity": {
+        "identity_scheme_version": "v2-full-preimage",
+        "producer": "domainforge-core",
+        "producer_version": "0.18.2",
+        "language_schema_version": "domainforge-ast/v3",
+        "compiler_interpretation_version": "domainforge-interpretation/v1",
+        "canonicalization_version": "domainforge-canonicalization/v1",
+        "source_set_hash": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+        "content_hash": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+        "semantic_closure_hash": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+        "semantic_pack_set_hash": null,
+        "registry_content_hash": null
+      },
+      "semantic_closure_hash": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+    }
+  }
+}

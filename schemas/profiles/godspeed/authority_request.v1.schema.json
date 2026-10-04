@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cep.dev/schemas/profiles/godspeed/authority_request.v1.schema.json",
+  "title": "GodSpeed authority_request profile v1.0.0",
+  "description": "Request to govern one consequential transformation inside a pinned world (CEP-0008 §9.3).",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "../../cep-semantic-envelope.schema.json"
+    },
+    {
+      "required": [
+        "scope",
+        "extensions",
+        "transformations",
+        "authority",
+        "provenance",
+        "references"
+      ],
+      "properties": {
+        "envelope_kind": {
+          "const": "authority_request"
+        },
+        "scope": {
+          "type": "object",
+          "properties": {
+            "world_ref": {
+              "type": "string",
+              "description": "Immutable reference to exactly one resolved semantic-world revision (world:<name>@sha256:<digest>); defined by DomainForge.",
+              "allOf": [
+                {
+                  "pattern": "^world:[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*@sha256:[0-9a-f]{64}$"
+                },
+                {
+                  "pattern": "^world:[^@]{1,64}@.*$"
+                }
+              ]
+            },
+            "world_alias": {
+              "type": "string",
+              "description": "Mutable selector (world:<name>). Informational only; consequential records pin world_ref.",
+              "allOf": [
+                {
+                  "pattern": "^world:[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$"
+                },
+                {
+                  "pattern": "^world:[^@]{1,64}$"
+                }
+              ]
+            },
+            "world_label": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Presentation only; never identity."
+            }
+          },
+          "required": [
+            "world_ref"
+          ]
+        },
+        "extensions": {
+          "type": "object",
+          "required": [
+            "cep.profile",
+            "godspeed.authority_request"
+          ],
+          "properties": {
+            "cep.profile": {
+              "type": "object",
+              "required": [
+                "profile_id",
+                "profile_version"
+              ],
+              "properties": {
+                "profile_id": {
+                  "const": "godspeed.authority_request"
+                },
+                "profile_version": {
+                  "const": "1.0.0"
+                }
+              }
+            },
+            "godspeed.authority_request": {
+              "type": "object",
+              "required": [
+                "operation_id",
+                "correlation_id"
+              ]
+            }
+          }
+        },
+        "authority": {
+          "minItems": 1,
+          "items": {
+            "required": [
+              "authority_id",
+              "subject_actor_ref"
+            ]
+          }
+        },
+        "transformations": {
+          "minItems": 1,
+          "items": {
+            "required": [
+              "transformation_id",
+              "transformation_type"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

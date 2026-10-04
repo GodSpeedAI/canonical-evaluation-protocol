@@ -12,6 +12,13 @@
     "benchmark-result.schema.json",
     "conformance-report.schema.json",
     "semantic-envelope.schema.json",
-    "cep-semantic-envelope.schema.json"
+    "cep-semantic-envelope.schema.json",
+    "profiles/godspeed/semantic_snapshot.v1.schema.json",
+    "profiles/godspeed/authority_request.v1.schema.json",
+    "profiles/godspeed/authority_decision.v1.schema.json",
+    "profiles/godspeed/execution_trace.v1.schema.json",
+    "profiles/godspeed/evidence_packet.v1.schema.json",
+    "profiles/godspeed/settlement_packet.v1.schema.json",
+    "profiles/godspeed/world-transition.v1.schema.json"
   ]
 }

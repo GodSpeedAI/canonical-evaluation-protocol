@@ -13,3 +13,4 @@ This directory contains the normative specifications for the Canonical Evaluatio
 * [CEP-0008: Semantic Envelope](CEP-0008-semantic-envelope.md) - This document defines the CEP Semantic Envelope.
 * [CEP-0009: Benchmark Model](CEP-0009-benchmark-model.md) - This document defines the CEP Benchmark Model.
 * [CEP-0010: Conformance](CEP-0010-conformance.md) - This document defines CEP conformance.
+* [GodSpeed Profiles v1](profiles/GODSPEED-PROFILES-v1.md) - CEP-0008 profiles and the world_ref scope pin for GodSpeed subsystem boundaries.

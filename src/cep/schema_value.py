@@ -133,6 +133,26 @@ def _any_of_errors(value: JsonValue, profile: SchemaProfile, location: str) -> l
     return [f"{location} must satisfy at least one anyOf branch{suffix}"]
 
 
+def _all_of_errors(value: JsonValue, profile: SchemaProfile, location: str) -> list[str]:
+    all_of = profile.schema.get("allOf")
+    if not isinstance(all_of, list):
+        return []
+
+    errors: list[str] = []
+    for branch in all_of:
+        branch_schema = as_object(branch)
+        if branch_schema is None:
+            continue
+        errors.extend(
+            validate_value(
+                value,
+                SchemaProfile(schema=branch_schema, root=profile.root),
+                location,
+            )
+        )
+    return list(dict.fromkeys(errors))
+
+
 def _resolve_ref(profile: SchemaProfile, ref: str) -> SchemaProfile:
     ref_path = profile.root / ref.removeprefix("./")
     return SchemaProfile(schema=load_json(ref_path), root=ref_path.parent)
@@ -163,6 +183,7 @@ def validate_value(value: JsonValue, profile: SchemaProfile, location: str) -> l
     errors.extend(_number_bound_errors(value, schema, location))
     errors.extend(_length_bound_errors(value, schema, location))
     errors.extend(_any_of_errors(value, profile, location))
+    errors.extend(_all_of_errors(value, profile, location))
     errors.extend(_validate_nested(value, profile, location))
     return errors
 

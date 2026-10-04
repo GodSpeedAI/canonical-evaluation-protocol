@@ -1,0 +1,275 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cep.dev/schemas/profiles/godspeed/authority_decision.v1.schema.json",
+  "title": "GodSpeed authority_decision profile v1.0.0",
+  "description": "Governed disposition of an authority request; constrained dispositions keep their constraints (CEP-0008 §9.4).",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "../../cep-semantic-envelope.schema.json"
+    },
+    {
+      "required": [
+        "scope",
+        "extensions",
+        "transformations",
+        "authority",
+        "provenance"
+      ],
+      "properties": {
+        "envelope_kind": {
+          "const": "authority_decision"
+        },
+        "scope": {
+          "type": "object",
+          "properties": {
+            "world_ref": {
+              "type": "string",
+              "description": "Immutable reference to exactly one resolved semantic-world revision (world:<name>@sha256:<digest>); defined by DomainForge.",
+              "allOf": [
+                {
+                  "pattern": "^world:[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*@sha256:[0-9a-f]{64}$"
+                },
+                {
+                  "pattern": "^world:[^@]{1,64}@.*$"
+                }
+              ]
+            },
+            "world_alias": {
+              "type": "string",
+              "description": "Mutable selector (world:<name>). Informational only; consequential records pin world_ref.",
+              "allOf": [
+                {
+                  "pattern": "^world:[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$"
+                },
+                {
+                  "pattern": "^world:[^@]{1,64}$"
+                }
+              ]
+            },
+            "world_label": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Presentation only; never identity."
+            }
+          },
+          "required": [
+            "world_ref"
+          ]
+        },
+        "extensions": {
+          "type": "object",
+          "required": [
+            "cep.profile"
+          ],
+          "properties": {
+            "cep.profile": {
+              "type": "object",
+              "required": [
+                "profile_id",
+                "profile_version"
+              ],
+              "properties": {
+                "profile_id": {
+                  "const": "godspeed.authority_decision"
+                },
+                "profile_version": {
+                  "const": "1.0.0"
+                }
+              }
+            }
+          }
+        },
+        "lineage_refs": {
+          "minItems": 1
+        },
+        "authority": {
+          "minItems": 1,
+          "items": {
+            "required": [
+              "authority_id",
+              "subject_actor_ref"
+            ]
+          }
+        }
+      },
+      "anyOf": [
+        {
+          "description": "plain decision: allow, deny, escalate or unknown",
+          "required": [
+            "extensions"
+          ],
+          "properties": {
+            "extensions": {
+              "required": [
+                "godspeed.authority_decision"
+              ],
+              "properties": {
+                "godspeed.authority_decision": {
+                  "type": "object",
+                  "required": [
+                    "decision",
+                    "operation_id",
+                    "request_ref"
+                  ],
+                  "properties": {
+                    "decision": {
+                      "enum": [
+                        "allow",
+                        "deny",
+                        "escalate",
+                        "unknown"
+                      ]
+                    },
+                    "operation_id": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "request_ref": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "policy_basis": {
+                      "type": "array",
+                      "minItems": 1,
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "compensating_controls": {
+                      "type": "array",
+                      "minItems": 1,
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "description": "constrained_allow or boundary keeps its constraints and policy basis",
+          "required": [
+            "extensions",
+            "constraints"
+          ],
+          "properties": {
+            "extensions": {
+              "required": [
+                "godspeed.authority_decision"
+              ],
+              "properties": {
+                "godspeed.authority_decision": {
+                  "type": "object",
+                  "required": [
+                    "decision",
+                    "operation_id",
+                    "request_ref",
+                    "policy_basis"
+                  ],
+                  "properties": {
+                    "decision": {
+                      "enum": [
+                        "constrained_allow",
+                        "boundary"
+                      ]
+                    },
+                    "operation_id": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "request_ref": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "policy_basis": {
+                      "type": "array",
+                      "minItems": 1,
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "compensating_controls": {
+                      "type": "array",
+                      "minItems": 1,
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "constraints": {
+              "minItems": 1
+            }
+          }
+        },
+        {
+          "description": "degraded keeps its compensating controls, constraints and policy basis",
+          "required": [
+            "extensions",
+            "constraints"
+          ],
+          "properties": {
+            "extensions": {
+              "required": [
+                "godspeed.authority_decision"
+              ],
+              "properties": {
+                "godspeed.authority_decision": {
+                  "type": "object",
+                  "required": [
+                    "decision",
+                    "operation_id",
+                    "request_ref",
+                    "policy_basis",
+                    "compensating_controls"
+                  ],
+                  "properties": {
+                    "decision": {
+                      "const": "degraded"
+                    },
+                    "operation_id": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "request_ref": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "policy_basis": {
+                      "type": "array",
+                      "minItems": 1,
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "compensating_controls": {
+                      "type": "array",
+                      "minItems": 1,
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "constraints": {
+              "minItems": 1
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

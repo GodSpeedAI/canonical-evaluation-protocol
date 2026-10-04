@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cep.dev/schemas/profiles/godspeed/settlement_packet.v1.schema.json",
+  "title": "GodSpeed settlement_packet profile v1.0.0",
+  "description": "Settlement of an operation from its evidence (CEP-0008 §9.7).",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "../../cep-semantic-envelope.schema.json"
+    },
+    {
+      "required": [
+        "scope",
+        "extensions",
+        "settlements",
+        "evidence",
+        "questions",
+        "provenance"
+      ],
+      "properties": {
+        "envelope_kind": {
+          "const": "settlement_packet"
+        },
+        "scope": {
+          "type": "object",
+          "properties": {
+            "world_ref": {
+              "type": "string",
+              "description": "Immutable reference to exactly one resolved semantic-world revision (world:<name>@sha256:<digest>); defined by DomainForge.",
+              "allOf": [
+                {
+                  "pattern": "^world:[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*@sha256:[0-9a-f]{64}$"
+                },
+                {
+                  "pattern": "^world:[^@]{1,64}@.*$"
+                }
+              ]
+            },
+            "world_alias": {
+              "type": "string",
+              "description": "Mutable selector (world:<name>). Informational only; consequential records pin world_ref.",
+              "allOf": [
+                {
+                  "pattern": "^world:[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$"
+                },
+                {
+                  "pattern": "^world:[^@]{1,64}$"
+                }
+              ]
+            },
+            "world_label": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Presentation only; never identity."
+            }
+          },
+          "required": [
+            "world_ref"
+          ]
+        },
+        "extensions": {
+          "type": "object",
+          "required": [
+            "cep.profile",
+            "godspeed.settlement_packet"
+          ],
+          "properties": {
+            "cep.profile": {
+              "type": "object",
+              "required": [
+                "profile_id",
+                "profile_version"
+              ],
+              "properties": {
+                "profile_id": {
+                  "const": "godspeed.settlement_packet"
+                },
+                "profile_version": {
+                  "const": "1.0.0"
+                }
+              }
+            },
+            "godspeed.settlement_packet": {
+              "type": "object",
+              "required": [
+                "operation_id"
+              ]
+            }
+          }
+        },
+        "lineage_refs": {
+          "minItems": 1
+        }
+      }
+    }
+  ]
+}
