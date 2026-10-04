@@ -234,10 +234,12 @@ def authority_decision_profile() -> dict:
 
 def semantic_snapshot_profile() -> dict:
     ns = "domainforge.identity"
+    status = "model_validation_status"
     valid_world = {
         "description": "valid world: pinned world_ref, identity and integrity present",
-        "required": ["integrity", "representations", "references", "provenance"],
+        "required": ["scope", "integrity", "representations", "references", "provenance"],
         "properties": {
+            "scope": scope_requirements(pinned=True),
             "extensions": {
                 "required": [ns],
                 "properties": {
@@ -248,26 +250,35 @@ def semantic_snapshot_profile() -> dict:
                             "domain_model_identity": identity_schema(),
                             "semantic_closure_hash": {"type": "string", "pattern": HASH},
                         },
+                    },
+                    # DomainForge omits the flag for a valid model; when present it must say valid.
+                    "domainforge": {"properties": {status: {"const": "valid"}}},
+                },
+            },
+        },
+    }
+    invalid_world = {
+        "description": (
+            "invalid world: explicitly flagged invalid by the producer; it is never pinned "
+            "(no world_ref), so it cannot masquerade as a valid world"
+        ),
+        "required": ["extensions"],
+        "properties": {
+            "extensions": {
+                "required": ["domainforge"],
+                "properties": {
+                    "domainforge": {
+                        "type": "object",
+                        "required": [status],
+                        "properties": {status: {"const": "invalid"}},
                     }
                 },
             }
         },
     }
-    invalid_world = {
-        "description": "invalid world: explicitly invalid, omissions recorded, no world pretended",
-        "required": ["omissions", "completeness_status"],
-        "properties": {"completeness_status": {"const": "invalid"}},
-    }
-    base = tightening(
-        "semantic_snapshot",
-        required=["provenance"],
-    )
-    # An invalid semantic world has no immutable identity: it must not carry a
-    # pinned world_ref, so the pinned-scope requirement applies to the valid branch only.
-    base["required"] = ["scope", "extensions", "provenance"]
+    base = tightening("semantic_snapshot", required=["provenance"])
+    # The pinned-scope requirement belongs to the valid-world branch only.
     base["properties"]["scope"] = scope_requirements(pinned=False)
-    valid_world["required"] = ["scope", *valid_world["required"]]
-    valid_world["properties"]["scope"] = scope_requirements(pinned=True)
     base["anyOf"] = [valid_world, invalid_world]
     return base
 

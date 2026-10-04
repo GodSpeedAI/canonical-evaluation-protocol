@@ -172,7 +172,8 @@ function collect(validate: ValidateFunction, instance: unknown): string[] {
 function verifySnapshot(envelope: unknown): string[] {
   if (!isObject(envelope)) return ["envelope is not an object"];
   const worldRef = worldRefOf(envelope);
-  if (envelope["completeness_status"] === "invalid") {
+  const df = isObject(envelope["extensions"]) ? envelope["extensions"]["domainforge"] : undefined;
+  if (isObject(df) && df["model_validation_status"] === "invalid") {
     return worldRef === undefined ? [] : ["an invalid semantic world must not carry a world_ref"];
   }
   if (worldRef === undefined) return ["a valid semantic snapshot must pin a world_ref"];

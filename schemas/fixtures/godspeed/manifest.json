@@ -143,7 +143,14 @@
       "schema_error_contains": "anyOf"
     },
     {
-      "file": "invalid/semantic_snapshot-invalid-world-claims-complete.json",
+      "file": "invalid/semantic_snapshot-invalid-world-unflagged.json",
+      "profile": "semantic_snapshot",
+      "schema": "invalid",
+      "semantic": "ok",
+      "schema_error_contains": "anyOf"
+    },
+    {
+      "file": "invalid/semantic_snapshot-valid-claim-with-bogus-flag.json",
       "profile": "semantic_snapshot",
       "schema": "invalid",
       "semantic": "ok",

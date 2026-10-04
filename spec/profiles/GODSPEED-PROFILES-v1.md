@@ -39,7 +39,7 @@ An envelope claiming a profile MUST declare it at `extensions["cep.profile"]` wi
 
 | Profile | Envelope kind | Added requirements |
 | --- | --- | --- |
-| `godspeed.semantic_snapshot` | `semantic_snapshot` | Valid world: `scope.world_ref`, `integrity`, `representations`, `references`, `provenance`, and `extensions["domainforge.identity"]` carrying the 11-field `domain_model_identity` and `semantic_closure_hash`. Invalid world: `completeness_status` is `invalid`, `omissions` are recorded, and no `world_ref` is carried. |
+| `godspeed.semantic_snapshot` | `semantic_snapshot` | Valid world: `scope.world_ref`, `integrity`, `representations`, `references`, `provenance`, and `extensions["domainforge.identity"]` carrying the 11-field `domain_model_identity` and `semantic_closure_hash`. Invalid world: the producer flags it with `extensions["domainforge"].model_validation_status = "invalid"` (with its diagnostics and omissions), and no `world_ref` is carried, so it cannot masquerade as a valid world. |
 | `godspeed.authority_request` | `authority_request` | `transformations`, `authority` (each with `subject_actor_ref`), `references`, `provenance`; `extensions["godspeed.authority_request"]` with `operation_id` and `correlation_id`. |
 | `godspeed.authority_decision` | `authority_decision` | `transformations`, `authority`, `provenance`; non-empty `lineage_refs` naming the request; `extensions["godspeed.authority_decision"]` with `decision`, `operation_id`, `request_ref`. |
 | `godspeed.execution_trace` | `execution_trace` | `transformations`, `provenance`; non-empty `lineage_refs` naming the authority decision; `extensions["godspeed.execution_trace"]` with `operation_id`, `authority_decision_ref`, `correlation_id`. |

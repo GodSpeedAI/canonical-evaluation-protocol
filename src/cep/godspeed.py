@@ -79,9 +79,15 @@ def _profile_declared(envelope: JsonObject) -> str | None:
     return as_string(decl.get("profile_id")) if decl else None
 
 
+def _model_flagged_invalid(envelope: JsonObject) -> bool:
+    ext = as_object(envelope.get("extensions"))
+    block = as_object(ext.get("domainforge")) if ext else None
+    return block is not None and block.get("model_validation_status") == "invalid"
+
+
 def _verify_snapshot(envelope: JsonObject) -> list[str]:
     world_ref = world_ref_of(envelope)
-    if envelope.get("completeness_status") == "invalid":
+    if _model_flagged_invalid(envelope):
         if world_ref is not None:
             return ["an invalid semantic world must not carry a world_ref"]
         return []

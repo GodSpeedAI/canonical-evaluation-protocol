@@ -255,7 +255,11 @@ fn into_result(problems: Vec<String>) -> Result<(), Vec<String>> {
 
 fn verify_snapshot(envelope: &Value) -> Vec<String> {
     let world_ref = world_ref_of(envelope);
-    if envelope.get("completeness_status").and_then(Value::as_str) == Some("invalid") {
+    if envelope
+        .pointer("/extensions/domainforge/model_validation_status")
+        .and_then(Value::as_str)
+        == Some("invalid")
+    {
         return match world_ref {
             Some(_) => vec!["an invalid semantic world must not carry a world_ref".to_string()],
             None => vec![],

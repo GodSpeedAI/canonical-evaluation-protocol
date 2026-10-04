@@ -25,7 +25,7 @@
     "classification": "test",
     "limitations": []
   },
-  "completeness_status": "partial",
+  "completeness_status": "incomplete_for_declared_state",
   "omission_status": "marked",
   "provenance_refs": [
     "prov-semantic_snapshot-0001"

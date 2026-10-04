@@ -25,7 +25,7 @@
     "classification": "test",
     "limitations": []
   },
-  "completeness_status": "invalid",
+  "completeness_status": "incomplete_for_declared_state",
   "omission_status": "marked",
   "provenance_refs": [
     "prov-semantic_snapshot-0001"
@@ -65,6 +65,12 @@
     "cep.profile": {
       "profile_id": "godspeed.semantic_snapshot",
       "profile_version": "1.0.0"
+    },
+    "domainforge": {
+      "model_validation_status": "invalid",
+      "diagnostics": [
+        "APP001: declared model failed validation"
+      ]
     }
   }
 }

@@ -159,8 +159,14 @@ def snapshot_invalid_world() -> dict:
             }
         ],
     )
-    env["completeness_status"] = "invalid"
-    env["extensions"] = profile_ext("semantic_snapshot")
+    env["completeness_status"] = "incomplete_for_declared_state"
+    env["extensions"] = profile_ext(
+        "semantic_snapshot",
+        domainforge={
+            "model_validation_status": "invalid",
+            "diagnostics": ["APP001: declared model failed validation"],
+        },
+    )
     return env
 
 
@@ -416,9 +422,21 @@ def build() -> tuple[dict[str, dict], list[dict]]:
         schema_error="anyOf",
     )
     add(
-        "invalid/semantic_snapshot-invalid-world-claims-complete.json",
+        "invalid/semantic_snapshot-invalid-world-unflagged.json",
         "semantic_snapshot",
-        mutate(snapshot_invalid_world(), lambda e: e.__setitem__("completeness_status", "partial")),
+        mutate(snapshot_invalid_world(), lambda e: e["extensions"].pop("domainforge")),
+        schema="invalid",
+        schema_error="anyOf",
+    )
+    add(
+        "invalid/semantic_snapshot-valid-claim-with-bogus-flag.json",
+        "semantic_snapshot",
+        mutate(
+            snap,
+            lambda e: e["extensions"].__setitem__(
+                "domainforge", {"model_validation_status": "bogus"}
+            ),
+        ),
         schema="invalid",
         schema_error="anyOf",
     )
@@ -621,14 +639,17 @@ def outputs() -> dict[Path, str]:
 
 def main() -> int:
     check = "--check" in sys.argv[1:]
+    expected = outputs()
+    orphans = sorted(p for p in OUT.rglob("*.json") if p not in expected) if OUT.exists() else []
     stale = []
-    for path, text in outputs().items():
+    for path, text in expected.items():
         if check:
             if not path.exists() or path.read_text(encoding="utf-8") != text:
                 stale.append(str(path.relative_to(ROOT)))
         else:
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text(text, encoding="utf-8")
+    stale.extend(f"{p.relative_to(ROOT)} (orphan)" for p in orphans)
     if check:
         if stale:
             print("stale godspeed fixtures (run tools/generate_godspeed_fixtures.py):")
@@ -636,7 +657,11 @@ def main() -> int:
             return 1
         print("godspeed fixtures are up to date")
         return 0
-    print(f"wrote {len(outputs())} files to {OUT.relative_to(ROOT)}")
+    for orphan in orphans:
+        orphan.unlink()
+    print(
+        f"wrote {len(expected)} files to {OUT.relative_to(ROOT)}; removed {len(orphans)} orphan(s)"
+    )
     return 0
 
 

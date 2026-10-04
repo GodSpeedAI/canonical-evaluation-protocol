@@ -1179,6 +1179,21 @@ export type SemanticEnvelope = (
 
 export type SemanticSnapshotProfile = (
   | {
+      scope: {
+        /**
+         * Immutable reference to exactly one resolved semantic-world revision (world:<name>@sha256:<digest>); defined by DomainForge.
+         */
+        world_ref: string;
+        /**
+         * Mutable selector (world:<name>). Informational only; consequential records pin world_ref.
+         */
+        world_alias?: string;
+        /**
+         * Presentation only; never identity.
+         */
+        world_label?: string;
+        [k: string]: unknown;
+      };
       extensions?: {
         "domainforge.identity": {
           domain_model_identity: {
@@ -1198,27 +1213,22 @@ export type SemanticSnapshotProfile = (
           semantic_closure_hash: string;
           [k: string]: unknown;
         };
-        [k: string]: unknown;
-      };
-      scope: {
-        /**
-         * Immutable reference to exactly one resolved semantic-world revision (world:<name>@sha256:<digest>); defined by DomainForge.
-         */
-        world_ref: string;
-        /**
-         * Mutable selector (world:<name>). Informational only; consequential records pin world_ref.
-         */
-        world_alias?: string;
-        /**
-         * Presentation only; never identity.
-         */
-        world_label?: string;
+        domainforge?: {
+          model_validation_status?: "valid";
+          [k: string]: unknown;
+        };
         [k: string]: unknown;
       };
       [k: string]: unknown;
     }
   | {
-      completeness_status: "invalid";
+      extensions: {
+        domainforge: {
+          model_validation_status: "invalid";
+          [k: string]: unknown;
+        };
+        [k: string]: unknown;
+      };
       [k: string]: unknown;
     }
 ) & {

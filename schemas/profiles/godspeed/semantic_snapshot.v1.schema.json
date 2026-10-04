@@ -87,6 +87,43 @@
             "provenance"
           ],
           "properties": {
+            "scope": {
+              "type": "object",
+              "properties": {
+                "world_ref": {
+                  "type": "string",
+                  "description": "Immutable reference to exactly one resolved semantic-world revision (world:<name>@sha256:<digest>); defined by DomainForge.",
+                  "allOf": [
+                    {
+                      "pattern": "^world:[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*@sha256:[0-9a-f]{64}$"
+                    },
+                    {
+                      "pattern": "^world:[^@]{1,64}@.*$"
+                    }
+                  ]
+                },
+                "world_alias": {
+                  "type": "string",
+                  "description": "Mutable selector (world:<name>). Informational only; consequential records pin world_ref.",
+                  "allOf": [
+                    {
+                      "pattern": "^world:[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$"
+                    },
+                    {
+                      "pattern": "^world:[^@]{1,64}$"
+                    }
+                  ]
+                },
+                "world_label": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "Presentation only; never identity."
+                }
+              },
+              "required": [
+                "world_ref"
+              ]
+            },
             "extensions": {
               "required": [
                 "domainforge.identity"
@@ -179,57 +216,41 @@
                       "pattern": "^sha256:[0-9a-f]{64}$"
                     }
                   }
+                },
+                "domainforge": {
+                  "properties": {
+                    "model_validation_status": {
+                      "const": "valid"
+                    }
+                  }
                 }
               }
-            },
-            "scope": {
-              "type": "object",
-              "properties": {
-                "world_ref": {
-                  "type": "string",
-                  "description": "Immutable reference to exactly one resolved semantic-world revision (world:<name>@sha256:<digest>); defined by DomainForge.",
-                  "allOf": [
-                    {
-                      "pattern": "^world:[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*@sha256:[0-9a-f]{64}$"
-                    },
-                    {
-                      "pattern": "^world:[^@]{1,64}@.*$"
-                    }
-                  ]
-                },
-                "world_alias": {
-                  "type": "string",
-                  "description": "Mutable selector (world:<name>). Informational only; consequential records pin world_ref.",
-                  "allOf": [
-                    {
-                      "pattern": "^world:[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$"
-                    },
-                    {
-                      "pattern": "^world:[^@]{1,64}$"
-                    }
-                  ]
-                },
-                "world_label": {
-                  "type": "string",
-                  "minLength": 1,
-                  "description": "Presentation only; never identity."
-                }
-              },
-              "required": [
-                "world_ref"
-              ]
             }
           }
         },
         {
-          "description": "invalid world: explicitly invalid, omissions recorded, no world pretended",
+          "description": "invalid world: explicitly flagged invalid by the producer; it is never pinned (no world_ref), so it cannot masquerade as a valid world",
           "required": [
-            "omissions",
-            "completeness_status"
+            "extensions"
           ],
           "properties": {
-            "completeness_status": {
-              "const": "invalid"
+            "extensions": {
+              "required": [
+                "domainforge"
+              ],
+              "properties": {
+                "domainforge": {
+                  "type": "object",
+                  "required": [
+                    "model_validation_status"
+                  ],
+                  "properties": {
+                    "model_validation_status": {
+                      "const": "invalid"
+                    }
+                  }
+                }
+              }
             }
           }
         }
