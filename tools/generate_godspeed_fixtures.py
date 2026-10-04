@@ -15,6 +15,7 @@ import copy
 import importlib.util
 import json
 import sys
+from collections.abc import Callable
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -289,18 +290,18 @@ def settlement_packet(world: dict) -> dict:
     return env
 
 
-def mutate(env: dict, fn) -> dict:
+def mutate(env: dict, fn: Callable[[dict], None]) -> dict:
     out = copy.deepcopy(env)
     fn(out)
     return out
 
 
-def build() -> tuple[dict[str, dict], list[dict]]:
+def build() -> tuple[dict[str, dict], list[dict]]:  # noqa: PLR0915 - one case list, kept flat
     """Return (files by relative name, manifest entries)."""
     files: dict[str, dict] = {}
     manifest: list[dict] = []
 
-    def add(
+    def add(  # noqa: PLR0913 - keyword-only case descriptor
         name: str,
         profile: str,
         env: dict,

@@ -13,16 +13,11 @@ import hashlib
 from pathlib import Path
 
 _SCHEMA = (
-    Path(__file__).resolve().parent.parent
-    / "schemas"
-    / "vendored"
-    / "sea.agent.event.v1.json"
+    Path(__file__).resolve().parent.parent / "schemas" / "vendored" / "sea.agent.event.v1.json"
 )
 _PIN = "d2a245183f7a52672dec11d7a8e9236d3db78dac674ab066d944fb758443e195"
 
 
 def test_vendored_v1_schema_matches_contracts_pin() -> None:
     digest = hashlib.sha256(_SCHEMA.read_bytes()).hexdigest()
-    assert digest == _PIN, (
-        "cep vendored v1 schema drifted from the ledger's CONTRACTS_VERSION pin"
-    )
+    assert digest == _PIN, "cep vendored v1 schema drifted from the ledger's CONTRACTS_VERSION pin"

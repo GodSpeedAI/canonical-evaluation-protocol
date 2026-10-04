@@ -13,7 +13,9 @@ import subprocess
 import tempfile
 from pathlib import Path
 
+import jsonschema
 import pytest
+from referencing import Registry, Resource
 
 from cep import godspeed
 
@@ -28,7 +30,7 @@ def _emit(source: str, *flags: str) -> tuple[int, dict]:
     with tempfile.TemporaryDirectory() as tmp:
         path = Path(tmp) / "model.sea"
         path.write_text(source, encoding="utf-8")
-        proc = subprocess.run(
+        proc = subprocess.run(  # noqa: S603
             [str(BIN), "envelope", "--emit", "cep", *flags, str(path)],
             capture_output=True,
             text=True,
@@ -40,9 +42,12 @@ def _emit(source: str, *flags: str) -> tuple[int, dict]:
 def test_valid_world_snapshot_conforms_and_verifies() -> None:
     code, env = _emit(
         HEADER + VALID,
-        "--world-name", "godspeed-corporate",
-        "--world-alias", "world:corporate",
-        "--world-label", "GodSpeed Corporate World",
+        "--world-name",
+        "godspeed-corporate",
+        "--world-alias",
+        "world:corporate",
+        "--world-label",
+        "GodSpeed Corporate World",
     )
     assert code == 0
     assert godspeed.validate_profile(env, "semantic_snapshot") == []
@@ -65,11 +70,10 @@ def test_snapshot_without_world_name_is_not_a_profile_snapshot() -> None:
 
 
 def test_standard_jsonschema_agrees_on_emitted_snapshots() -> None:
-    import jsonschema
-    from referencing import Registry, Resource
-
     base = json.loads(
-        (godspeed.PROFILE_DIR.parent.parent / "cep-semantic-envelope.schema.json").read_text("utf-8")
+        (godspeed.PROFILE_DIR.parent.parent / "cep-semantic-envelope.schema.json").read_text(
+            "utf-8"
+        )
     )
     registry = Registry().with_resource(base["$id"], Resource.from_contents(base))
     schema = json.loads(godspeed.profile_schema_path("semantic_snapshot").read_text("utf-8"))

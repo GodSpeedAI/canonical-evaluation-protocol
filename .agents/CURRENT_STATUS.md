@@ -56,6 +56,7 @@ The repo now has end-to-end local executable proof. More reviewed cases will red
 
 ## Validation / Evidence
 
+- 2026-10-04 gap patch: `psycopg` declared and tests skip cleanly (DEBT-0009 resolved); `basedpyright src` 0 errors, `ruff check src tests` clean (DEBT-0010 partly resolved; `tests` strict typing and `validate_okf.py` ruff remain).
 - 2026-10-04 contracts: `cargo test --locked` 7 passed, clippy `-D warnings` and fmt clean; `bun test` 57 passed, `tsc --noEmit` clean, generated types up to date.
 - 2026-10-04: `uv run pytest --ignore=tests/test_ledger_exporter.py` 133 passed; `tools/validate_okf.py` passes; `cep conformance anti-collapse` and the four corpora pass; the standard `jsonschema` library agrees with the CEP validator on all 34 corpus cases; `basedpyright src/cep/godspeed.py` 0 errors. `tests/test_ledger_exporter.py` cannot be collected here (no `psycopg`), identical at baseline.
 See `.agents/EVIDENCE.md` entries `EV-OKF-REPAIR`, `EV-CR-REVIEW-FIXES`, `EV-REALITY-GAP-PROOF`, `EV-CR-PHASE4-7-REVIEW`, `EV-MULTI-BENCH-PHASE8-10`, and `EV-END-TO-END-PHASE11`.

@@ -3,6 +3,10 @@ from __future__ import annotations
 import json
 from dataclasses import dataclass
 from pathlib import Path
+from typing import TYPE_CHECKING, cast
+
+if TYPE_CHECKING:
+    from pydantic import JsonValue
 
 from cep.inventory import (
     iter_reality_gap_answer_keys,
@@ -66,7 +70,7 @@ def validate_instance_json(
     target: str,
 ) -> ValidationResult:
     try:
-        instance = json.loads(content)
+        instance = cast("JsonValue", json.loads(content))
         schema = load_json(schema_path)
     except (OSError, json.JSONDecodeError, JsonDocumentError) as exc:
         return ValidationResult(ok=False, target=target, errors=[str(exc)])
@@ -198,9 +202,7 @@ def validate_reality_gap_corpus() -> list[ValidationResult]:
 
 def validate_semantic_envelope_corpus() -> list[ValidationResult]:
     schema_path = SCHEMAS_DIR / "semantic-envelope.schema.json"
-    return [
-        validate_instance(path, schema_path) for path in iter_semantic_envelope_fixtures()
-    ]
+    return [validate_instance(path, schema_path) for path in iter_semantic_envelope_fixtures()]
 
 
 def validate_semantic_envelope_full_corpus() -> list[ValidationResult]:
@@ -214,9 +216,7 @@ def validate_semantic_envelope_full_corpus() -> list[ValidationResult]:
 def validate_semantic_envelope_invalid_corpus() -> list[ValidationResult]:
     schema_path = SCHEMAS_DIR / "cep-semantic-envelope.schema.json"
     fixtures = [
-        path
-        for path in iter_semantic_envelope_full_fixtures()
-        if path.name.startswith("invalid-")
+        path for path in iter_semantic_envelope_full_fixtures() if path.name.startswith("invalid-")
     ]
     results = [validate_instance(path, schema_path) for path in fixtures]
     return [

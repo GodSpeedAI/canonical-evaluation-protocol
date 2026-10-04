@@ -60,7 +60,10 @@ def world_ref_schema(description: str) -> dict:
 def world_alias_schema() -> dict:
     return {
         "type": "string",
-        "description": "Mutable selector (world:<name>). Informational only; consequential records pin world_ref.",
+        "description": (
+            "Mutable selector (world:<name>). Informational only; "
+            "consequential records pin world_ref."
+        ),
         "allOf": [
             {"pattern": WORLD_ALIAS_STRUCTURE},
             {"pattern": WORLD_ALIAS_NAME_LENGTH},
@@ -130,7 +133,7 @@ def extension_require(namespace: str, *fields: str, properties: dict | None = No
     return {namespace: ext}
 
 
-def tightening(
+def tightening(  # noqa: PLR0913 - keyword-only profile knobs
     kind: str,
     *,
     required: list[str],
@@ -333,10 +336,19 @@ PROFILES: dict[str, dict] = {
 # Profiles that carry a snapshot-style identity declare it in `extensions`.
 DESCRIPTIONS = {
     "semantic_snapshot": "Bounded state of a semantic world, pinned by world_ref (CEP-0008 §9.11).",
-    "authority_request": "Request to govern one consequential transformation inside a pinned world (CEP-0008 §9.3).",
-    "authority_decision": "Governed disposition of an authority request; constrained dispositions keep their constraints (CEP-0008 §9.4).",
-    "execution_trace": "What was done under an authority decision. A trace is not settlement (CEP-0008 §9.5).",
-    "evidence_packet": "Evidence relative to a question or claim. Evidence is not settlement (CEP-0008 §9.6).",
+    "authority_request": (
+        "Request to govern one consequential transformation inside a pinned world (CEP-0008 §9.3)."
+    ),
+    "authority_decision": (
+        "Governed disposition of an authority request; constrained "
+        "dispositions keep their constraints (CEP-0008 §9.4)."
+    ),
+    "execution_trace": (
+        "What was done under an authority decision. A trace is not settlement (CEP-0008 §9.5)."
+    ),
+    "evidence_packet": (
+        "Evidence relative to a question or claim. Evidence is not settlement (CEP-0008 §9.6)."
+    ),
     "settlement_packet": "Settlement of an operation from its evidence (CEP-0008 §9.7).",
 }
 

@@ -21,16 +21,20 @@ settlement-corpus` CLI, per `docs/settlement-call-surface.md`.
 compares week-over-week and enforces anti-collapse. No absolute threshold is
 invented here.
 """
+
 from __future__ import annotations
 
 import json
 import uuid
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, cast
 
 import psycopg
+
+if TYPE_CHECKING:
+    from pydantic import JsonValue
 
 from cep.benchmarks.settlement import (
     SettlementAnswerKey,
@@ -39,8 +43,16 @@ from cep.benchmarks.settlement import (
 )
 
 
+def _number(value: JsonValue | None) -> float:
+    return float(value) if isinstance(value, int | float) and not isinstance(value, bool) else 0.0
+
+
+def _text_list(value: JsonValue | None) -> list[str]:
+    return [item for item in value if isinstance(item, str)] if isinstance(value, list) else []
+
+
 def _now_iso() -> str:
-    return datetime.now(timezone.utc).isoformat()
+    return datetime.now(UTC).isoformat()
 
 
 @dataclass
@@ -49,12 +61,14 @@ class ExportReport:
     case_count: int
     scored: int
     skipped_no_evidence: int
-    results: list[dict[str, Any]] = field(default_factory=list)
+    results: list[dict[str, JsonValue]] = field(default_factory=list)
 
-    def aggregate(self) -> dict[str, Any]:
-        scores = [r["score"] for r in self.results]
+    def aggregate(self) -> dict[str, JsonValue]:
+        scores = [_number(r.get("score")) for r in self.results]
         collapses = sum(
-            1 for r in self.results if "completion_settlement_collapse" in r["critical_failures"]
+            1
+            for r in self.results
+            if "completion_settlement_collapse" in _text_list(r.get("critical_failures"))
         )
         return {
             "generated_at": _now_iso(),
@@ -63,8 +77,8 @@ class ExportReport:
             "skipped_no_evidence": self.skipped_no_evidence,
             "mean_score": round(sum(scores) / len(scores), 2) if scores else 0.0,
             "collapse_count": collapses,
-            "pass_count": sum(1 for r in self.results if r["status"] == "pass"),
-            "fail_count": sum(1 for r in self.results if r["status"] in ("fail", "invalid")),
+            "pass_count": sum(1 for r in self.results if r.get("status") == "pass"),
+            "fail_count": sum(1 for r in self.results if r.get("status") in ("fail", "invalid")),
         }
 
 
@@ -104,33 +118,35 @@ def export_settlement_corpus(
     report = ExportReport(out_dir=out_dir, case_count=0, scored=0, skipped_no_evidence=0)
 
     with psycopg.connect(pg_dsn) as conn, conn.cursor() as cur:
-        cur.execute(_QUERY, (since, since))
-        rows = cur.fetchall()
+        _ = cur.execute(_QUERY, (since, since))
+        rows: list[tuple[object, ...]] = [tuple(row) for row in cur.fetchall()]
 
-    for work_request_id, settlement_payload, observed, expected in rows:
+    for row in rows:
+        id_raw, payload_raw, observed_raw, expected_raw = row
         report.case_count += 1
-        settlement_payload = _loads(settlement_payload)
-        work_request_id = work_request_id or settlement_payload.get("work_request_id") or uuid.uuid4().hex
+        settlement_payload = _loads(payload_raw)
+        payload_id = settlement_payload.get("work_request_id")
+        work_request_id = str(
+            id_raw or (payload_id if isinstance(payload_id, str) else None) or uuid.uuid4().hex
+        )
 
         case_dir = out_dir / f"case-{work_request_id}"
         case_dir.mkdir(parents=True, exist_ok=True)
         # Auditable provenance: the raw settlement payload behind this case.
-        (case_dir / "settlement_recorded.json").write_text(
+        _ = (case_dir / "settlement_recorded.json").write_text(
             json.dumps(settlement_payload, indent=2, sort_keys=True), encoding="utf-8"
         )
 
-        if observed is None or expected is None:
+        if observed_raw is None or expected_raw is None:
             # No causation evidence → no honest ground truth. Record the case
             # but do not score it (do not synthesize an answer key).
             report.skipped_no_evidence += 1
             continue
 
-        observed, expected = str(observed), str(expected)
+        observed, expected = str(observed_raw), str(expected_raw)
         # Ground-truth expected status from the evidence comparison itself.
         expected_status = (
-            "settled"
-            if observed.strip() and observed.strip() == expected.strip()
-            else "unsettled"
+            "settled" if observed.strip() and observed.strip() == expected.strip() else "unsettled"
         )
 
         answer_key = SettlementAnswerKey(
@@ -141,33 +157,34 @@ def export_settlement_corpus(
         )
         answer = from_settlement_recorded(settlement_payload)
 
-        (case_dir / "answer_key.json").write_text(
+        _ = (case_dir / "answer_key.json").write_text(
             answer_key.model_dump_json(indent=2), encoding="utf-8"
         )
-        (case_dir / "example_ledger_answer.json").write_text(
+        _ = (case_dir / "example_ledger_answer.json").write_text(
             answer.model_dump_json(indent=2), encoding="utf-8"
         )
 
         record = score_settlement_answer(answer_key, answer)
-        result = json.loads(record.to_json())
+        result = cast("dict[str, JsonValue]", json.loads(record.to_json()))
         result["generated_at"] = _now_iso()
         report.results.append(result)
-        (case_dir / "result.json").write_text(
+        _ = (case_dir / "result.json").write_text(
             json.dumps(result, indent=2, sort_keys=True), encoding="utf-8"
         )
         report.scored += 1
 
-    (out_dir / "aggregate.json").write_text(
+    _ = (out_dir / "aggregate.json").write_text(
         json.dumps(report.aggregate(), indent=2, sort_keys=True), encoding="utf-8"
     )
     return report
 
 
-def _loads(value: Any) -> dict[str, Any]:
+def _loads(value: object) -> dict[str, JsonValue]:
     if isinstance(value, dict):
-        return value
-    if isinstance(value, (bytes, str)):
-        return json.loads(value)
+        return cast("dict[str, JsonValue]", value)
+    if isinstance(value, bytes | str):
+        parsed = cast("JsonValue", json.loads(value))
+        return parsed if isinstance(parsed, dict) else {}
     return {}
 
 
@@ -179,20 +196,22 @@ def ratchet_against(previous: Path, current: ExportReport, *, max_regression: fl
         # No baseline yet — first run establishes it. §14: no absolute
         # thresholds before live corpus history exists.
         return 0
-    prev = json.loads(previous.read_text(encoding="utf-8"))
+    prev_raw = cast("JsonValue", json.loads(previous.read_text(encoding="utf-8")))
+    prev = prev_raw if isinstance(prev_raw, dict) else {}
     curr = current.aggregate()
-    if curr["collapse_count"] > 0:
-        print(f"RATCHET FAIL: {curr['collapse_count']} settlement collapse(s) detected")
+    prev_mean = _number(prev.get("mean_score"))
+    curr_mean = _number(curr.get("mean_score"))
+    collapse_count = int(_number(curr.get("collapse_count")))
+    if collapse_count > 0:
+        print(f"RATCHET FAIL: {collapse_count} settlement collapse(s) detected")  # noqa: T201
         return 1
-    regression = prev.get("mean_score", 0.0) - curr["mean_score"]
+    regression = prev_mean - curr_mean
     if regression > max_regression:
-        print(
-            f"RATCHET FAIL: mean_score regressed {regression:.2f} "
-            f"({prev.get('mean_score')} → {curr['mean_score']})"
+        print(  # noqa: T201
+            f"RATCHET FAIL: mean_score regressed {regression:.2f} " + f"({prev_mean} → {curr_mean})"
         )
         return 1
-    print(
-        f"RATCHET OK: mean_score {curr['mean_score']} (prev {prev.get('mean_score')}), "
-        f"collapses={curr['collapse_count']}"
+    print(  # noqa: T201
+        f"RATCHET OK: mean_score {curr_mean} (prev {prev_mean}), " + f"collapses={collapse_count}"
     )
     return 0

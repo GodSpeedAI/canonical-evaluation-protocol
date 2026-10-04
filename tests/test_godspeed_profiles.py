@@ -9,9 +9,13 @@ import subprocess
 import sys
 from pathlib import Path
 
+import jsonschema
 import pytest
+from referencing import Registry, Resource
+from typer.testing import CliRunner
 
 from cep import godspeed
+from cep.cli import app
 from cep.paths import SCHEMAS_DIR
 from cep.schema_profile import SchemaProfile
 from cep.schema_value import validate_value
@@ -42,7 +46,7 @@ def test_vendored_domainforge_vectors_match_their_pin() -> None:
 
 @pytest.mark.parametrize("tool", ["generate_godspeed_profiles.py", "generate_godspeed_fixtures.py"])
 def test_generated_files_are_up_to_date(tool: str) -> None:
-    result = subprocess.run(
+    result = subprocess.run(  # noqa: S603
         [sys.executable, str(ROOT / "tools" / tool), "--check"],
         capture_output=True,
         text=True,
@@ -63,7 +67,8 @@ def test_schema_world_ref_mirrors_domainforge_vectors() -> None:
 
 def test_digest_recomputation_matches_the_vendored_reference() -> None:
     spec = importlib.util.spec_from_file_location("ref", VENDORED / "world_ref_reference.py")
-    assert spec and spec.loader
+    assert spec is not None
+    assert spec.loader is not None
     ref = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(ref)
     for case in VECTORS["valid"]:
@@ -152,9 +157,6 @@ def test_world_transition_is_explicit_and_must_move() -> None:
 
 
 def test_registry_validates_with_the_new_schemas() -> None:
-    from typer.testing import CliRunner
-
-    from cep.cli import app
 
     result = CliRunner().invoke(app, ["validate", "schemas"])
     assert result.exit_code == 0, result.output
@@ -162,8 +164,6 @@ def test_registry_validates_with_the_new_schemas() -> None:
 
 def test_standard_jsonschema_library_agrees_with_cep_validator_on_the_whole_corpus() -> None:
     """Independent validator (full Draft 2020-12) must reach the same verdict."""
-    import jsonschema
-    from referencing import Registry, Resource
 
     base = json.loads((SCHEMAS_DIR / "cep-semantic-envelope.schema.json").read_text("utf-8"))
     registry = Registry().with_resource(base["$id"], Resource.from_contents(base))

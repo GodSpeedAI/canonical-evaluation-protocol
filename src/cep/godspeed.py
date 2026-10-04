@@ -15,14 +15,16 @@ import hashlib
 import json
 from collections.abc import Iterable
 from pathlib import Path
-
-from pydantic import JsonValue
+from typing import TYPE_CHECKING
 
 from cep.io import load_json
 from cep.json_types import JsonObject
 from cep.paths import SCHEMAS_DIR
 from cep.schema_profile import SchemaProfile, as_object, as_string
 from cep.schema_value import validate_value
+
+if TYPE_CHECKING:
+    from pydantic import JsonValue
 
 PROFILE_DIR = SCHEMAS_DIR / "profiles" / "godspeed"
 PROFILES = (
@@ -47,7 +49,8 @@ def identity_digest(identity: JsonObject) -> str:
 
 def profile_schema_path(profile: str) -> Path:
     if profile not in PROFILES:
-        raise ValueError(f"unknown GodSpeed profile: {profile}")
+        msg = f"unknown GodSpeed profile: {profile}"
+        raise ValueError(msg)
     return PROFILE_DIR / f"{profile}.v1.schema.json"
 
 

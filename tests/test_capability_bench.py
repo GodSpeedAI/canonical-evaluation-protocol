@@ -46,8 +46,5 @@ def test_run_capability_corpus_generates_report() -> None:
     # Then: corpus scoring succeeds and writes a portable report.
     assert result.exit_code == 0, result.output
     assert (
-        ROOT
-        / "reports"
-        / "capability"
-        / "cap-0001-ans-cap-0001-valid-example.result.json"
+        ROOT / "reports" / "capability" / "cap-0001-ans-cap-0001-valid-example.result.json"
     ).exists()

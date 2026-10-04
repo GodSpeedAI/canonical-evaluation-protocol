@@ -105,9 +105,7 @@ def test_full_profile_valid_fixtures_pass() -> None:
     assert valid_names, "expected at least one valid full-profile fixture"
     valid_results = [result for result in results if Path(result.target).name in valid_names]
     assert valid_results, "expected valid fixtures in the full corpus results"
-    assert all_ok(valid_results), [
-        error for result in valid_results for error in result.errors
-    ]
+    assert all_ok(valid_results), [error for result in valid_results for error in result.errors]
 
 
 def test_full_profile_every_ss52_field_individually_required(tmp_path: Path) -> None:

@@ -14,7 +14,7 @@ def _profile(schema: dict[str, object], root: Path) -> SchemaProfile:
     return SchemaProfile(schema=schema, root=root)
 
 
-def test_all_of_is_an_accepted_schema_keyword(tmp_path: Path) -> None:
+def test_all_of_is_an_accepted_schema_keyword() -> None:
     schema = {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "title": "layered",
@@ -42,7 +42,8 @@ def test_every_all_of_branch_must_hold(tmp_path: Path) -> None:
     errors = validate_value({"a": 1}, profile, "$")
     assert any("missing required field: b" in e for e in errors)
     both = validate_value({}, profile, "$")
-    assert any("field: a" in e for e in both) and any("field: b" in e for e in both)
+    assert any("field: a" in e for e in both)
+    assert any("field: b" in e for e in both)
 
 
 def test_all_of_resolves_a_relative_ref_branch(tmp_path: Path) -> None:

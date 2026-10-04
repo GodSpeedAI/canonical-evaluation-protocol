@@ -46,8 +46,5 @@ def test_run_authority_corpus_generates_report() -> None:
     # Then: corpus scoring succeeds and writes a portable report.
     assert result.exit_code == 0, result.output
     assert (
-        ROOT
-        / "reports"
-        / "authority"
-        / "auth-0001-ans-auth-0001-valid-example.result.json"
+        ROOT / "reports" / "authority" / "auth-0001-ans-auth-0001-valid-example.result.json"
     ).exists()
