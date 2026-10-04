@@ -1,0 +1,301 @@
+{
+  "corpus": "godspeed-profile-conformance",
+  "profile_version": "1.0.0",
+  "worlds": {
+    "A": {
+      "world_ref": "world:godspeed-corporate@sha256:da23a66e20d574b52ad554b09b65ee39e6c8d2fdd7b1ac525d898b9e7bfe6440",
+      "identity": {
+        "identity_scheme_version": "v2-full-preimage",
+        "producer": "domainforge-core",
+        "producer_version": "0.18.2",
+        "language_schema_version": "domainforge-ast/v3",
+        "compiler_interpretation_version": "domainforge-interpretation/v1",
+        "canonicalization_version": "domainforge-canonicalization/v1",
+        "source_set_hash": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+        "content_hash": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+        "semantic_closure_hash": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+        "semantic_pack_set_hash": null,
+        "registry_content_hash": null
+      }
+    },
+    "B": {
+      "world_ref": "world:godspeed-corporate@sha256:69be94a72f03a2848e1e7b23edde4d280185dae8438ad1079f8fb9a2cb8577a4",
+      "identity": {
+        "identity_scheme_version": "v2-full-preimage",
+        "producer": "domainforge-core",
+        "producer_version": "0.18.2",
+        "language_schema_version": "domainforge-ast/v3",
+        "compiler_interpretation_version": "domainforge-interpretation/v1",
+        "canonicalization_version": "domainforge-canonicalization/v1",
+        "source_set_hash": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+        "content_hash": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+        "semantic_closure_hash": "sha256:9999999999999999999999999999999999999999999999999999999999999999",
+        "semantic_pack_set_hash": null,
+        "registry_content_hash": null
+      }
+    }
+  },
+  "cases": [
+    {
+      "file": "valid/semantic_snapshot.json",
+      "profile": "semantic_snapshot",
+      "schema": "valid",
+      "semantic": "ok"
+    },
+    {
+      "file": "valid/semantic_snapshot-invalid-world.json",
+      "profile": "semantic_snapshot",
+      "schema": "valid",
+      "semantic": "ok"
+    },
+    {
+      "file": "valid/authority_request.json",
+      "profile": "authority_request",
+      "schema": "valid",
+      "semantic": "ok"
+    },
+    {
+      "file": "valid/authority_decision-allow.json",
+      "profile": "authority_decision",
+      "schema": "valid",
+      "semantic": "ok"
+    },
+    {
+      "file": "valid/authority_decision-deny.json",
+      "profile": "authority_decision",
+      "schema": "valid",
+      "semantic": "ok"
+    },
+    {
+      "file": "valid/authority_decision-escalate.json",
+      "profile": "authority_decision",
+      "schema": "valid",
+      "semantic": "ok"
+    },
+    {
+      "file": "valid/authority_decision-unknown.json",
+      "profile": "authority_decision",
+      "schema": "valid",
+      "semantic": "ok"
+    },
+    {
+      "file": "valid/authority_decision-constrained_allow.json",
+      "profile": "authority_decision",
+      "schema": "valid",
+      "semantic": "ok"
+    },
+    {
+      "file": "valid/authority_decision-boundary.json",
+      "profile": "authority_decision",
+      "schema": "valid",
+      "semantic": "ok"
+    },
+    {
+      "file": "valid/authority_decision-degraded.json",
+      "profile": "authority_decision",
+      "schema": "valid",
+      "semantic": "ok"
+    },
+    {
+      "file": "valid/execution_trace.json",
+      "profile": "execution_trace",
+      "schema": "valid",
+      "semantic": "ok"
+    },
+    {
+      "file": "valid/evidence_packet.json",
+      "profile": "evidence_packet",
+      "schema": "valid",
+      "semantic": "ok"
+    },
+    {
+      "file": "valid/settlement_packet.json",
+      "profile": "settlement_packet",
+      "schema": "valid",
+      "semantic": "ok"
+    },
+    {
+      "file": "invalid/semantic_snapshot-missing-world_ref.json",
+      "profile": "semantic_snapshot",
+      "schema": "invalid",
+      "semantic": "ok",
+      "schema_error_contains": "anyOf"
+    },
+    {
+      "file": "invalid/semantic_snapshot-alias-as-world_ref.json",
+      "profile": "semantic_snapshot",
+      "schema": "invalid",
+      "semantic": "ok",
+      "schema_error_contains": "anyOf"
+    },
+    {
+      "file": "invalid/semantic_snapshot-uppercase-digest.json",
+      "profile": "semantic_snapshot",
+      "schema": "invalid",
+      "semantic": "ok",
+      "schema_error_contains": "anyOf"
+    },
+    {
+      "file": "invalid/semantic_snapshot-missing-identity.json",
+      "profile": "semantic_snapshot",
+      "schema": "invalid",
+      "semantic": "ok",
+      "schema_error_contains": "anyOf"
+    },
+    {
+      "file": "invalid/semantic_snapshot-invalid-world-unflagged.json",
+      "profile": "semantic_snapshot",
+      "schema": "invalid",
+      "semantic": "ok",
+      "schema_error_contains": "anyOf"
+    },
+    {
+      "file": "invalid/semantic_snapshot-valid-claim-with-bogus-flag.json",
+      "profile": "semantic_snapshot",
+      "schema": "invalid",
+      "semantic": "ok",
+      "schema_error_contains": "anyOf"
+    },
+    {
+      "file": "invalid/authority_request-missing-world_ref.json",
+      "profile": "authority_request",
+      "schema": "invalid",
+      "semantic": "ok",
+      "schema_error_contains": "world_ref"
+    },
+    {
+      "file": "invalid/authority_request-missing-profile-declaration.json",
+      "profile": "authority_request",
+      "schema": "invalid",
+      "semantic": "ok",
+      "schema_error_contains": "cep.profile"
+    },
+    {
+      "file": "invalid/authority_request-wrong-profile-declared.json",
+      "profile": "authority_request",
+      "schema": "invalid",
+      "semantic": "ok",
+      "schema_error_contains": "must equal"
+    },
+    {
+      "file": "invalid/authority_request-missing-correlation.json",
+      "profile": "authority_request",
+      "schema": "invalid",
+      "semantic": "ok",
+      "schema_error_contains": "correlation_id"
+    },
+    {
+      "file": "invalid/authority_request-unlabelled-actor.json",
+      "profile": "authority_request",
+      "schema": "invalid",
+      "semantic": "ok",
+      "schema_error_contains": "subject_actor_ref"
+    },
+    {
+      "file": "invalid/authority_decision-boundary-without-constraints.json",
+      "profile": "authority_decision",
+      "schema": "invalid",
+      "semantic": "ok",
+      "schema_error_contains": "anyOf"
+    },
+    {
+      "file": "invalid/authority_decision-degraded-without-controls.json",
+      "profile": "authority_decision",
+      "schema": "invalid",
+      "semantic": "ok",
+      "schema_error_contains": "anyOf"
+    },
+    {
+      "file": "invalid/authority_decision-boolean-flattened.json",
+      "profile": "authority_decision",
+      "schema": "invalid",
+      "semantic": "ok",
+      "schema_error_contains": "anyOf"
+    },
+    {
+      "file": "invalid/authority_decision-unrecognised-disposition.json",
+      "profile": "authority_decision",
+      "schema": "invalid",
+      "semantic": "ok",
+      "schema_error_contains": "anyOf"
+    },
+    {
+      "file": "invalid/authority_decision-no-request-lineage.json",
+      "profile": "authority_decision",
+      "schema": "invalid",
+      "semantic": "ok",
+      "schema_error_contains": "at least 1 items"
+    },
+    {
+      "file": "invalid/execution_trace-no-decision-lineage.json",
+      "profile": "execution_trace",
+      "schema": "invalid",
+      "semantic": "ok",
+      "schema_error_contains": "at least 1 items"
+    },
+    {
+      "file": "invalid/evidence_packet-data-without-question.json",
+      "profile": "evidence_packet",
+      "schema": "invalid",
+      "semantic": "ok",
+      "schema_error_contains": "questions"
+    },
+    {
+      "file": "invalid/settlement_packet-without-evidence.json",
+      "profile": "settlement_packet",
+      "schema": "invalid",
+      "semantic": "ok",
+      "schema_error_contains": "evidence"
+    },
+    {
+      "file": "invalid-semantic/semantic_snapshot-tampered-identity.json",
+      "profile": "semantic_snapshot",
+      "schema": "valid",
+      "semantic": "error",
+      "semantic_error_contains": "digest"
+    },
+    {
+      "file": "invalid-semantic/semantic_snapshot-closure-hash-mismatch.json",
+      "profile": "semantic_snapshot",
+      "schema": "valid",
+      "semantic": "error",
+      "semantic_error_contains": "semantic_closure_hash"
+    },
+    {
+      "file": "invalid-semantic/semantic_snapshot-invalid-world-with-world_ref.json",
+      "profile": "semantic_snapshot",
+      "schema": "valid",
+      "semantic": "error",
+      "semantic_error_contains": "invalid"
+    }
+  ],
+  "chains": [
+    {
+      "case": "same-world-throughout",
+      "files": [
+        "valid/authority_request.json",
+        "valid/authority_decision-allow.json",
+        "valid/execution_trace.json",
+        "valid/evidence_packet.json",
+        "valid/settlement_packet.json"
+      ],
+      "expect": "consistent",
+      "world_ref": "world:godspeed-corporate@sha256:da23a66e20d574b52ad554b09b65ee39e6c8d2fdd7b1ac525d898b9e7bfe6440"
+    },
+    {
+      "case": "world-changes-mid-chain",
+      "files": [
+        "valid/authority_request.json",
+        "valid/authority_decision-allow.json",
+        "valid/execution_trace.json",
+        "valid/evidence_packet.json",
+        "valid/settlement_packet.json"
+      ],
+      "override": {
+        "valid/execution_trace.json": "world:godspeed-corporate@sha256:69be94a72f03a2848e1e7b23edde4d280185dae8438ad1079f8fb9a2cb8577a4"
+      },
+      "expect": "inconsistent",
+      "world_ref": "world:godspeed-corporate@sha256:da23a66e20d574b52ad554b09b65ee39e6c8d2fdd7b1ac525d898b9e7bfe6440"
+    }
+  ]
+}

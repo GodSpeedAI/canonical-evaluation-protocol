@@ -1,0 +1,86 @@
+{
+  "envelope_id": "env-settlement_packet-0001",
+  "cep_version": "1.0.0",
+  "envelope_version": "1.0",
+  "envelope_kind": "settlement_packet",
+  "created_at": "2026-10-04T12:00:00Z",
+  "created_by": "godspeed-fixture-writer",
+  "scope": {
+    "evaluation_context": "godspeed-settlement_packet",
+    "world_ref": "world:godspeed-corporate@sha256:da23a66e20d574b52ad554b09b65ee39e6c8d2fdd7b1ac525d898b9e7bfe6440",
+    "world_alias": "world:corporate",
+    "world_label": "GodSpeed Corporate World"
+  },
+  "boundary_record": {
+    "scope": "settlement_packet fixture",
+    "included_sections": [
+      "evidence",
+      "questions",
+      "settlements"
+    ],
+    "excluded_sections": [],
+    "known_omissions": [
+      "fixture content is illustrative"
+    ],
+    "unknowns": [],
+    "redactions": [],
+    "compression_notes": [],
+    "out_of_scope_entities": [],
+    "classification": "test",
+    "limitations": []
+  },
+  "completeness_status": "partial",
+  "omission_status": "marked",
+  "provenance_refs": [
+    "prov-settlement_packet-0001"
+  ],
+  "validation_status": "valid",
+  "lineage_refs": [
+    "env-evidence_packet-0001"
+  ],
+  "provenance": [
+    {
+      "provenance_id": "prov-settlement_packet-0001",
+      "source_system_refs": [
+        "godspeed-fixtures"
+      ],
+      "producer_refs": [
+        "godspeed-fixture-writer"
+      ],
+      "production_method": "fixture",
+      "created_at": "2026-10-04T12:00:00Z"
+    }
+  ],
+  "questions": [
+    {
+      "question_id": "q-0001",
+      "question_form": "Did the artifact reach the expected state?"
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "ev-0001",
+      "evidence_type": "observed_state_comparison",
+      "question_ref": "q-0001",
+      "target_entity_ref": "artifact:report-0001"
+    }
+  ],
+  "settlements": [
+    {
+      "settlement_id": "set-0001",
+      "settlement_status": "settled",
+      "transformation_ref": "tr-op-0001",
+      "question_ref": "q-0001",
+      "threshold_basis": "expected state equals observed state"
+    }
+  ],
+  "extensions": {
+    "cep.profile": {
+      "profile_id": "godspeed.settlement_packet",
+      "profile_version": "1.0.0"
+    },
+    "godspeed.settlement_packet": {
+      "operation_id": "op-0001"
+    }
+  }
+}

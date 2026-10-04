@@ -96,3 +96,19 @@
 - **Recommended Repair**: Delete.
 - **Priority**: Low.
 - **Status**: Resolved (2026-06-27) — see Remediation Log in `.agents/reports/final_protocol_audit.md`.
+
+## DEBT-0009 — Environment lacked psycopg; ledger exporter test could not be collected
+
+- **ID**: DEBT-0009
+- **Date**: 2026-10-04
+- **Status**: **Resolved 2026-10-04**. `psycopg[binary]` is declared in the `exporters` and `dev` extras and the `dev` group; `tests/test_ledger_exporter.py` uses `importorskip`, so a missing driver skips instead of failing collection. `src/cep/exporters/` gained its missing `__init__.py` and a DB-free test (`tests/test_ledger_exporter_logic.py`) covers the pure aggregation, ratchet and JSON-loading logic.
+- **Evidence**: `uv run pytest` -> 140 passed, 10 skipped (the Postgres-backed tests skip without the docker-compose ledger).
+
+## DEBT-0010 — Static-analysis claims in the remediation banner were wrong
+
+- **ID**: DEBT-0010
+- **Date**: 2026-10-04
+- **Status**: **Partly resolved 2026-10-04**. `uv run basedpyright src` is now 0 errors (was 39: the exporter was untyped and `psycopg` unresolved). `uv run ruff check src tests` is clean. The generators `tools/generate_godspeed_*.py` are ruff-clean; `tools/*.py` may `print`.
+- **Still open**: (1) `uv run basedpyright` over `tests` (the pyproject includes them, strict `all` mode) reports 140 errors, mostly `Any` from `json.loads` in test data in `test_godspeed_profiles.py`, `test_ledger_exporter.py` and the domainforge conformance test; the "0 errors" banner never held for that scope. (2) `tools/validate_okf.py` has 53 pre-existing ruff findings.
+- **Next move**: type test data through `cep.io.load_json` and narrow `JsonValue`, or decide to scope pyright to `src` explicitly.
+

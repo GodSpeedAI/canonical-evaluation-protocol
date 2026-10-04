@@ -83,10 +83,7 @@ def test_run_settlement_corpus_generates_report() -> None:
     # Then: corpus scoring succeeds and writes a portable report.
     assert result.exit_code == 0, result.output
     assert (
-        ROOT
-        / "reports"
-        / "settlement"
-        / "set-0001-ans-set-0001-valid-example.result.json"
+        ROOT / "reports" / "settlement" / "set-0001-ans-set-0001-valid-example.result.json"
     ).exists()
 
 

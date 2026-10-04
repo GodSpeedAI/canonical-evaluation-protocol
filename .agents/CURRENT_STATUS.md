@@ -16,14 +16,17 @@ timestamp: "2026-06-27T00:00:00Z"
 
 ## Last Updated
 
-2026-06-27 — Codex
+2026-10-04 — Claude (GodSpeed profiles, branch `profiles/godspeed-v1`)
 
 ## Current Outcome Being Pursued
 
-Expand the executable benchmark corpus breadth, starting with additional reviewed RealityGapBench cases across the declared gap types.
+GodSpeed migration Stage 3: one machine-readable CEP-0008 contract with six profiles and `world_ref` (this branch, off `slice-0a-cep-semantic-envelope`, which is not yet on `main`). Rust and TypeScript validators and the DomainForge emitter follow. Earlier outcome, still open: Expand the executable benchmark corpus breadth, starting with additional reviewed RealityGapBench cases across the declared gap types.
 
 ## Last Completed Work
 
+- Conformance against real DomainForge emissions: `tests/test_domainforge_snapshot_conformance.py`, `contracts/rust/tests/emitted.rs`, `contracts/typescript/tests/emitted.test.ts`, gated by `CEP_TEST_DOMAINFORGE_BIN` (a build from DomainForge `feat/cep-snapshot-world-ref`); a valid world, an invalid world (flagged, not pinned) and a snapshot without `--world-name` (does not claim the profile) all behave correctly under all validators.
+- Typed validators: Rust crate `contracts/rust` (jsonschema 0.58.5, typed `Decision`) and TypeScript package `contracts/typescript` (Ajv 8.20, generated types), both passing the shared corpus; `just contracts` runs them. Four validators (CEP Python, standard jsonschema, Rust, Ajv) agree on all 34 cases.
+- GodSpeed profiles v1 (DEC-0005..0007): `allOf` support in the validator (`tests/test_all_of.py`); generated profile schemas `schemas/profiles/godspeed/` (six profiles plus `world-transition.v1`) from `tools/generate_godspeed_profiles.py`; shared conformance corpus `schemas/fixtures/godspeed/` (34 cases, manifest, lineage chains) from `tools/generate_godspeed_fixtures.py`; `src/cep/godspeed.py` (schema validation, identity-digest recomputation, world consistency, transition check); normative `spec/profiles/GODSPEED-PROFILES-v1.md`; DomainForge golden vectors vendored and hash-pinned in `schemas/vendored/world_ref/`.
 - Added OKF frontmatter to `AGENTS.md` and `CLAUDE.md`.
 - Updated root `index.md` to link to `.agents/CURRENT_STATUS.md`, `.agents/EVIDENCE.md`, and `.agents/OPEN_QUESTIONS.md`.
 - Removed all obsolete handoff-file references.
@@ -53,6 +56,9 @@ The repo now has end-to-end local executable proof. More reviewed cases will red
 
 ## Validation / Evidence
 
+- 2026-10-04 gap patch: `psycopg` declared and tests skip cleanly (DEBT-0009 resolved); `basedpyright src` 0 errors, `ruff check src tests` clean (DEBT-0010 partly resolved; `tests` strict typing and `validate_okf.py` ruff remain).
+- 2026-10-04 contracts: `cargo test --locked` 7 passed, clippy `-D warnings` and fmt clean; `bun test` 57 passed, `tsc --noEmit` clean, generated types up to date.
+- 2026-10-04: `uv run pytest --ignore=tests/test_ledger_exporter.py` 133 passed; `tools/validate_okf.py` passes; `cep conformance anti-collapse` and the four corpora pass; the standard `jsonschema` library agrees with the CEP validator on all 34 corpus cases; `basedpyright src/cep/godspeed.py` 0 errors. `tests/test_ledger_exporter.py` cannot be collected here (no `psycopg`), identical at baseline.
 See `.agents/EVIDENCE.md` entries `EV-OKF-REPAIR`, `EV-CR-REVIEW-FIXES`, `EV-REALITY-GAP-PROOF`, `EV-CR-PHASE4-7-REVIEW`, `EV-MULTI-BENCH-PHASE8-10`, and `EV-END-TO-END-PHASE11`.
 
 ## Files Recently Modified

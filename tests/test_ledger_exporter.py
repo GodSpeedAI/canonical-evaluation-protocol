@@ -11,6 +11,7 @@ Requires the docker-compose stack up (run:
 `docker compose -f ../godspeed_agent/tests/e2e/docker-compose.yml up -d`).
 SKIPPED if Postgres is not reachable.
 """
+
 from __future__ import annotations
 
 import json
@@ -19,8 +20,16 @@ import socket
 import uuid
 from pathlib import Path
 
-import psycopg
+import jsonschema
 import pytest
+
+psycopg = pytest.importorskip("psycopg", reason="psycopg not installed (cep[exporters])")
+
+from cep.exporters.ledger_postgres import (  # noqa: E402
+    ExportReport,
+    export_settlement_corpus,
+    ratchet_against,
+)
 
 PG_DSN = os.getenv(
     "E2E_PG_DSN", "postgresql://bridge_worker:bridge_e2e_pw@127.0.0.1:5432/agent_memory"
@@ -43,7 +52,7 @@ pytestmark = pytest.mark.skipif(
 )
 
 
-def _insert_event(cur, event_type: str, payload: dict) -> str:
+def _insert_event(cur: psycopg.Cursor, event_type: str, payload: dict) -> str:
     event_id = str(uuid.uuid4())
     cur.execute(
         """
@@ -57,15 +66,15 @@ def _insert_event(cur, event_type: str, payload: dict) -> str:
     return event_id
 
 
-@pytest.fixture()
-def real_settlement_pair(tmp_path):
+@pytest.fixture
+def real_settlement_pair() -> list[tuple[str, str, str]]:
     """Insert one usable (matched) and one unusable (mismatched) settlement,
     each joined to its real EvidenceRecorded, into the live ledger."""
-    rows = []
     with psycopg.connect(PG_DSN) as conn, conn.cursor() as cur:
         # Case A: observed == expected → genuinely settled.
         ev_a = _insert_event(
-            cur, "EvidenceRecorded",
+            cur,
+            "EvidenceRecorded",
             {
                 "work_request_id": "wr-export-a",
                 "proof_result_id": "pr-a",
@@ -74,7 +83,8 @@ def real_settlement_pair(tmp_path):
             },
         )
         _insert_event(
-            cur, "SettlementRecorded",
+            cur,
+            "SettlementRecorded",
             {
                 "work_request_id": "wr-export-a",
                 "proof_result_id": "pr-a",
@@ -86,7 +96,8 @@ def real_settlement_pair(tmp_path):
         # Case B: observed != expected → unsettled, but settlement honestly
         # classifies it "unusable" (no collapse).
         ev_b = _insert_event(
-            cur, "EvidenceRecorded",
+            cur,
+            "EvidenceRecorded",
             {
                 "work_request_id": "wr-export-b",
                 "proof_result_id": "pr-b",
@@ -95,7 +106,8 @@ def real_settlement_pair(tmp_path):
             },
         )
         _insert_event(
-            cur, "SettlementRecorded",
+            cur,
+            "SettlementRecorded",
             {
                 "work_request_id": "wr-export-b",
                 "proof_result_id": "pr-b",
@@ -105,14 +117,13 @@ def real_settlement_pair(tmp_path):
             },
         )
         conn.commit()
-        rows = [("wr-export-a", "settled", "usable"), ("wr-export-b", "unsettled", "unusable")]
-    yield rows
+        return [("wr-export-a", "settled", "usable"), ("wr-export-b", "unsettled", "unusable")]
 
 
-def test_exporter_produces_schema_valid_result_from_real_rows(real_settlement_pair, tmp_path):
-    import jsonschema
-
-    from cep.exporters.ledger_postgres import export_settlement_corpus
+def test_exporter_produces_schema_valid_result_from_real_rows(
+    real_settlement_pair: list[tuple[str, str, str]], tmp_path: Path
+) -> None:
+    assert real_settlement_pair
 
     out = tmp_path / "corpus"
     report = export_settlement_corpus(PG_DSN, out)
@@ -138,12 +149,13 @@ def test_exporter_produces_schema_valid_result_from_real_rows(real_settlement_pa
     assert "completion_settlement_collapse" not in by_case["wr-export-b"]["critical_failures"]
 
 
-def test_exporter_detects_collapse(tmp_path):
+def test_exporter_detects_collapse(tmp_path: Path) -> None:
     """If a settlement claims 'usable' on a mismatched evidence, that is a
     settlement collapse — the scorer's anti-collapse cap must fire."""
     with psycopg.connect(PG_DSN) as conn, conn.cursor() as cur:
         ev = _insert_event(
-            cur, "EvidenceRecorded",
+            cur,
+            "EvidenceRecorded",
             {
                 "work_request_id": "wr-collapse",
                 "proof_result_id": "pr-c",
@@ -152,7 +164,8 @@ def test_exporter_detects_collapse(tmp_path):
             },
         )
         _insert_event(
-            cur, "SettlementRecorded",
+            cur,
+            "SettlementRecorded",
             {
                 "work_request_id": "wr-collapse",
                 "proof_result_id": "pr-c",
@@ -162,8 +175,6 @@ def test_exporter_detects_collapse(tmp_path):
             },
         )
         conn.commit()
-
-    from cep.exporters.ledger_postgres import export_settlement_corpus
 
     report = export_settlement_corpus(PG_DSN, tmp_path / "collapse")
     collapse_results = [r for r in report.results if r["case_id"] == "wr-collapse"]
@@ -175,43 +186,41 @@ def test_exporter_detects_collapse(tmp_path):
 # ── Ratchet (§14: week-over-week non-regression + anti-collapse) ───────────────
 # These are unit tests — no Postgres required.
 
-def _report(score: float, collapses: int = 0):
-    from cep.exporters.ledger_postgres import ExportReport
 
-    r = ExportReport(out_dir=Path("/tmp"), case_count=1, scored=1, skipped_no_evidence=0)
-    r.results = [{
-        "score": score,
-        "status": "pass" if score >= 85 else "fail",
-        "critical_failures": ["completion_settlement_collapse"] if collapses else [],
-    }]
+def _report(score: float, collapses: int = 0) -> ExportReport:
+
+    r = ExportReport(out_dir=Path(), case_count=1, scored=1, skipped_no_evidence=0)
+    r.results = [
+        {
+            "score": score,
+            "status": "pass" if score >= 85 else "fail",
+            "critical_failures": ["completion_settlement_collapse"] if collapses else [],
+        }
+    ]
     return r
 
 
-def test_ratchet_first_run_establishes_baseline(tmp_path):
-    from cep.exporters.ledger_postgres import ratchet_against
+def test_ratchet_first_run_establishes_baseline(tmp_path: Path) -> None:
 
     prev = tmp_path / "prev-aggregate.json"
     assert ratchet_against(prev, _report(90.0)) == 0  # no baseline → OK
 
 
-def test_ratchet_passes_on_no_regression(tmp_path):
-    from cep.exporters.ledger_postgres import ratchet_against
+def test_ratchet_passes_on_no_regression(tmp_path: Path) -> None:
 
     prev = tmp_path / "prev.json"
     prev.write_text(json.dumps({"mean_score": 80.0}))
     assert ratchet_against(prev, _report(85.0)) == 0
 
 
-def test_ratchet_fails_on_regression(tmp_path):
-    from cep.exporters.ledger_postgres import ratchet_against
+def test_ratchet_fails_on_regression(tmp_path: Path) -> None:
 
     prev = tmp_path / "prev.json"
     prev.write_text(json.dumps({"mean_score": 90.0}))
     assert ratchet_against(prev, _report(70.0)) == 1  # regressed 20 points
 
 
-def test_ratchet_fails_hard_on_any_collapse(tmp_path):
-    from cep.exporters.ledger_postgres import ratchet_against
+def test_ratchet_fails_hard_on_any_collapse(tmp_path: Path) -> None:
 
     prev = tmp_path / "prev.json"
     prev.write_text(json.dumps({"mean_score": 50.0}))

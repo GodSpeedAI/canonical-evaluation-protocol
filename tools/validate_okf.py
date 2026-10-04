@@ -143,7 +143,7 @@ def validate_file(file_path, repo_root):
 def main():
     repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
-    exclude_dirs = {".git", ".agents", ".tmp"}
+    exclude_dirs = {".git", ".agents", ".tmp", "node_modules", "target"}
 
     markdown_files = []
     for root, dirs, files in os.walk(repo_root):

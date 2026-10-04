@@ -3,6 +3,10 @@ from __future__ import annotations
 import json
 from dataclasses import dataclass
 from pathlib import Path
+from typing import TYPE_CHECKING, cast
+
+if TYPE_CHECKING:
+    from pydantic import JsonValue
 
 from cep.inventory import (
     iter_reality_gap_answer_keys,
@@ -11,13 +15,14 @@ from cep.inventory import (
     iter_reality_gap_evidence_files,
     iter_reality_gap_example_answers,
     iter_semantic_envelope_fixtures,
+    iter_semantic_envelope_full_fixtures,
     reality_gap_anti_collapse_manifest,
 )
 from cep.io import load_json
 from cep.json_types import JsonDocumentError, JsonObject
 from cep.paths import SCHEMAS_DIR
 from cep.schema_profile import SchemaProfile, as_string_list, schema_profile_errors
-from cep.schema_value import validate_object
+from cep.schema_value import validate_value
 
 
 @dataclass(frozen=True, slots=True)
@@ -55,8 +60,27 @@ def validate_instance(path: Path, schema_path: Path) -> ValidationResult:
     if schema_errors:
         return ValidationResult(ok=False, target=str(path), errors=schema_errors)
 
-    errors = validate_object(instance, SchemaProfile(schema=schema, root=schema_path.parent))
+    errors = validate_value(instance, SchemaProfile(schema=schema, root=schema_path.parent), "$")
     return ValidationResult(ok=not errors, target=str(path), errors=errors)
+
+
+def validate_instance_json(
+    content: str,
+    schema_path: Path,
+    target: str,
+) -> ValidationResult:
+    try:
+        instance = cast("JsonValue", json.loads(content))
+        schema = load_json(schema_path)
+    except (OSError, json.JSONDecodeError, JsonDocumentError) as exc:
+        return ValidationResult(ok=False, target=target, errors=[str(exc)])
+
+    schema_errors = schema_profile_errors(schema)
+    if schema_errors:
+        return ValidationResult(ok=False, target=target, errors=schema_errors)
+
+    errors = validate_value(instance, SchemaProfile(schema=schema, root=schema_path.parent), "$")
+    return ValidationResult(ok=not errors, target=target, errors=errors)
 
 
 def _schema_names(registry_path: Path, registry: JsonObject) -> ValidationResult | list[str]:
@@ -178,8 +202,30 @@ def validate_reality_gap_corpus() -> list[ValidationResult]:
 
 def validate_semantic_envelope_corpus() -> list[ValidationResult]:
     schema_path = SCHEMAS_DIR / "semantic-envelope.schema.json"
+    return [validate_instance(path, schema_path) for path in iter_semantic_envelope_fixtures()]
+
+
+def validate_semantic_envelope_full_corpus() -> list[ValidationResult]:
+    schema_path = SCHEMAS_DIR / "cep-semantic-envelope.schema.json"
+    fixtures = [
+        path for path in iter_semantic_envelope_full_fixtures() if path.name.startswith("valid-")
+    ]
+    return [validate_instance(path, schema_path) for path in fixtures]
+
+
+def validate_semantic_envelope_invalid_corpus() -> list[ValidationResult]:
+    schema_path = SCHEMAS_DIR / "cep-semantic-envelope.schema.json"
+    fixtures = [
+        path for path in iter_semantic_envelope_full_fixtures() if path.name.startswith("invalid-")
+    ]
+    results = [validate_instance(path, schema_path) for path in fixtures]
     return [
-        validate_instance(path, schema_path) for path in iter_semantic_envelope_fixtures()
+        ValidationResult(
+            ok=not result.ok,
+            target=result.target,
+            errors=[] if not result.ok else ["invalid fixture must fail validation"],
+        )
+        for result in results
     ]
 
 

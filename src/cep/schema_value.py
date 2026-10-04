@@ -68,6 +68,91 @@ def _number_bound_errors(value: JsonValue, schema: JsonObject, location: str) ->
     return errors
 
 
+def _length_bound_errors(value: JsonValue, schema: JsonObject, location: str) -> list[str]:
+    errors: list[str] = []
+
+    min_length = schema.get("minLength")
+    is_length_ok = (
+        isinstance(min_length, int)
+        and not isinstance(min_length, bool)
+        and isinstance(value, str)
+        and len(value) < min_length
+    )
+    if is_length_ok:
+        errors.append(f"{location} must have length >= {min_length}")
+
+    min_properties = schema.get("minProperties")
+    is_properties_ok = (
+        isinstance(min_properties, int)
+        and not isinstance(min_properties, bool)
+        and isinstance(value, dict)
+        and len(value) < min_properties
+    )
+    if is_properties_ok:
+        errors.append(f"{location} must have at least {min_properties} properties")
+
+    min_items = schema.get("minItems")
+    is_items_ok = (
+        isinstance(min_items, int)
+        and not isinstance(min_items, bool)
+        and isinstance(value, list)
+        and len(value) < min_items
+    )
+    if is_items_ok:
+        errors.append(f"{location} must have at least {min_items} items")
+
+    return errors
+
+
+def _any_of_errors(value: JsonValue, profile: SchemaProfile, location: str) -> list[str]:
+    any_of = profile.schema.get("anyOf")
+    if not isinstance(any_of, list):
+        return []
+
+    branch_results: list[list[str]] = []
+    failed_branch_descriptions: list[str] = []
+    for branch in any_of:
+        branch_schema = as_object(branch)
+        if branch_schema is None:
+            continue
+        branch_errors = validate_value(
+            value,
+            SchemaProfile(schema=branch_schema, root=profile.root),
+            location,
+        )
+        if not branch_errors:
+            return []
+        branch_results.append(branch_errors)
+        description = as_string(branch_schema.get("description"))
+        if description:
+            failed_branch_descriptions.append(description)
+
+    unique_descriptions = list(dict.fromkeys(failed_branch_descriptions))
+    summary = "; ".join(unique_descriptions)
+    suffix = f": {summary}" if summary else ""
+    return [f"{location} must satisfy at least one anyOf branch{suffix}"]
+
+
+def _all_of_errors(value: JsonValue, profile: SchemaProfile, location: str) -> list[str]:
+    all_of = profile.schema.get("allOf")
+    if not isinstance(all_of, list):
+        return []
+
+    errors: list[str] = []
+    for branch in all_of:
+        branch_schema = as_object(branch)
+        if branch_schema is None:
+            continue
+        errors.extend(
+            validate_value(
+                value,
+                SchemaProfile(schema=branch_schema, root=profile.root),
+                location,
+            )
+        )
+    return list(dict.fromkeys(errors))
+
+
 def _resolve_ref(profile: SchemaProfile, ref: str) -> SchemaProfile:
     ref_path = profile.root / ref.removeprefix("./")
     return SchemaProfile(schema=load_json(ref_path), root=ref_path.parent)
@@ -96,6 +181,9 @@ def validate_value(value: JsonValue, profile: SchemaProfile, location: str) -> l
         errors.append(f"{location} must match pattern {pattern}")
 
     errors.extend(_number_bound_errors(value, schema, location))
+    errors.extend(_length_bound_errors(value, schema, location))
+    errors.extend(_any_of_errors(value, profile, location))
+    errors.extend(_all_of_errors(value, profile, location))
     errors.extend(_validate_nested(value, profile, location))
     return errors
 

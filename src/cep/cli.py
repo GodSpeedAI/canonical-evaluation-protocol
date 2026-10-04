@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import sys
 from collections.abc import Callable
 from pathlib import Path
 from typing import Annotated
@@ -20,6 +21,10 @@ from cep.benchmarks.settlement import (
 )
 from cep.conformance.anti_collapse import run_reality_gap_anti_collapse
 from cep.conformance.benchmark_invariants import run_benchmark_anti_collapse
+from cep.conformance.corpus import (
+    CorpusError,
+    evaluate_corpus,
+)
 from cep.inventory import (
     iter_authority_case_dirs,
     iter_capability_case_dirs,
@@ -27,16 +32,20 @@ from cep.inventory import (
     iter_settlement_case_dirs,
 )
 from cep.io import load_json
-from cep.paths import REPORTS_DIR
-from cep.schema_profile import as_object
+from cep.paths import REPORTS_DIR, SCHEMAS_DIR
 from cep.reports import write_report
+from cep.schema_profile import as_object
 from cep.scoring.common import ScoreRecord
 from cep.validation import (
     ValidationResult,
     all_ok,
     validate_all_schemas,
+    validate_instance,
+    validate_instance_json,
     validate_reality_gap_corpus,
     validate_semantic_envelope_corpus,
+    validate_semantic_envelope_full_corpus,
+    validate_semantic_envelope_invalid_corpus,
 )
 
 app = typer.Typer(help="Canonical Evaluation Protocol CLI.", no_args_is_help=True)
@@ -105,8 +114,36 @@ def validate_reality_gap_corpus_command() -> None:
     "semantic-envelope",
     help="Validate Semantic Envelope fixtures against the CEP-0008 schema profile.",
 )
-def validate_semantic_envelope_command() -> None:
-    results = validate_semantic_envelope_corpus()
+def validate_semantic_envelope_command(
+    path: Annotated[Path | None, typer.Argument(dir_okay=False)] = None,
+    stdin: Annotated[
+        bool,
+        typer.Option("--stdin", help="Read one envelope from standard input."),
+    ] = False,
+) -> None:
+    if path is not None:
+        result = validate_instance(
+            path,
+            SCHEMAS_DIR / "cep-semantic-envelope.schema.json",
+        )
+        _print_results([result])
+        raise typer.Exit(0 if result.ok else 1)
+
+    if stdin:
+        content = sys.stdin.read()
+        result = validate_instance_json(
+            content,
+            SCHEMAS_DIR / "cep-semantic-envelope.schema.json",
+            target="stdin",
+        )
+        _print_results([result])
+        raise typer.Exit(0 if result.ok else 1)
+
+    results = (
+        validate_semantic_envelope_corpus()
+        + validate_semantic_envelope_full_corpus()
+        + validate_semantic_envelope_invalid_corpus()
+    )
     _print_results(results)
     raise typer.Exit(0 if all_ok(results) else 1)
 
@@ -114,7 +151,11 @@ def validate_semantic_envelope_command() -> None:
 @validate_app.command("all", help="Validate schemas and current corpus artifacts.")
 def validate_all_command() -> None:
     results = (
-        validate_all_schemas() + validate_reality_gap_corpus() + validate_semantic_envelope_corpus()
+        validate_all_schemas()
+        + validate_reality_gap_corpus()
+        + validate_semantic_envelope_corpus()
+        + validate_semantic_envelope_full_corpus()
+        + validate_semantic_envelope_invalid_corpus()
     )
     _print_results(results)
     raise typer.Exit(0 if all_ok(results) else 1)
@@ -124,7 +165,33 @@ app.add_typer(validate_app, name="validate")
 
 
 @conformance_app.command("anti-collapse", help="Run anti-collapse conformance for all families.")
-def conformance_anti_collapse_command() -> None:
+def conformance_anti_collapse_command(
+    corpus: Annotated[Path | None, typer.Option(exists=True, dir_okay=False)] = None,
+) -> None:
+    """Run CEP anti-collapse conformance.
+
+    Without `--corpus`: evaluate CEP's own reality-gap fixtures and the
+    cross-family example-answer invariants (historical behavior).
+
+    With `--corpus <path>`: evaluate an externally supplied corpus (e.g. an
+    `sxr`-exported record set) through the same anti-collapse evaluator. The
+    gate passes only if every record commits no anti-collapse violation.
+    """
+    if corpus is not None:
+        try:
+            results = evaluate_corpus(corpus)
+        except CorpusError as exc:
+            console.print(f"ERROR {exc.reason}")
+            raise typer.Exit(2) from exc
+        failed = 0
+        for result in results:
+            marker = "PASS" if result.ok else "FAIL"
+            console.print(f"{marker} {result.record_id}: {result.message}")
+            if not result.ok:
+                failed += 1
+        console.print(f"corpus: {len(results) - failed}/{len(results)} passed")
+        raise typer.Exit(0 if failed == 0 else 1)
+
     ok = True
     for result in run_reality_gap_anti_collapse():
         marker = "PASS" if result.ok else "FAIL"

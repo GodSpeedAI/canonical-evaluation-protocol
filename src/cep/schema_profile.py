@@ -14,12 +14,17 @@ SUPPORTED_SCHEMA_KEYS = {
     "$ref",
     "$schema",
     "additionalProperties",
+    "allOf",
+    "anyOf",
     "const",
     "description",
     "enum",
     "items",
     "maximum",
     "minimum",
+    "minItems",
+    "minLength",
+    "minProperties",
     "pattern",
     "properties",
     "required",
@@ -126,6 +131,42 @@ def _item_schema_errors(schema: JsonObject, location: str) -> list[str]:
     return _schema_profile_errors(nested_items, f"{location}.items")
 
 
+def _all_of_schema_errors(schema: JsonObject, location: str) -> list[str]:
+    all_of = schema.get("allOf")
+    if all_of is None:
+        return []
+
+    if not isinstance(all_of, list) or not all_of:
+        return [f"{location}.allOf must be a non-empty array"]
+
+    errors: list[str] = []
+    for index, branch in enumerate(all_of):
+        nested = as_object(branch)
+        if nested is None:
+            errors.append(f"{location}.allOf[{index}] must be an object")
+            continue
+        errors.extend(_schema_profile_errors(nested, f"{location}.allOf[{index}]"))
+    return errors
+
+
+def _any_of_schema_errors(schema: JsonObject, location: str) -> list[str]:
+    any_of = schema.get("anyOf")
+    if any_of is None:
+        return []
+
+    if not isinstance(any_of, list) or not any_of:
+        return [f"{location}.anyOf must be a non-empty array"]
+
+    errors: list[str] = []
+    for index, branch in enumerate(any_of):
+        nested = as_object(branch)
+        if nested is None:
+            errors.append(f"{location}.anyOf[{index}] must be an object")
+            continue
+        errors.extend(_schema_profile_errors(nested, f"{location}.anyOf[{index}]"))
+    return errors
+
+
 def _schema_profile_errors(schema: JsonObject, location: str = "$") -> list[str]:
     errors = [
         f"{location}: unsupported schema keyword {key}"
@@ -136,6 +177,8 @@ def _schema_profile_errors(schema: JsonObject, location: str = "$") -> list[str]
     errors.extend(_required_errors(schema, location))
     errors.extend(_property_schema_errors(schema, location))
     errors.extend(_item_schema_errors(schema, location))
+    errors.extend(_any_of_schema_errors(schema, location))
+    errors.extend(_all_of_schema_errors(schema, location))
 
     additional = schema.get("additionalProperties")
     if additional is not None and not isinstance(additional, bool):

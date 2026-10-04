@@ -17,6 +17,12 @@ This directory is the root of the Canonical Evaluation Protocol (CEP) knowledge 
 * [RFCs](rfc/index.md) - Proposed and accepted enhancements to the protocol.
 * [Documentation](docs/index.md) - Usage guides and reference material.
 
+## Architectural & Documentation Deliverables
+
+* [Architecture Overview](architecture.md) - Canonical high-level system architecture and multi-view models.
+* [Documentation Map](documentation-map.md) - Master index of documentation pages and Diátaxis classification.
+* [Source Map](source-map.md) - Traceability map connecting concepts and capabilities to source code symbols.
+
 ## Reference Material
 
 * [Readme](README.md) - Introduction to the Canonical Evaluation Protocol.

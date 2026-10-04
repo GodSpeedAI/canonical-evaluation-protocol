@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cep.dev/schemas/profiles/godspeed/world-transition.v1.schema.json",
+  "title": "GodSpeed world transition v1.0.0",
+  "description": "Explicit move of work from one immutable semantic world to another. Never implied by an alias retarget. source_world_ref and target_world_ref must differ (checked by the typed validators).",
+  "type": "object",
+  "required": [
+    "source_world_ref",
+    "target_world_ref",
+    "transition_kind",
+    "reason",
+    "compatibility",
+    "semantic_closure_equal"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "source_world_ref": {
+      "type": "string",
+      "description": "World the work is pinned to today.",
+      "allOf": [
+        {
+          "pattern": "^world:[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*@sha256:[0-9a-f]{64}$"
+        },
+        {
+          "pattern": "^world:[^@]{1,64}@.*$"
+        }
+      ]
+    },
+    "target_world_ref": {
+      "type": "string",
+      "description": "World the work moves to.",
+      "allOf": [
+        {
+          "pattern": "^world:[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*@sha256:[0-9a-f]{64}$"
+        },
+        {
+          "pattern": "^world:[^@]{1,64}@.*$"
+        }
+      ]
+    },
+    "transition_kind": {
+      "enum": [
+        "semantic_change",
+        "source_edit_only",
+        "compiler_upgrade",
+        "migration"
+      ]
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "compatibility": {
+      "enum": [
+        "compatible",
+        "backward_compatible",
+        "breaking",
+        "unknown"
+      ]
+    },
+    "semantic_closure_equal": {
+      "type": "boolean",
+      "description": "True only when both worlds have the same semantic_closure_hash."
+    },
+    "semantic_diff_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "migration_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "authority_decision_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

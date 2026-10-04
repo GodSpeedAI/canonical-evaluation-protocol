@@ -58,3 +58,69 @@ not add top-level fields for them, per this plan's guardrail against
 inventing a compromise schema. Whether v1 should grow those fields, or
 whether CEP-0008 should define an explicit "opaque carrier" allowance for
 flat envelope profiles, is a cross-repo decision, not one made here.
+
+## The canonical full profile (`cep-semantic-envelope.schema.json`)
+
+Resolves OQ-0009 on the "explicit top-level fields" basis: every CEP-0008
+SS52 minimal-valid field is an explicit top-level property, plus the
+SS7.1 `lineage_refs` field the frozen runtime spec requires. It is the
+contract for Semantic Exhaust Runtime emissions.
+
+- All SS52 fields are `required`: `envelope_id`, `cep_version`,
+  `envelope_version`, `envelope_kind`, `created_at`, `created_by`, `scope`,
+  `boundary_record`, `completeness_status`, `provenance_refs`,
+  `omission_status`, `lineage_refs`.
+- `envelope_kind` is the SS9 closed 17-value vocabulary; new kinds must be
+  defined by CEP-0008.
+- The envelope MUST carry `validation_status` or `conformance_status`
+  (SS52) and at least one CEP entity section (SS52) — enforced via
+  `anyOf`; sections carry their SS13-39 SHOULD vocabularies.
+- Reference records require `availability_status` and `integrity_status`
+  (SS13.1/SS54 Invariant 13: references SHALL preserve availability and
+  integrity status).
+- `additionalProperties: false` at every record level keeps the profile a
+  closed vocabulary: §53 collapse shapes (data-as-evidence,
+  representation-as-reality, action-as-transformation,
+  completion-as-settlement, authority-as-capability,
+  possibility-as-affordance, signature-as-truth) fail as `unknown field`,
+  and unknown top-level fields fail the uncertainty-drop check.
+- Hash-bearing fields use the frozen runtime spec's pattern
+  `^[a-z0-9]+:[0-9a-f]{16,128}$`; `content_ref` admits CAS URIs via
+  `^[a-z0-9]+://[a-z0-9]+:[0-9a-f]{16,128}$` (e.g. `cas://sha256:<hex>` per the
+  frozen spec's §10.7a carriage table); `created_at`-style fields use RFC 3339.
+- SS11 lists `perspectives` and `actors` sections; CEP-0008 defines no
+  record vocabulary for them (only `perspective_ref`/`actor_ref`-style
+  references in SS25/SS30), so the full profile does not invent one.
+
+### SS53 fixture map (`schemas/fixtures/semantic-envelope-full/`)
+
+One invalid fixture per SS53 bullet, each with a named, structurally
+detectable failure reason:
+
+| fixture | SS53 condition | structural reason |
+|---|---|---|
+| `invalid-missing-identity.json` | lacks envelope identity | missing required `envelope_id` |
+| `invalid-missing-cep-version.json` | lacks CEP version | missing required `cep_version` |
+| `invalid-missing-scope.json` | lacks scope | missing required `scope` |
+| `invalid-missing-boundary-record.json` | lacks boundary record | missing required `boundary_record` |
+| `invalid-missing-provenance.json` | lacks provenance | missing required `provenance_refs` |
+| `invalid-missing-completeness-status.json` | lacks completeness status | missing required `completeness_status` |
+| `invalid-no-entity-section.json` | raw context as semantic structure | no CEP entity section (anyOf §52) |
+| `invalid-no-validation-conformance-status.json` | cannot be evaluated | no `validation_status`/`conformance_status` (anyOf §52) |
+| `invalid-raw-context-as-envelope.json` | raw context as envelope | unknown top-level field `raw_context` |
+| `invalid-data-as-evidence.json` | data collapsed into evidence | unknown field `raw_data` on evidence record |
+| `invalid-representation-as-reality.json` | representation collapsed into reality | unknown field `is_reality` on representation |
+| `invalid-action-as-transformation.json` | action collapsed into transformation | unknown field `action` on transformation |
+| `invalid-completion-as-settlement.json` | completion collapsed into settlement | unknown field `completion_status` on settlement |
+| `invalid-authority-as-capability.json` | authority collapsed into capability | unknown field `authority_grant` on capability |
+| `invalid-possibility-as-affordance.json` | possibility collapsed into affordance | unknown field `is_possible` on affordance |
+| `invalid-hidden-omissions.json` | hides known omissions | omission record without `omission_id` |
+| `invalid-hidden-contradictions.json` | hides known contradictions | contradiction record without `contradiction_id` |
+| `invalid-signature-as-truth.json` | signature treated as truth | unknown field `signature_is_truth` on integrity |
+| `invalid-unmarked-unavailable-reference.json` | unavailable reference unmarked | missing required `availability_status` |
+| `invalid-unknown-top-level-field.json` | silently drops uncertainty | unknown top-level field `silent_uncertainty_drop` |
+
+Valid fixtures: `valid-semantic-snapshot.json` (semantic_snapshot carrying a
+derived representation, hash pattern, boundary/omission records),
+`valid-work-request.json` (work_request with questions and references),
+`valid-minimal.json` (smallest lawful envelope).

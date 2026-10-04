@@ -3,6 +3,8 @@ set shell := ["bash", "-eu", "-o", "pipefail", "-c"]
 validate:
     uv run python tools/validate_okf.py
     uv run cep validate all
+    uv run python tools/generate_godspeed_profiles.py --check
+    uv run python tools/generate_godspeed_fixtures.py --check
 
 test:
     uv run pytest
@@ -15,6 +17,10 @@ smoke:
     uv run cep run authority-corpus
     uv run cep run settlement-corpus
     uv run cep run capability-corpus
+
+contracts:
+    cd contracts/rust && cargo test --locked && cargo clippy --all-targets -- -D warnings
+    cd contracts/typescript && bun install --frozen-lockfile && bun run check && bun run generate:check && bun test
 
 all: validate test conformance smoke
 
