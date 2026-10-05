@@ -40,6 +40,7 @@ An envelope claiming a profile MUST declare it at `extensions["cep.profile"]` wi
 | Profile | Envelope kind | Added requirements |
 | --- | --- | --- |
 | `godspeed.semantic_snapshot` | `semantic_snapshot` | Valid world: `scope.world_ref`, `integrity`, `representations`, `references`, `provenance`, and `extensions["domainforge.identity"]` carrying the 11-field `domain_model_identity` and `semantic_closure_hash`. Invalid world: the producer flags it with `extensions["domainforge"].model_validation_status = "invalid"` (with its diagnostics and omissions), and no `world_ref` is carried, so it cannot masquerade as a valid world. |
+| `godspeed.context_bundle` | `context_bundle` | `provenance`, `completeness_status`; `extensions["godspeed.context_bundle"]` with `work_request_ref` and `retrieval_completeness` (`complete`, `partial`, `none`). `complete` requires `references` and status `complete_for_context`. `partial` requires `references`, a marked `omissions` section and status `partial`, `minimal` or `unknown`. `none` requires the unanswered `questions` entry, `omissions` and status `minimal` or `unknown`. Partial or empty retrieval is never presented as complete. |
 | `godspeed.authority_request` | `authority_request` | `transformations`, `authority` (each with `subject_actor_ref`), `references`, `provenance`; `extensions["godspeed.authority_request"]` with `operation_id` and `correlation_id`. |
 | `godspeed.authority_decision` | `authority_decision` | `transformations`, `authority`, `provenance`; non-empty `lineage_refs` naming the request; `extensions["godspeed.authority_decision"]` with `decision`, `operation_id`, `request_ref`. |
 | `godspeed.execution_trace` | `execution_trace` | `transformations`, `provenance`; non-empty `lineage_refs` naming the authority decision; `extensions["godspeed.execution_trace"]` with `operation_id`, `authority_decision_ref`, `correlation_id`. |
@@ -55,7 +56,7 @@ An envelope claiming a profile MUST declare it at `extensions["cep.profile"]` wi
 
 ### 3.2 Distinctions this profile set preserves
 
-An `execution_trace` is observation of what was done, not settlement. An `evidence_packet` is evidence relative to a question, not raw data and not settlement. Only a `settlement_packet` settles, and only from evidence. Authority is not capability: a decision permits one transformation and implies nothing about what the actor can do generally.
+A `context_bundle` is what was retrieved, with what was left out, not a claim that nothing else exists: absence is not falsehood (CEP-0008 §34). An `execution_trace` is observation of what was done, not settlement. An `evidence_packet` is evidence relative to a question, not raw data and not settlement. Only a `settlement_packet` settles, and only from evidence. Authority is not capability: a decision permits one transformation and implies nothing about what the actor can do generally.
 
 ## 4. Checks a schema cannot make
 

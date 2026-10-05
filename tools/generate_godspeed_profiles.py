@@ -286,8 +286,85 @@ def semantic_snapshot_profile() -> dict:
     return base
 
 
+RETRIEVAL_COMPLETENESS = ["complete", "partial", "none"]
+CONTEXT_NS = "godspeed.context_bundle"
+
+
+def context_bundle_profile() -> dict:
+    """A context bundle never presents partial retrieval as complete.
+
+    `retrieval_completeness` (the producer's own statement) and the envelope's
+    `completeness_status` must agree, and anything short of `complete` must carry
+    at least one omission, so absence is never read as falsehood (CEP-0008 §34).
+    """
+    base = tightening(
+        "context_bundle",
+        required=["provenance", "completeness_status"],
+        extension_required=[CONTEXT_NS],
+        extension_properties=extension_require(
+            CONTEXT_NS,
+            "work_request_ref",
+            "retrieval_completeness",
+            properties={
+                "work_request_ref": nonempty_string(),
+                "retrieval_completeness": {"enum": RETRIEVAL_COMPLETENESS},
+            },
+        ),
+    )
+
+    def branch(level: str, statuses: dict, *, references: bool, description: str) -> dict:
+        required = ["extensions", "completeness_status"]
+        properties: dict = {
+            "completeness_status": statuses,
+            "extensions": {
+                "required": [CONTEXT_NS],
+                "properties": {
+                    CONTEXT_NS: {
+                        "required": ["retrieval_completeness"],
+                        "properties": {"retrieval_completeness": {"const": level}},
+                    }
+                },
+            },
+        }
+        if references:
+            required.append("references")
+            properties["references"] = {"minItems": 1}
+        else:
+            # Nothing retrieved: the context question stands, unanswered, and is the
+            # envelope's entity section (a CEP envelope needs at least one).
+            required.append("questions")
+            properties["questions"] = {"minItems": 1}
+        if level != "complete":
+            required.append("omissions")
+            properties["omissions"] = {"minItems": 1}
+        return {"description": description, "required": required, "properties": properties}
+
+    base["anyOf"] = [
+        branch(
+            "complete",
+            {"const": "complete_for_context"},
+            references=True,
+            description="complete retrieval: cited references, status complete_for_context",
+        ),
+        branch(
+            "partial",
+            {"enum": ["partial", "minimal", "unknown"]},
+            references=True,
+            description="partial retrieval: cited references and marked omissions, never complete",
+        ),
+        branch(
+            "none",
+            {"enum": ["minimal", "unknown"]},
+            references=False,
+            description="nothing retrieved: the unanswered question and marked omissions, never complete",
+        ),
+    ]
+    return base
+
+
 PROFILES: dict[str, dict] = {
     "semantic_snapshot": semantic_snapshot_profile(),
+    "context_bundle": context_bundle_profile(),
     "authority_request": tightening(
         "authority_request",
         required=["transformations", "authority", "provenance", "references"],
@@ -336,6 +413,10 @@ PROFILES: dict[str, dict] = {
 # Profiles that carry a snapshot-style identity declare it in `extensions`.
 DESCRIPTIONS = {
     "semantic_snapshot": "Bounded state of a semantic world, pinned by world_ref (CEP-0008 §9.11).",
+    "context_bundle": (
+        "Context retrieved for a work request, pinned to a world. Partial retrieval is "
+        "never presented as complete (CEP-0008 §9.2, §34)."
+    ),
     "authority_request": (
         "Request to govern one consequential transformation inside a pinned world (CEP-0008 §9.3)."
     ),

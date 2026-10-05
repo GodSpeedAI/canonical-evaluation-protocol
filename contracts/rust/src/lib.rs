@@ -30,6 +30,7 @@ pub enum ContractError {
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum Profile {
     SemanticSnapshot,
+    ContextBundle,
     AuthorityRequest,
     AuthorityDecision,
     ExecutionTrace,
@@ -38,8 +39,9 @@ pub enum Profile {
 }
 
 impl Profile {
-    pub const ALL: [Profile; 6] = [
+    pub const ALL: [Profile; 7] = [
         Profile::SemanticSnapshot,
+        Profile::ContextBundle,
         Profile::AuthorityRequest,
         Profile::AuthorityDecision,
         Profile::ExecutionTrace,
@@ -51,6 +53,7 @@ impl Profile {
     pub fn kind(self) -> &'static str {
         match self {
             Profile::SemanticSnapshot => "semantic_snapshot",
+            Profile::ContextBundle => "context_bundle",
             Profile::AuthorityRequest => "authority_request",
             Profile::AuthorityDecision => "authority_decision",
             Profile::ExecutionTrace => "execution_trace",
@@ -71,6 +74,9 @@ impl Profile {
         match self {
             Profile::SemanticSnapshot => {
                 include_str!("../../../schemas/profiles/godspeed/semantic_snapshot.v1.schema.json")
+            }
+            Profile::ContextBundle => {
+                include_str!("../../../schemas/profiles/godspeed/context_bundle.v1.schema.json")
             }
             Profile::AuthorityRequest => {
                 include_str!("../../../schemas/profiles/godspeed/authority_request.v1.schema.json")
