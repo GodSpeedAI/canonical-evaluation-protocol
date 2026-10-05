@@ -26,7 +26,7 @@ VENDORED = SCHEMAS_DIR / "vendored" / "world_ref"
 MANIFEST = json.loads((CORPUS / "manifest.json").read_text(encoding="utf-8"))
 VECTORS = json.loads((VENDORED / "golden-vectors.json").read_text(encoding="utf-8"))
 
-# Pinned to DomainForge feat/world-ref a3a4157. Re-vendor from DomainForge; never edit.
+# Pinned to DomainForge v0.19.0 (first vendored from feat/world-ref a3a4157; content identical). Re-vendor from DomainForge; never edit.
 PIN_VECTORS = "419ef06c458388c2fa2d0dfd66abf88898872b7dc5c0818a12eb555619006955"
 PIN_REFERENCE = "b28e2b1534547fe6d85c368771c3c2aaee68d292abffdffbf52f2fa2bfa84327"
 

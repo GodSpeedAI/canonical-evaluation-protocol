@@ -14,4 +14,4 @@ timestamp: '2026-10-04T00:00:00Z'
 
 # Vendored DomainForge world_ref vectors
 
-Copied byte-for-byte from DomainForge (`domainforge-core/tests/fixtures/world_ref/`, branch `feat/world-ref`, commit a3a4157). DomainForge defines the `world_ref` grammar; CEP only mirrors it in its profile schemas. `tests/test_godspeed_profiles.py` pins the hashes and checks that the mirrored schema pattern accepts and rejects exactly what these vectors say. Do not edit; re-vendor from DomainForge.
+Copied byte-for-byte from DomainForge (`domainforge-core/tests/fixtures/world_ref/`; first vendored from `feat/world-ref` a3a4157, now on DomainForge `main` since PR #132 and published in release `v0.19.0`; the content is byte-identical, so the hash pin is unchanged). DomainForge defines the `world_ref` grammar; CEP only mirrors it in its profile schemas. `tests/test_godspeed_profiles.py` pins the hashes and checks that the mirrored schema pattern accepts and rejects exactly what these vectors say. Do not edit; re-vendor from DomainForge.
