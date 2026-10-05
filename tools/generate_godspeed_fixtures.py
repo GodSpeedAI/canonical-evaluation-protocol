@@ -112,6 +112,41 @@ def transformation() -> list[dict]:
     ]
 
 
+def context_bundle(world: dict, level: str = "complete") -> dict:
+    sections: dict = {}
+    if level != "none":
+        sections["references"] = references()
+    else:
+        sections["questions"] = [
+            {"question_id": "q-ctx-0001", "question_form": "What context applies to wr-0001?"}
+        ]
+    env = envelope("context_bundle", world, **sections)
+    env["completeness_status"] = {
+        "complete": "complete_for_context",
+        "partial": "partial",
+        "none": "minimal",
+    }[level]
+    if level != "complete":
+        env["omissions"] = [
+            {
+                "omission_id": "om-0001",
+                "omission_type": "retrieval_limit",
+                "description": "results beyond the retrieval limit were not returned",
+                "reason": "retrieval_limit",
+            }
+        ]
+    env["extensions"] = profile_ext(
+        "context_bundle",
+        **{
+            "godspeed.context_bundle": {
+                "work_request_ref": "wr-0001",
+                "retrieval_completeness": level,
+            }
+        },
+    )
+    return env
+
+
 def authority_ctx() -> list[dict]:
     return [{"authority_id": "auth-0001", "subject_actor_ref": "actor:agent-7"}]
 
@@ -376,6 +411,19 @@ def build() -> tuple[dict[str, dict], list[dict]]:  # noqa: PLR0915 - one case l
         ),
         schema="valid",
     )
+    add("valid/context_bundle.json", "context_bundle", context_bundle(WORLD_A), schema="valid")
+    add(
+        "valid/context_bundle-partial.json",
+        "context_bundle",
+        context_bundle(WORLD_A, "partial"),
+        schema="valid",
+    )
+    add(
+        "valid/context_bundle-none.json",
+        "context_bundle",
+        context_bundle(WORLD_A, "none"),
+        schema="valid",
+    )
     add("valid/execution_trace.json", "execution_trace", execution_trace(WORLD_A), schema="valid")
     add("valid/evidence_packet.json", "evidence_packet", evidence_packet(WORLD_A), schema="valid")
     add(
@@ -536,6 +584,30 @@ def build() -> tuple[dict[str, dict], list[dict]]:  # noqa: PLR0915 - one case l
         mutate(execution_trace(WORLD_A), lambda e: e.__setitem__("lineage_refs", [])),
         schema="invalid",
         schema_error="at least 1 items",
+    )
+    add(
+        "invalid/context_bundle-partial-claimed-complete.json",
+        "context_bundle",
+        mutate(
+            context_bundle(WORLD_A, "partial"),
+            lambda e: e.__setitem__("completeness_status", "complete_for_context"),
+        ),
+        schema="invalid",
+        schema_error="anyOf",
+    )
+    add(
+        "invalid/context_bundle-partial-without-omissions.json",
+        "context_bundle",
+        mutate(context_bundle(WORLD_A, "partial"), lambda e: e.pop("omissions")),
+        schema="invalid",
+        schema_error="anyOf",
+    )
+    add(
+        "invalid/context_bundle-missing-world_ref.json",
+        "context_bundle",
+        mutate(context_bundle(WORLD_A), drop_world),
+        schema="invalid",
+        schema_error="world_ref",
     )
     add(
         "invalid/evidence_packet-data-without-question.json",

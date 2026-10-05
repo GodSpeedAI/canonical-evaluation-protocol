@@ -1,0 +1,222 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cep.dev/schemas/profiles/godspeed/context_bundle.v1.schema.json",
+  "title": "GodSpeed context_bundle profile v1.0.0",
+  "description": "Context retrieved for a work request, pinned to a world. Partial retrieval is never presented as complete (CEP-0008 §9.2, §34).",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "../../cep-semantic-envelope.schema.json"
+    },
+    {
+      "required": [
+        "scope",
+        "extensions",
+        "provenance",
+        "completeness_status"
+      ],
+      "properties": {
+        "envelope_kind": {
+          "const": "context_bundle"
+        },
+        "scope": {
+          "type": "object",
+          "properties": {
+            "world_ref": {
+              "type": "string",
+              "description": "Immutable reference to exactly one resolved semantic-world revision (world:<name>@sha256:<digest>); defined by DomainForge.",
+              "allOf": [
+                {
+                  "pattern": "^world:[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*@sha256:[0-9a-f]{64}$"
+                },
+                {
+                  "pattern": "^world:[^@]{1,64}@.*$"
+                }
+              ]
+            },
+            "world_alias": {
+              "type": "string",
+              "description": "Mutable selector (world:<name>). Informational only; consequential records pin world_ref.",
+              "allOf": [
+                {
+                  "pattern": "^world:[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$"
+                },
+                {
+                  "pattern": "^world:[^@]{1,64}$"
+                }
+              ]
+            },
+            "world_label": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Presentation only; never identity."
+            }
+          },
+          "required": [
+            "world_ref"
+          ]
+        },
+        "extensions": {
+          "type": "object",
+          "required": [
+            "cep.profile",
+            "godspeed.context_bundle"
+          ],
+          "properties": {
+            "cep.profile": {
+              "type": "object",
+              "required": [
+                "profile_id",
+                "profile_version"
+              ],
+              "properties": {
+                "profile_id": {
+                  "const": "godspeed.context_bundle"
+                },
+                "profile_version": {
+                  "const": "1.0.0"
+                }
+              }
+            },
+            "godspeed.context_bundle": {
+              "type": "object",
+              "required": [
+                "work_request_ref",
+                "retrieval_completeness"
+              ],
+              "properties": {
+                "work_request_ref": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "retrieval_completeness": {
+                  "enum": [
+                    "complete",
+                    "partial",
+                    "none"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "anyOf": [
+        {
+          "description": "complete retrieval: cited references, status complete_for_context",
+          "required": [
+            "extensions",
+            "completeness_status",
+            "references"
+          ],
+          "properties": {
+            "completeness_status": {
+              "const": "complete_for_context"
+            },
+            "extensions": {
+              "required": [
+                "godspeed.context_bundle"
+              ],
+              "properties": {
+                "godspeed.context_bundle": {
+                  "required": [
+                    "retrieval_completeness"
+                  ],
+                  "properties": {
+                    "retrieval_completeness": {
+                      "const": "complete"
+                    }
+                  }
+                }
+              }
+            },
+            "references": {
+              "minItems": 1
+            }
+          }
+        },
+        {
+          "description": "partial retrieval: cited references and marked omissions, never complete",
+          "required": [
+            "extensions",
+            "completeness_status",
+            "references",
+            "omissions"
+          ],
+          "properties": {
+            "completeness_status": {
+              "enum": [
+                "partial",
+                "minimal",
+                "unknown"
+              ]
+            },
+            "extensions": {
+              "required": [
+                "godspeed.context_bundle"
+              ],
+              "properties": {
+                "godspeed.context_bundle": {
+                  "required": [
+                    "retrieval_completeness"
+                  ],
+                  "properties": {
+                    "retrieval_completeness": {
+                      "const": "partial"
+                    }
+                  }
+                }
+              }
+            },
+            "references": {
+              "minItems": 1
+            },
+            "omissions": {
+              "minItems": 1
+            }
+          }
+        },
+        {
+          "description": "nothing retrieved: the unanswered question and marked omissions, never complete",
+          "required": [
+            "extensions",
+            "completeness_status",
+            "questions",
+            "omissions"
+          ],
+          "properties": {
+            "completeness_status": {
+              "enum": [
+                "minimal",
+                "unknown"
+              ]
+            },
+            "extensions": {
+              "required": [
+                "godspeed.context_bundle"
+              ],
+              "properties": {
+                "godspeed.context_bundle": {
+                  "required": [
+                    "retrieval_completeness"
+                  ],
+                  "properties": {
+                    "retrieval_completeness": {
+                      "const": "none"
+                    }
+                  }
+                }
+              }
+            },
+            "questions": {
+              "minItems": 1
+            },
+            "omissions": {
+              "minItems": 1
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

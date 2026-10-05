@@ -10,6 +10,7 @@ const schemas = resolve(here, "../../../schemas");
 const out = resolve(here, "../src/generated/envelope-types.ts");
 const PROFILES = [
   "semantic_snapshot",
+  "context_bundle",
   "authority_request",
   "authority_decision",
   "execution_trace",

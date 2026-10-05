@@ -97,6 +97,24 @@
       "semantic": "ok"
     },
     {
+      "file": "valid/context_bundle.json",
+      "profile": "context_bundle",
+      "schema": "valid",
+      "semantic": "ok"
+    },
+    {
+      "file": "valid/context_bundle-partial.json",
+      "profile": "context_bundle",
+      "schema": "valid",
+      "semantic": "ok"
+    },
+    {
+      "file": "valid/context_bundle-none.json",
+      "profile": "context_bundle",
+      "schema": "valid",
+      "semantic": "ok"
+    },
+    {
       "file": "valid/execution_trace.json",
       "profile": "execution_trace",
       "schema": "valid",
@@ -232,6 +250,27 @@
       "schema": "invalid",
       "semantic": "ok",
       "schema_error_contains": "at least 1 items"
+    },
+    {
+      "file": "invalid/context_bundle-partial-claimed-complete.json",
+      "profile": "context_bundle",
+      "schema": "invalid",
+      "semantic": "ok",
+      "schema_error_contains": "anyOf"
+    },
+    {
+      "file": "invalid/context_bundle-partial-without-omissions.json",
+      "profile": "context_bundle",
+      "schema": "invalid",
+      "semantic": "ok",
+      "schema_error_contains": "anyOf"
+    },
+    {
+      "file": "invalid/context_bundle-missing-world_ref.json",
+      "profile": "context_bundle",
+      "schema": "invalid",
+      "semantic": "ok",
+      "schema_error_contains": "world_ref"
     },
     {
       "file": "invalid/evidence_packet-data-without-question.json",

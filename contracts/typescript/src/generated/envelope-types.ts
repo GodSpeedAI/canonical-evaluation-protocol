@@ -1261,6 +1261,87 @@ export type SemanticSnapshotProfile = (
 
 export type SemanticSnapshotEnvelope = SemanticEnvelope & SemanticSnapshotProfile;
 
+export type ContextBundleProfile = (
+  | {
+      completeness_status: "complete_for_context";
+      extensions: {
+        "godspeed.context_bundle": {
+          retrieval_completeness: "complete";
+          [k: string]: unknown;
+        };
+        [k: string]: unknown;
+      };
+      references: {
+        [k: string]: unknown;
+      };
+      [k: string]: unknown;
+    }
+  | {
+      completeness_status: "partial" | "minimal" | "unknown";
+      extensions: {
+        "godspeed.context_bundle": {
+          retrieval_completeness: "partial";
+          [k: string]: unknown;
+        };
+        [k: string]: unknown;
+      };
+      references: {
+        [k: string]: unknown;
+      };
+      omissions: {
+        [k: string]: unknown;
+      };
+      [k: string]: unknown;
+    }
+  | {
+      completeness_status: "minimal" | "unknown";
+      extensions: {
+        "godspeed.context_bundle": {
+          retrieval_completeness: "none";
+          [k: string]: unknown;
+        };
+        [k: string]: unknown;
+      };
+      omissions: {
+        [k: string]: unknown;
+      };
+      [k: string]: unknown;
+    }
+) & {
+  envelope_kind?: "context_bundle";
+  scope: {
+    /**
+     * Immutable reference to exactly one resolved semantic-world revision (world:<name>@sha256:<digest>); defined by DomainForge.
+     */
+    world_ref: string;
+    /**
+     * Mutable selector (world:<name>). Informational only; consequential records pin world_ref.
+     */
+    world_alias?: string;
+    /**
+     * Presentation only; never identity.
+     */
+    world_label?: string;
+    [k: string]: unknown;
+  };
+  extensions: {
+    "cep.profile": {
+      profile_id: "godspeed.context_bundle";
+      profile_version: "1.0.0";
+      [k: string]: unknown;
+    };
+    "godspeed.context_bundle": {
+      work_request_ref: string;
+      retrieval_completeness: "complete" | "partial" | "none";
+      [k: string]: unknown;
+    };
+    [k: string]: unknown;
+  };
+  [k: string]: unknown;
+};
+
+export type ContextBundleEnvelope = SemanticEnvelope & ContextBundleProfile;
+
 export interface AuthorityRequestProfile {
   envelope_kind?: "authority_request";
   scope: {

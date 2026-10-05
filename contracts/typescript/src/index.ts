@@ -15,6 +15,7 @@ import { fileURLToPath } from "node:url";
 export type {
   SemanticEnvelope,
   SemanticSnapshotEnvelope,
+  ContextBundleEnvelope,
   AuthorityRequestEnvelope,
   AuthorityDecisionEnvelope,
   ExecutionTraceEnvelope,
@@ -25,6 +26,7 @@ export type {
 
 export const PROFILES = [
   "semantic_snapshot",
+  "context_bundle",
   "authority_request",
   "authority_decision",
   "execution_trace",

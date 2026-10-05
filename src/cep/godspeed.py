@@ -29,6 +29,7 @@ if TYPE_CHECKING:
 PROFILE_DIR = SCHEMAS_DIR / "profiles" / "godspeed"
 PROFILES = (
     "semantic_snapshot",
+    "context_bundle",
     "authority_request",
     "authority_decision",
     "execution_trace",
