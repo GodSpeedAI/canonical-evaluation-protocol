@@ -112,3 +112,17 @@
 - **Still open**: (1) `uv run basedpyright` over `tests` (the pyproject includes them, strict `all` mode) reports 140 errors, mostly `Any` from `json.loads` in test data in `test_godspeed_profiles.py`, `test_ledger_exporter.py` and the domainforge conformance test; the "0 errors" banner never held for that scope. (2) `tools/validate_okf.py` has 53 pre-existing ruff findings.
 - **Next move**: type test data through `cep.io.load_json` and narrow `JsonValue`, or decide to scope pyright to `src` explicitly.
 
+
+## DEBT-IE-01 — CEP's own validator has no `integer` type
+
+- **ID**: DEBT-IE-01
+- **Title**: `cep.schema_value` cannot validate `"type": "integer"`
+- **Date**: 2026-11-13
+- **Found by**: Claude (WP-11)
+- **Area**: `src/cep/schema_value.py`, `src/cep/schema_profile.py`
+- **Description**: `_matches_type` has no `integer` branch, so any instance checked against an `integer` property fails ("must be integer, got number"). `godspeed.interaction_event.v1` needs an integer `source.sequence`.
+- **Why it matters**: the interaction-event fixtures are validated with the standard `jsonschema` library only, not CEP's own validator.
+- **Recommended repair**: add `integer` (a number with no fractional part, not bool) to `_matches_type` and `_json_type_name`, with a test.
+- **Priority**: Medium
+- **Scope note**: out of scope for WP-11 (additive contracts only; no source change).
+- **Status**: Open

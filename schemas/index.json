@@ -20,6 +20,7 @@
     "profiles/godspeed/execution_trace.v1.schema.json",
     "profiles/godspeed/evidence_packet.v1.schema.json",
     "profiles/godspeed/settlement_packet.v1.schema.json",
-    "profiles/godspeed/world-transition.v1.schema.json"
+    "profiles/godspeed/world-transition.v1.schema.json",
+    "extensions/godspeed.interaction_event.v1.json"
   ]
 }

@@ -16,6 +16,8 @@ timestamp: "2026-06-27T00:00:00Z"
 
 ## Last Updated
 
+2026-11-13 — Claude (WP-11, branch `fde/integration`): interaction-event extension schema and CEP-0008 §16.5 hash rule (details in `.agents/EVIDENCE.md` EV-WP11). Previous entry:
+
 2026-10-04 — Claude (GodSpeed profiles, branch `profiles/godspeed-v1`)
 
 ## Current Outcome Being Pursued

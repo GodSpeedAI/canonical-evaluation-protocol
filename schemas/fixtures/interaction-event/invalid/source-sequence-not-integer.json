@@ -1,0 +1,45 @@
+{
+  "world_ref": "world:godspeed-fde-sop@sha256:78eddd4e7e4771caa1c37e8e5fa095c5baa899daccea8fac1f6e969f8f37287b",
+  "semantic_ref": "godspeed-fde-sop.evidence::Settlement",
+  "declaration_key": "concept:11fc582b-b054-5386-b245-5a358e3c9327",
+  "actor": {
+    "principal": "agent:builder-01",
+    "role": "executor"
+  },
+  "operation": "record_evidence",
+  "resource": "cases/case-0001/evidence/ev-17.json",
+  "context": {
+    "case_id": "case-0001",
+    "plan_item_id": "item-03",
+    "episode_ref": "episode:case-0001:item-03:1@sha256:abababababababababababababababababababababababababababababababab",
+    "assignment_id": "assign:case-0001:item-03:1:1"
+  },
+  "correlation": {
+    "case_id": "case-0001",
+    "assignment_id": "assign:case-0001:item-03:1:1",
+    "episode_ref": "episode:case-0001:item-03:1@sha256:abababababababababababababababababababababababababababababababab",
+    "run_id": "run-0001"
+  },
+  "causation_id": "ledger:rec-0041",
+  "authority": {
+    "decision_id": "dec-0099"
+  },
+  "expectation_ref": "question:01JABCDEF0000000000000000A",
+  "outcome": {
+    "status": "succeeded",
+    "effect_refs": [
+      "file:cases/case-0001/evidence/ev-17.json"
+    ]
+  },
+  "evidence_refs": [
+    "evidence:01JABCDEF0000000000000000B"
+  ],
+  "source": {
+    "system": "sea-forge-ledger",
+    "record_id": "rec-0042",
+    "sequence": "42",
+    "recorded_at": "2026-11-13T10:15:30Z"
+  },
+  "executor_provenance": "program",
+  "kind": "evaluated"
+}

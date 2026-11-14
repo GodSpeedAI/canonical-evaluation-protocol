@@ -14,3 +14,4 @@ This directory contains the normative specifications for the Canonical Evaluatio
 * [CEP-0009: Benchmark Model](CEP-0009-benchmark-model.md) - This document defines the CEP Benchmark Model.
 * [CEP-0010: Conformance](CEP-0010-conformance.md) - This document defines CEP conformance.
 * [GodSpeed Profiles v1](profiles/GODSPEED-PROFILES-v1.md) - CEP-0008 profiles and the world_ref scope pin for GodSpeed subsystem boundaries.
+* [GodSpeed Interaction Event v1](profiles/GODSPEED-INTERACTION-EVENT-v1.md) - Extension object, field table and error codes for GodSpeed semantic exhaust on an execution_trace envelope.

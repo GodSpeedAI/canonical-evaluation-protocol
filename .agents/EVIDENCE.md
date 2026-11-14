@@ -419,3 +419,17 @@ None.
 - **Adversarial re-test**: garbage-summary 99→84/partial; mixed fabricated evidence →35/invalid; rg-ac-0001 detector emits `declared_observed_collapse`; settled-positive case now scoreable; non-collapsing fixture now fails conformance.
 - **Outcome**: Post-fix verdict PASS for `v0.1.0` initial-benchmark release. DEBT-0002…0008 resolved; OQ-0008 resolved.
 - **Status**: Complete.
+
+## EV-WP11 — Interaction-event extension and canonical hash rule
+
+- **ID**: EV-WP11
+- **Date**: 2026-11-13
+- **Agent**: Claude
+- **Task**: GodSpeed FDE WP-11 (contracts package S1), CEP part.
+- **Outcome**: Added `schemas/extensions/godspeed.interaction_event.v1.json` (+ `DIGESTS`, `tools/check_contract_digests.py`), registered in `schemas/index.json`; CEP-0008 §16.5; `spec/profiles/GODSPEED-INTERACTION-EVENT-v1.md`; fixtures (4 valid, 15 invalid) and 7 hash vectors with 4 must-reject inputs; tests `tests/test_interaction_event_contract.py`, `tests/test_canonical_hash_rule.py`; dev dependency `rfc8785`.
+- **Files changed**: see commit.
+- **Validation commands**: `uv run cep validate all`; `uv run python tools/validate_okf.py`; `uv run python tools/check_contract_digests.py`; `uv run pytest`.
+- **Validation result**: recorded in the commit message and the FDE evidence file `wp-11.md`.
+- **Fidelity notes**: no existing schema or profile altered; observation stays distinct from settlement (`outcome.status` is observed, never inferred).
+- **Remaining gaps**: DEBT-IE-01 (CEP's validator lacks `integer`); receiver-side checks (declaration_key recompute, source resolution, signature) belong to RealityTrace ingest.
+- **Status**: Complete

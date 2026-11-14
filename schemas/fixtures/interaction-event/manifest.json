@@ -1,0 +1,85 @@
+{
+  "valid": [
+    "evaluated-delegated-program.json",
+    "evaluated-denied-signed.json",
+    "evaluated-interrupted-threshold.json",
+    "exploratory-minimal.json"
+  ],
+  "invalid": [
+    {
+      "file": "outcome-status-not-in-enum.json",
+      "keyword": "enum",
+      "contains": "status"
+    },
+    {
+      "file": "evaluated-missing-episode-ref.json",
+      "keyword": "required",
+      "contains": "episode_ref"
+    },
+    {
+      "file": "evaluated-missing-expectation-ref.json",
+      "keyword": "required",
+      "contains": "expectation_ref"
+    },
+    {
+      "file": "missing-declaration-key.json",
+      "keyword": "required",
+      "contains": "declaration_key"
+    },
+    {
+      "file": "declaration-key-not-uuidv5.json",
+      "keyword": "pattern",
+      "contains": "declaration_key"
+    },
+    {
+      "file": "world-ref-alias-not-pinned.json",
+      "keyword": "pattern",
+      "contains": "world_ref"
+    },
+    {
+      "file": "source-sequence-not-integer.json",
+      "keyword": "type",
+      "contains": "sequence"
+    },
+    {
+      "file": "source-sequence-negative.json",
+      "keyword": "minimum",
+      "contains": "sequence"
+    },
+    {
+      "file": "missing-source-record-id.json",
+      "keyword": "required",
+      "contains": "record_id"
+    },
+    {
+      "file": "correlation-is-a-string.json",
+      "keyword": "type",
+      "contains": "correlation"
+    },
+    {
+      "file": "executor-provenance-not-in-enum.json",
+      "keyword": "enum",
+      "contains": "executor_provenance"
+    },
+    {
+      "file": "unknown-top-level-field.json",
+      "keyword": "additionalProperties",
+      "contains": "inferred_outcome"
+    },
+    {
+      "file": "assignment-id-missing-instance-counter.json",
+      "keyword": "pattern",
+      "contains": "assignment_id"
+    },
+    {
+      "file": "emitter-signature-incomplete.json",
+      "keyword": "required",
+      "contains": "sig"
+    },
+    {
+      "file": "authority-decision-id-empty.json",
+      "keyword": "minLength",
+      "contains": "decision_id"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "world_ref": "world:godspeed-fde-sop@sha256:78eddd4e7e4771caa1c37e8e5fa095c5baa899daccea8fac1f6e969f8f37287b",
+  "semantic_ref": "godspeed-fde-sop.outcome::Settlement",
+  "declaration_key": "concept:01d8c175-5650-5bb9-811a-a44720e16a94",
+  "actor": {
+    "principal": "human:operator",
+    "role": "operator"
+  },
+  "operation": "read_case",
+  "resource": "cases/case-0001",
+  "context": {
+    "case_id": "case-0001",
+    "plan_item_id": "item-01"
+  },
+  "correlation": {
+    "case_id": "case-0001"
+  },
+  "authority": {
+    "decision_id": "not_required"
+  },
+  "outcome": {
+    "status": "unknown"
+  },
+  "source": {
+    "system": "workbench",
+    "record_id": "obs-7",
+    "sequence": 0,
+    "recorded_at": "2026-11-13T10:00:00+00:00"
+  },
+  "executor_provenance": "live",
+  "kind": "exploratory"
+}

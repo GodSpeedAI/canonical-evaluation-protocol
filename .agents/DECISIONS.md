@@ -32,3 +32,12 @@
 ## DEC-0007 — Validator gains `allOf`
 - **Decision**: `schema_profile` and `schema_value` support `allOf` (errors from all branches are reported). Needed so profiles can layer over the base schema without copying it.
 - **Status**: Accepted.
+
+## DEC-0008 — Hash rule is SHA-256 over RFC 8785 canonical JSON (CEP-0008 §16.5)
+- **Decision**: Digests that CEP-0008 contracts require are SHA-256 over the RFC 8785 canonical form of an I-JSON value, rendered as 64 lowercase hex. Vectors in `schemas/fixtures/canonical-hash/vectors.json`, reproduced in tests by the `rfc8785` library (new dev dependency).
+- **Rationale**: one hash rule for `episode_ref`, anchors and emitter signatures (GodSpeed FDE integration E §2, AD-1). Changes no existing identifier.
+- **Status**: Accepted (WP-11 brief, 2026-11-13); on branch `fde/integration`, not merged.
+
+## DEC-0009 — Interaction event is an extension object, not a seventh profile
+- **Decision**: `extensions["godspeed.interaction_event"]` on a `godspeed.execution_trace` envelope is specified by `schemas/extensions/godspeed.interaction_event.v1.json` (closed object, digest manifest). The execution_trace profile is unchanged.
+- **Status**: Accepted (WP-11 brief, 2026-11-13).

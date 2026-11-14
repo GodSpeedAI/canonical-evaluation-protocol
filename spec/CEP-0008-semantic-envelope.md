@@ -611,6 +611,27 @@ If integrity cannot be established, the envelope MAY still be used for explorati
 
 It SHOULD NOT be used for high-stakes settlement, authority, or benchmark scoring without qualification.
 
+### 16.5 Canonical Hash Rule
+
+Where this specification, a profile, or a contract built on it requires a digest of a JSON value, the digest SHALL be computed as follows.
+
+1. Serialize the JSON value with the JSON Canonicalization Scheme, [RFC 8785](https://www.rfc-editor.org/rfc/rfc8785). The result is a UTF-8 byte string.
+2. Compute SHA-256 over those bytes.
+3. Render the digest as 64 lowercase hexadecimal characters. Identifiers that embed a digest write it after `sha256:` (for example `world:<name>@sha256:<digest>`).
+
+The value to be hashed SHALL be an I-JSON value (RFC 7493):
+
+- member names within one object are unique;
+- numbers are IEEE 754 doubles, so an integer outside the range -(2^53 - 1) to 2^53 - 1 SHALL be carried as a string;
+- NaN and Infinity do not occur;
+- strings are well-formed Unicode (no lone surrogates).
+
+A producer SHALL refuse to digest a value that violates these conditions. It SHALL NOT repair the value and digest the result.
+
+A digest that a record carries about itself is computed over the record with that digest field absent. A field that carries a digest of another record is part of the body and is hashed.
+
+This rule changes no existing identifier. It states the rule that new contracts (for example the frozen-reference `episode_ref` digest and the signature over an interaction-event extension) rely on. Test vectors (input JSON, canonical bytes, digest) are in `schemas/fixtures/canonical-hash/vectors.json`; `tests/test_canonical_hash_rule.py` reproduces them with an independent RFC 8785 implementation.
+
 ## 17. Versioning
 
 A Semantic Envelope MUST preserve versioning.

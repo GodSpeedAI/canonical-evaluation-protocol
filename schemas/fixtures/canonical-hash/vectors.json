@@ -1,0 +1,84 @@
+{
+  "rule": "SHA-256 over RFC 8785 canonical JSON (CEP-0008 section 16.5)",
+  "digest_format": "lowercase hex, 64 characters",
+  "vectors": [
+    {
+      "id": "rfc8785-s3.2.3-example",
+      "note": "RFC 8785 section 3.2.3 reference example",
+      "input": "{\"numbers\":[333333333.33333329,1E30,4.50,2e-3,0.000000000000000000000000001],\"string\":\"\\u20ac$\\u000F\\u000aA'\\u0042\\u0022\\u005c\\\\\\\"\\/\",\"literals\":[null,true,false]}",
+      "canonical": "{\"literals\":[null,true,false],\"numbers\":[333333333.3333333,1e+30,4.5,0.002,1e-27],\"string\":\"€$\\u000f\\nA'B\\\"\\\\\\\\\\\"/\"}",
+      "canonical_hex": "7b226c69746572616c73223a5b6e756c6c2c747275652c66616c73655d2c226e756d62657273223a5b3333333333333333332e333333333333332c31652b33302c342e352c302e3030322c31652d32375d2c22737472696e67223a22e282ac245c75303030665c6e4127425c225c5c5c5c5c222f227d",
+      "sha256": "2d5e01a318d0f0879ab568c4be289c8b1f64ef8921a53c6277d5e069978baacb"
+    },
+    {
+      "id": "key-order-utf16",
+      "note": "member names sort by UTF-16 code units, not code points",
+      "input": "{\"\\ud83d\\ude00\":1,\"\\ufb33\":2,\"a\":3,\"B\":4,\"\":5}",
+      "canonical": "{\"\":5,\"B\":4,\"a\":3,\"😀\":1,\"דּ\":2}",
+      "canonical_hex": "7b22223a352c2242223a342c2261223a332c22f09f9880223a312c22efacb3223a327d",
+      "sha256": "ba9ca6c83bb5392e6842e4660f00acadb178cea9c291f64ad6f74fe71cd01f51"
+    },
+    {
+      "id": "number-forms",
+      "note": "ECMAScript number serialization",
+      "input": "{\"a\":[0,-0,1.0,1e21,1e-7,123456789012345680000.0,0.1,100,-1.5e3]}",
+      "canonical": "{\"a\":[0,0,1,1e+21,1e-7,123456789012345680000,0.1,100,-1500]}",
+      "canonical_hex": "7b2261223a5b302c302c312c31652b32312c31652d372c3132333435363738393031323334353638303030302c302e312c3130302c2d313530305d7d",
+      "sha256": "aa159fbaa2238a228966669b26e383cfcbe3f053470f35f3860bd69883307212"
+    },
+    {
+      "id": "whitespace-and-nesting",
+      "note": "insignificant whitespace removed, array order kept",
+      "input": " { \"b\" : { \"z\" : [ ] , \"y\" : { } } , \"a\" : [ 3 , 1 , 2 ] } ",
+      "canonical": "{\"a\":[3,1,2],\"b\":{\"y\":{},\"z\":[]}}",
+      "canonical_hex": "7b2261223a5b332c312c325d2c2262223a7b2279223a7b7d2c227a223a5b5d7d7d",
+      "sha256": "cee6af04e26b1bffee14e0797abdd0b502dedbbe7ce4edee2f27341bb6fa57dc"
+    },
+    {
+      "id": "empty-object",
+      "note": "empty object",
+      "input": "{}",
+      "canonical": "{}",
+      "canonical_hex": "7b7d",
+      "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    },
+    {
+      "id": "string-escapes",
+      "note": "control characters escaped, others literal UTF-8",
+      "input": "{\"s\":\"line\\nbreak\\ttab\\u0001\\u007f\\u00e9\"}",
+      "canonical": "{\"s\":\"line\\nbreak\\ttab\\u0001é\"}",
+      "canonical_hex": "7b2273223a226c696e655c6e627265616b5c747461625c75303030317fc3a9227d",
+      "sha256": "c6251cf7a505af37df904a0eb8bdd47a546492880ae6d443744f93e8eff11e6a"
+    },
+    {
+      "id": "frozen-reference-body",
+      "note": "episode_ref digest input shape (key order is irrelevant)",
+      "input": "{\"world_ref\":\"world:godspeed-fde-sop@sha256:78eddd4e7e4771caa1c37e8e5fa095c5baa899daccea8fac1f6e969f8f37287b\",\"case_id\":\"case-0001\",\"plan_item_id\":\"item-03\",\"n\":1,\"criteria\":{\"intention\":\"x\"},\"evidence_sources\":[\"sea-forge-ledger\"]}",
+      "canonical": "{\"case_id\":\"case-0001\",\"criteria\":{\"intention\":\"x\"},\"evidence_sources\":[\"sea-forge-ledger\"],\"n\":1,\"plan_item_id\":\"item-03\",\"world_ref\":\"world:godspeed-fde-sop@sha256:78eddd4e7e4771caa1c37e8e5fa095c5baa899daccea8fac1f6e969f8f37287b\"}",
+      "canonical_hex": "7b22636173655f6964223a22636173652d30303031222c226372697465726961223a7b22696e74656e74696f6e223a2278227d2c2265766964656e63655f736f7572636573223a5b227365612d666f7267652d6c6564676572225d2c226e223a312c22706c616e5f6974656d5f6964223a226974656d2d3033222c22776f726c645f726566223a22776f726c643a676f6473706565642d6664652d736f70407368613235363a37386564646434653765343737316361613163333765386535666130393563356261613839396461636365613866616331663665393639663866333732383762227d",
+      "sha256": "996887f64feeea6a5096fde99e121722bb78b3eb1639d1c402d881afc1fb7290"
+    }
+  ],
+  "must_reject": [
+    {
+      "id": "duplicate-member-name",
+      "input": "{\"a\":1,\"a\":2}",
+      "reason": "duplicate member names are not I-JSON"
+    },
+    {
+      "id": "integer-beyond-2-pow-53",
+      "input": "{\"n\":9007199254740993}",
+      "reason": "integers outside the IEEE 754 exact range must be carried as strings"
+    },
+    {
+      "id": "nan-literal",
+      "input": "{\"n\":NaN}",
+      "reason": "NaN and Infinity are not JSON"
+    },
+    {
+      "id": "lone-surrogate",
+      "input": "{\"s\":\"\\ud800\"}",
+      "reason": "lone surrogates are not well-formed Unicode"
+    }
+  ]
+}
