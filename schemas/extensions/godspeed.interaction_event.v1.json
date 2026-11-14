@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://cep.dev/schemas/extensions/godspeed.interaction_event.v1.json",
   "title": "GodSpeed interaction event extension v1",
-  "description": "The object carried at extensions[\"godspeed.interaction_event\"] on an execution_trace envelope. One consequential interaction observed by an emitter. It is observation, not settlement (CEP-0008 §9.5).",
+  "description": "The object carried at extensions[\"godspeed.interaction_event\"] on an execution_trace envelope. One consequential interaction observed by an emitter. It is observation, not settlement (CEP-0008 \u00a79.5).",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -39,21 +39,49 @@
     "actor": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["principal", "role"],
+      "required": [
+        "principal",
+        "role"
+      ],
       "properties": {
-        "principal": { "type": "string", "minLength": 1, "description": "Authenticated principal." },
-        "role": { "type": "string", "minLength": 1, "description": "SOP role." }
+        "principal": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Authenticated principal."
+        },
+        "role": {
+          "type": "string",
+          "minLength": 1,
+          "description": "SOP role."
+        }
       }
     },
-    "operation": { "type": "string", "minLength": 1, "description": "Declared or observed operation." },
-    "resource": { "type": "string", "minLength": 1, "description": "Resource acted on." },
+    "operation": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Declared or observed operation."
+    },
+    "resource": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Resource acted on."
+    },
     "context": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["case_id", "plan_item_id"],
+      "required": [
+        "case_id",
+        "plan_item_id"
+      ],
       "properties": {
-        "case_id": { "type": "string", "minLength": 1 },
-        "plan_item_id": { "type": "string", "minLength": 1 },
+        "case_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "plan_item_id": {
+          "type": "string",
+          "minLength": 1
+        },
         "episode_ref": {
           "type": "string",
           "description": "episode:<case_id>:<plan_item_id>:<n>@sha256:<64 hex>. Required when kind is evaluated.",
@@ -70,12 +98,26 @@
       "type": "object",
       "description": "Structured; never parsed from a string.",
       "additionalProperties": false,
-      "required": ["case_id"],
+      "required": [
+        "case_id"
+      ],
       "properties": {
-        "case_id": { "type": "string", "minLength": 1 },
-        "assignment_id": { "type": "string", "pattern": "^assign:[^:\\s]+:[^:\\s]+:[0-9]+:[0-9]+$" },
-        "episode_ref": { "type": "string", "pattern": "^episode:[^:@\\s]+:[^:@\\s]+:[0-9]+@sha256:[0-9a-f]{64}$" },
-        "run_id": { "type": "string", "minLength": 1 }
+        "case_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "assignment_id": {
+          "type": "string",
+          "pattern": "^assign:[^:\\s]+:[^:\\s]+:[0-9]+:[0-9]+$"
+        },
+        "episode_ref": {
+          "type": "string",
+          "pattern": "^episode:[^:@\\s]+:[^:@\\s]+:[0-9]+@sha256:[0-9a-f]{64}$"
+        },
+        "run_id": {
+          "type": "string",
+          "minLength": 1
+        }
       }
     },
     "causation_id": {
@@ -86,7 +128,9 @@
     "authority": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["decision_id"],
+      "required": [
+        "decision_id"
+      ],
       "properties": {
         "decision_id": {
           "type": "string",
@@ -95,33 +139,68 @@
         }
       }
     },
-    "expectation_ref": {
-      "type": "string",
-      "pattern": "^(question|threshold):.+$",
-      "description": "RealityTrace question or threshold id. Required when kind is evaluated."
-    },
     "outcome": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["status"],
+      "required": [
+        "status"
+      ],
       "properties": {
         "status": {
-          "enum": ["succeeded", "failed", "denied", "interrupted", "unknown"],
+          "enum": [
+            "succeeded",
+            "failed",
+            "denied",
+            "interrupted",
+            "unknown"
+          ],
           "description": "Observed, never inferred."
         },
-        "effect_refs": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+        "effect_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
       }
     },
-    "evidence_refs": { "type": "array", "items": { "type": "string", "minLength": 1 } },
-    "settlement_ref": { "type": "string", "minLength": 1, "description": "Settlement events only." },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "settlement_ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Settlement events only."
+    },
     "source": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["system", "record_id", "sequence", "recorded_at"],
+      "required": [
+        "system",
+        "record_id",
+        "sequence",
+        "recorded_at"
+      ],
       "properties": {
-        "system": { "type": "string", "minLength": 1 },
-        "record_id": { "type": "string", "minLength": 1, "description": "Pointer to the untouched source record." },
-        "sequence": { "type": "integer", "minimum": 0, "description": "Owning system's sequence; the ordering field." },
+        "system": {
+          "type": "string",
+          "minLength": 1
+        },
+        "record_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Pointer to the untouched source record."
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Owning system's sequence; the ordering field."
+        },
         "recorded_at": {
           "type": "string",
           "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(?:\\.[0-9]+)?(?:Z|[+-][0-9]{2}:[0-9]{2})$",
@@ -129,39 +208,85 @@
         }
       }
     },
-    "executor_provenance": { "enum": ["program", "live", "injected_fault"] },
-    "kind": { "enum": ["evaluated", "exploratory"] },
+    "executor_provenance": {
+      "enum": [
+        "program",
+        "live",
+        "injected_fault"
+      ]
+    },
+    "kind": {
+      "enum": [
+        "evaluated",
+        "exploratory"
+      ]
+    },
     "emitter": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["signature"],
+      "required": [
+        "signature"
+      ],
       "properties": {
         "signature": {
           "type": "object",
-          "description": "Workload-identity signature over the canonical extension (RFC 8785, CEP-0008 §16.5) with emitter.signature removed. Required from WP-33; absent before.",
+          "description": "Workload-identity signature over the canonical extension (RFC 8785, CEP-0008 \u00a716.5) with emitter.signature removed. Required from WP-33; absent before.",
           "additionalProperties": false,
-          "required": ["key_id", "alg", "sig"],
+          "required": [
+            "key_id",
+            "alg",
+            "sig"
+          ],
           "properties": {
-            "key_id": { "type": "string", "minLength": 1 },
-            "alg": { "type": "string", "minLength": 1 },
-            "sig": { "type": "string", "minLength": 1 }
+            "key_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "alg": {
+              "type": "string",
+              "minLength": 1
+            },
+            "sig": {
+              "type": "string",
+              "minLength": 1
+            }
           }
         }
       }
+    },
+    "expectation_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^(question|threshold):.+$"
+      },
+      "description": "RealityTrace question and threshold ids the event bears on (E section 5). Required when kind is evaluated; may be empty. Entries must be unique: JSON Schema uniqueItems is not supported by CEP's own validator (DEBT-IE-01), so uniqueness is checked by consumers and by the contract test (IE_EXPECTATION_REFS_DUPLICATE)."
     }
   },
   "anyOf": [
     {
       "description": "exploratory events need no frozen reference",
-      "properties": { "kind": { "const": "exploratory" } }
+      "properties": {
+        "kind": {
+          "const": "exploratory"
+        }
+      }
     },
     {
       "description": "evaluated events carry the frozen reference and the expectation",
       "properties": {
-        "kind": { "const": "evaluated" },
-        "context": { "required": ["episode_ref"] }
+        "kind": {
+          "const": "evaluated"
+        },
+        "context": {
+          "required": [
+            "episode_ref"
+          ]
+        }
       },
-      "required": ["expectation_ref"]
+      "required": [
+        "expectation_refs"
+      ]
     }
   ]
 }

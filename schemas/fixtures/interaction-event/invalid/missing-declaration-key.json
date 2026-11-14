@@ -23,7 +23,9 @@
   "authority": {
     "decision_id": "dec-0099"
   },
-  "expectation_ref": "question:01JABCDEF0000000000000000A",
+  "expectation_refs": [
+    "question:01JABCDEF0000000000000000A"
+  ],
   "outcome": {
     "status": "succeeded",
     "effect_refs": [

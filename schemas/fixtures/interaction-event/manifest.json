@@ -2,6 +2,7 @@
   "valid": [
     "evaluated-delegated-program.json",
     "evaluated-denied-signed.json",
+    "evaluated-empty-expectation-refs.json",
     "evaluated-interrupted-threshold.json",
     "exploratory-minimal.json"
   ],
@@ -17,9 +18,19 @@
       "contains": "episode_ref"
     },
     {
-      "file": "evaluated-missing-expectation-ref.json",
+      "file": "evaluated-missing-expectation-refs.json",
       "keyword": "required",
-      "contains": "expectation_ref"
+      "contains": "expectation_refs"
+    },
+    {
+      "file": "expectation-refs-not-an-array.json",
+      "keyword": "type",
+      "contains": "expectation_refs"
+    },
+    {
+      "file": "expectation-ref-not-question-or-threshold.json",
+      "keyword": "pattern",
+      "contains": "expectation_refs"
     },
     {
       "file": "missing-declaration-key.json",
@@ -80,6 +91,13 @@
       "file": "authority-decision-id-empty.json",
       "keyword": "minLength",
       "contains": "decision_id"
+    }
+  ],
+  "semantic_invalid": [
+    {
+      "file": "expectation-refs-duplicate.json",
+      "code": "IE_EXPECTATION_REFS_DUPLICATE",
+      "rule": "expectation_refs entries are unique"
     }
   ]
 }

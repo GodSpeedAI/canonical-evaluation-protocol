@@ -42,9 +42,11 @@ def test_manifest_covers_every_fixture_file() -> None:
     on_disk_valid = sorted(p.name for p in (CORPUS / "valid").glob("*.json"))
     on_disk_invalid = sorted(p.name for p in (CORPUS / "invalid").glob("*.json"))
     assert on_disk_valid == MANIFEST["valid"]
-    assert on_disk_invalid == sorted(i["file"] for i in MANIFEST["invalid"])
     assert len(on_disk_valid) >= 2
     assert len(on_disk_invalid) >= 3
+    assert on_disk_invalid == sorted(
+        [i["file"] for i in MANIFEST["invalid"]] + [i["file"] for i in MANIFEST["semantic_invalid"]]
+    )
 
 
 @pytest.mark.parametrize("name", MANIFEST["valid"])
@@ -63,6 +65,15 @@ def test_invalid_fixture_fails_for_its_named_rule(case: dict) -> None:
         and case["contains"] in (e.message + "/".join(map(str, e.absolute_path)))
         for e in errors
     ), [(e.validator, e.message) for e in errors]
+
+
+@pytest.mark.parametrize("case", MANIFEST["semantic_invalid"], ids=lambda c: c["file"])
+def test_semantic_rule_the_schema_cannot_state(case: dict) -> None:
+    event = _load("invalid", case["file"])
+    assert not list(VALIDATOR.iter_errors(event)), "meant to pass the schema"
+    refs = event["expectation_refs"]
+    assert len(set(refs)) != len(refs)
+    assert case["code"] == "IE_EXPECTATION_REFS_DUPLICATE"
 
 
 @pytest.mark.parametrize("status", ["succeeded", "failed", "denied", "interrupted", "unknown"])

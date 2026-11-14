@@ -24,7 +24,10 @@
   "authority": {
     "decision_id": "dec-0099"
   },
-  "expectation_ref": "threshold:01JABCDEF0000000000000000D",
+  "expectation_refs": [
+    "question:01JABCDEF0000000000000000A",
+    "threshold:01JABCDEF0000000000000000D"
+  ],
   "outcome": {
     "status": "interrupted"
   },

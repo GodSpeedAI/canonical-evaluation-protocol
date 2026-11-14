@@ -122,7 +122,8 @@
 - **Area**: `src/cep/schema_value.py`, `src/cep/schema_profile.py`
 - **Description**: `_matches_type` has no `integer` branch, so any instance checked against an `integer` property fails ("must be integer, got number"). `godspeed.interaction_event.v1` needs an integer `source.sequence`.
 - **Why it matters**: the interaction-event fixtures are validated with the standard `jsonschema` library only, not CEP's own validator.
-- **Recommended repair**: add `integer` (a number with no fractional part, not bool) to `_matches_type` and `_json_type_name`, with a test.
+- **Also**: `uniqueItems` is unsupported (`SUPPORTED_SCHEMA_KEYS`), so `expectation_refs` uniqueness is enforced by the contract test only.
+- **Recommended repair**: add `integer` and `uniqueItems` (a number with no fractional part, not bool) to `_matches_type` and `_json_type_name`, with a test.
 - **Priority**: Medium
 - **Scope note**: out of scope for WP-11 (additive contracts only; no source change).
 - **Status**: Open

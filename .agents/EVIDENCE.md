@@ -426,7 +426,7 @@ None.
 - **Date**: 2026-11-13
 - **Agent**: Claude
 - **Task**: GodSpeed FDE WP-11 (contracts package S1), CEP part.
-- **Outcome**: Added `schemas/extensions/godspeed.interaction_event.v1.json` (+ `DIGESTS`, `tools/check_contract_digests.py`), registered in `schemas/index.json`; CEP-0008 §16.5; `spec/profiles/GODSPEED-INTERACTION-EVENT-v1.md`; fixtures (4 valid, 15 invalid) and 7 hash vectors with 4 must-reject inputs; tests `tests/test_interaction_event_contract.py`, `tests/test_canonical_hash_rule.py`; dev dependency `rfc8785`.
+- **Outcome**: Added `schemas/extensions/godspeed.interaction_event.v1.json` (+ `DIGESTS`, `tools/check_contract_digests.py`), registered in `schemas/index.json`; CEP-0008 §16.5; `spec/profiles/GODSPEED-INTERACTION-EVENT-v1.md`; fixtures (5 valid, 18 invalid; review amendment: expectation_refs array) and 7 hash vectors with 4 must-reject inputs; tests `tests/test_interaction_event_contract.py`, `tests/test_canonical_hash_rule.py`; dev dependency `rfc8785`.
 - **Files changed**: see commit.
 - **Validation commands**: `uv run cep validate all`; `uv run python tools/validate_okf.py`; `uv run python tools/check_contract_digests.py`; `uv run pytest`.
 - **Validation result**: recorded in the commit message and the FDE evidence file `wp-11.md`.

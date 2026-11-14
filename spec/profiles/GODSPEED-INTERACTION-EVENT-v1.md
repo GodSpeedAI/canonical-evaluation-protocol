@@ -44,7 +44,7 @@ All objects are closed (`additionalProperties: false`). Types are JSON Schema ty
 | `correlation` | object `{case_id, assignment_id?, episode_ref?, run_id?}` | yes | structured; never parsed from a string | §2, §5 |
 | `causation_id` | string | if caused | record id of the cause in the owning system | §5 |
 | `authority.decision_id` | string (a decision id, `not_required`, or `unknown`) | yes | verified against SEA-Forge at ingest | §5 |
-| `expectation_ref` | string `question:...` or `threshold:...` | when `kind` is `evaluated` | RealityTrace question or threshold id | §5 |
+| `expectation_refs` | string[] (each `question:...` or `threshold:...`), unique, may be empty | key required when `kind` is `evaluated` | RealityTrace question and threshold ids | §5 |
 | `outcome.status` | enum `succeeded`, `failed`, `denied`, `interrupted`, `unknown` | yes | observed, never inferred | §5 |
 | `outcome.effect_refs` | string[] | no | effects observed | §5 |
 | `evidence_refs` | string[] | no | evidence ids | §5 |
@@ -65,7 +65,9 @@ Schema violations map to a stable code. The code is for consumers (RealityTrace 
 | --- | --- | --- |
 | `IE_OUTCOME_STATUS` | `outcome.status` outside the five values | `enum` |
 | `IE_EPISODE_REF_MISSING` | `kind` is `evaluated` and `context.episode_ref` absent | `required` (via `anyOf`) |
-| `IE_EXPECTATION_REF_MISSING` | `kind` is `evaluated` and `expectation_ref` absent | `required` (via `anyOf`) |
+| `IE_EXPECTATION_REF_MISSING` | `kind` is `evaluated` and `expectation_refs` absent | `required` (via `anyOf`) |
+| `IE_EXPECTATION_REFS_SHAPE` | `expectation_refs` not an array of `question:`/`threshold:` strings | `type`, `pattern` |
+| `IE_EXPECTATION_REFS_DUPLICATE` | `expectation_refs` has a repeated entry | none: CEP's validator lacks `uniqueItems`; checked by the contract test |
 | `IE_IDENTITY_MISSING` | `world_ref`, `semantic_ref` or `declaration_key` absent | `required` |
 | `IE_IDENTITY_FORMAT` | `world_ref` not pinned, or `declaration_key` not a UUIDv5 concept id | `pattern` |
 | `IE_SOURCE_MISSING` | `source.*` field absent | `required` |
@@ -82,11 +84,11 @@ Checks a schema cannot make (receiver obligations, owned by RealityTrace ingest)
 ## Choices where E is silent
 
 - `kind` (`evaluated` | `exploratory`) is a required event field; E §14 says it is carried on events, and "evaluated: yes" in §5 needs a discriminator.
-- `expectation_ref` is a single string with prefix `question:` or `threshold:`; E §5 types it `string`.
+- `expectation_refs` is an array (review amendment 2026-11-14: E §5 says "ids"); it replaced the single-string `expectation_ref` of the first draft.
 - `context.episode_ref` and `correlation.episode_ref` use one pattern; `case_id` and `plan_item_id` inside it contain no `:` or `@`.
 - `emitter.signature.alg` is any non-empty string until WP-33 fixes the algorithm.
 - `source.recorded_at` is checked by pattern, not `format`, because CEP's own validator does not implement `format`.
 
 ## Fixtures
 
-`schemas/fixtures/interaction-event/valid/` (4) and `invalid/` (15), each invalid file named for the rule it breaks; `manifest.json` records the expected keyword. `tests/test_interaction_event_contract.py` checks them. CEP's own `cep.schema_value` validator has no `integer` type, so these fixtures are checked with the standard `jsonschema` library only (debt DEBT-IE-01 in `.agents/DEBT.md`).
+`schemas/fixtures/interaction-event/valid/` (5) and `invalid/` (18: 17 by schema, 1 by the uniqueness rule the schema cannot state), each invalid file named for the rule it breaks; `manifest.json` records the expected keyword. `tests/test_interaction_event_contract.py` checks them. CEP's own `cep.schema_value` validator has no `integer` type, so these fixtures are checked with the standard `jsonschema` library only (debt DEBT-IE-01 in `.agents/DEBT.md`).
