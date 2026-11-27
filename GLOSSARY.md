@@ -1,3 +1,17 @@
+---
+type: "CEP Technical Reference"
+id: "cep-glossary"
+title: "CEP Glossary"
+description: "Approved vocabulary for CEP semantic exchange records and their GodSpeed profile use."
+status: "Draft"
+version: "0.1.0"
+tags:
+  - cep
+  - glossary
+  - vocabulary
+timestamp: "2026-11-20T00:00:00Z"
+---
+
 # CEP semantic exchange
 
 CEP gives producers and consumers shared forms for carrying meaning, authority decisions, evidence, and settlement.
@@ -11,7 +25,7 @@ A unit of exchange with a declared semantic kind, scope, provenance, and lineage
 A named exchange contract that constrains an envelope for a specific purpose.
 
 **Semantic Snapshot**:
-An exchange record reporting the represented form and validation of a model at a particular revision. An invalid snapshot can report diagnostics without an available model representation.
+An exchange record reporting the represented state of a system, organization or model at a particular point. In the GodSpeed profile it reports a model's represented form and validation at a particular revision; an invalid snapshot can report diagnostics without an available model representation.
 
 **Context Bundle**:
 An exchange record carrying bounded, source-attributed context and uncertainty for a consumer.
@@ -26,7 +40,7 @@ An exchange record carrying material relevant to a stated question or claim, wit
 An exchange record carrying a judgment, its basis, and the authority and scope to which it applies.
 
 **World Transition**:
-The exchange record of an authorized movement of work from one pinned Semantic World revision to another.
+The exchange record of a movement of work from one pinned Semantic World revision to another. The record does not itself establish permission: any required authority decision is made separately and referenced from the record.
 
 **Uncertainty**:
 A declared limit on what the exchange’s evidence establishes, including an unresolved alternative or an incomplete observation.
